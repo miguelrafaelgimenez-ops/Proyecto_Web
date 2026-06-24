@@ -2,10 +2,2128 @@
 <html lang="es">
 
 <head>
-    <title>Relatos Ocultos</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatos Ocultos</title>
+  <meta name="description"
+    content="Descubre los misterios, héroes y leyendas de Paraguay en este videojuego interactivo de relatos históricos.">
+
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts: Cinzel (headers), Cormorant Garamond (body serif), Montserrat (interface sans-serif) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- AOS Animation Library CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --ink: #1e1107;
+      --parchment: #fcfaf2;
+      --parchment-dark: #ebdcb9;
+      --parchment-darker: #7d5b3d;
+      --sepia: #8b683e;
+      --sepia-dark: #1e1107;
+      --gold: #d49a37;
+      --gold-light: #ebd09b;
+      --red-old: #bc2f1e;
+      --white-torn: #ffffff;
+      --shadow-color: rgba(30, 17, 7, 0.15);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background-color: var(--parchment-dark);
+      background-image: url('images/parchment_bg.webp');
+      background-size: cover;
+      background-attachment: fixed;
+      color: var(--ink);
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
+
+    /* Scanline paper texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(30, 17, 7, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 17, 7, 0.015) 1px, transparent 1px);
+      background-size: 100% 4px, 4px 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* Accessibility Focus Style */
+    a:focus-visible,
+    button:focus-visible,
+    div[tabindex="0"]:focus-visible {
+      outline: 3px double var(--gold);
+      outline-offset: 4px;
+    }
+
+    /* NAVIGATION */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--sepia-dark);
+      border-bottom: 3px double var(--gold);
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-logo {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .logo-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.6rem;
+      color: var(--parchment-dark);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    .logo-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--gold-light);
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--parchment);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+      position: relative;
+      padding: 0.25rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1.5px;
+      background: var(--gold-light);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-light);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Mobile Nav Toggle */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 1001;
+    }
+
+    .nav-toggle .bar {
+      display: block;
+      width: 25px;
+      height: 2px;
+      background-color: var(--parchment);
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    /* GENERAL STYLES */
+    section {
+      padding: 7rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ornament {
+      text-align: center;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin: 0.5rem 0 1.5rem;
+      letter-spacing: 0.3em;
+    }
+
+    .section-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.6rem, 4.5vw, 2.3rem);
+      color: var(--sepia-dark);
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--parchment-darker);
+      border-bottom: 1px solid var(--parchment-darker);
+      height: 5px;
+      background: var(--gold);
+      opacity: 0.5;
+      margin: 1.2rem auto;
+      width: 180px;
+    }
+
+    /* SHADOW WRAPPER TRICK FOR CLIPPED ELEMENTS */
+    .shadow-wrapper {
+      filter: drop-shadow(0px 8px 16px var(--shadow-color));
+      display: inline-block;
+      width: 100%;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      min-height: 110vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      padding: 7.5rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+      background-image:
+        radial-gradient(circle at center, transparent 30%, rgba(30, 17, 7, 0.4) 100%),
+        url('images/parchment_bg.webp');
+      background-size: cover;
+    }
+
+    /* Collage Newspaper Scraps Underlay */
+    .scrap-paper {
+      position: absolute;
+      opacity: 0.15;
+      pointer-events: none;
+      filter: sepia(0.5);
+    }
+
+    .scrap-newspaper {
+      width: 350px;
+      height: 350px;
+      background: repeating-linear-gradient(rgba(0, 0, 0, 0.8) 0px, rgba(0, 0, 0, 0.8) 1px, transparent 1px, transparent 12px);
+      left: -100px;
+      top: 15%;
+      transform: rotate(-15deg);
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      clip-path: polygon(10% 5%, 90% 12%, 85% 90%, 5% 85%);
+    }
+
+    .scrap-notebook {
+      width: 300px;
+      height: 400px;
+      background-color: transparent;
+      border-left: 2px solid var(--red-old);
+      border-bottom: 1px solid var(--sepia);
+      background-image: linear-gradient(rgba(0, 100, 200, 0.15) 1px, transparent 1px);
+      background-size: 100% 24px;
+      right: -80px;
+      top: 25%;
+      transform: rotate(18deg);
+      clip-path: polygon(5% 10%, 95% 4%, 88% 95%, 12% 90%);
+    }
+
+    .hero-content {
+      max-width: 800px;
+      z-index: 5;
+      margin-bottom: 2rem;
+    }
+
+    .title-shadow {
+      filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.4));
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* Torn Brown Craft Paper Card matching image_0.png */
+    .hero-title-card {
+      background-color: #5c432d;
+      background-image: url('images/brown_paper_texture.webp');
+      background-size: cover;
+      padding: 3rem 4rem;
+      clip-path: url(#torn-horizontal);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.85rem, 2.5vw, 1.25rem);
+      color: var(--parchment-dark);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(2.4rem, 7vw, 4.8rem);
+      font-weight: 900;
+      color: var(--parchment);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-gametitle {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: clamp(0.75rem, 2vw, 1rem);
+      color: var(--gold-light);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border-top: 1px double rgba(235, 208, 155, 0.3);
+      padding-top: 0.75rem;
+      display: inline-block;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* BUTTONS: Game-style Tactile 3D Buttons */
+    .btn {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 1rem 2.4rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid var(--sepia-dark);
+      border-radius: 4px;
+      transition: transform 0.1s ease, background 0.2s ease, box-shadow 0.1s ease;
+      position: relative;
+    }
+
+    .btn-primary {
+      color: var(--parchment);
+      background: var(--red-old);
+      box-shadow: 0 5px 0 var(--sepia-dark);
+    }
+
+    .btn-primary:hover {
+      background: #a32214;
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 var(--sepia-dark);
+    }
+
+    .btn-primary:active {
+      transform: translateY(5px);
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      color: var(--sepia-dark);
+      background: var(--parchment);
+      box-shadow: 0 5px 0 var(--sepia-dark);
+    }
+
+    .btn-secondary:hover {
+      background: var(--white-torn);
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 var(--sepia-dark);
+    }
+
+    .btn-secondary:active {
+      transform: translateY(5px);
+      box-shadow: none;
+    }
+
+    /* COLLAGE AT BOTTOM OF HERO with levitation animations */
+    .hero-collage {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      margin-top: auto;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding-bottom: 1rem;
+    }
+
+    /* Newspaper scrap decorations in collage background */
+    .collage-scrap {
+      position: absolute;
+      background-color: var(--parchment-darker);
+      opacity: 0.4;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      z-index: 1;
+    }
+
+    .collage-scrap.scrap-1 {
+      width: 250px;
+      height: 80px;
+      bottom: 20px;
+      left: 15%;
+      transform: rotate(-8deg);
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.1) 9px);
+      clip-path: polygon(2% 5%, 98% 15%, 95% 95%, 0% 90%);
+    }
+
+    .collage-scrap.scrap-2 {
+      width: 280px;
+      height: 70px;
+      bottom: 30px;
+      right: 15%;
+      transform: rotate(5deg);
+      background-color: var(--parchment);
+      clip-path: polygon(5% 10%, 95% 2%, 100% 88%, 0% 95%);
+    }
+
+    .collage-item-wrapper {
+      position: absolute;
+      width: 280px;
+      z-index: 2;
+      transition: z-index 0.2s;
+    }
+
+    /* Levitating micro-animations for collage items */
+    @keyframes levitate-left {
+      0% {
+        transform: rotate(-6deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(-5deg) translateY(-8px);
+      }
+
+      100% {
+        transform: rotate(-6deg) translateY(0);
+      }
+    }
+
+    @keyframes levitate-center {
+      0% {
+        transform: translateX(-50%) rotate(1deg) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) rotate(2deg) translateY(-10px);
+      }
+
+      100% {
+        transform: translateX(-50%) rotate(1deg) translateY(0);
+      }
+    }
+
+    @keyframes levitate-right {
+      0% {
+        transform: rotate(5deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(4deg) translateY(-8px);
+      }
+
+      100% {
+        transform: rotate(5deg) translateY(0);
+      }
+    }
+
+    .item-left {
+      left: 8%;
+      bottom: 10px;
+      animation: levitate-left 6s ease-in-out infinite;
+    }
+
+    .item-center {
+      left: 50%;
+      bottom: 25px;
+      width: 320px;
+      z-index: 3;
+      animation: levitate-center 5s ease-in-out infinite;
+    }
+
+    .item-right-photo {
+      right: 8%;
+      bottom: 15px;
+      animation: levitate-right 7s ease-in-out infinite;
+    }
+
+    .collage-item-wrapper:hover {
+      animation-play-state: paused;
+      z-index: 10;
+    }
+
+    /* Photo Frame Polaroid-style with Torn Edges */
+    .photo-frame {
+      background: var(--white-torn);
+      padding: 0.8rem 0.8rem 2.2rem 0.8rem;
+      border: 1px solid rgba(30, 17, 7, 0.15);
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+      width: 100%;
+    }
+
+    .torn-photo-left {
+      clip-path: url(#torn-photo-1);
+    }
+
+    .torn-photo-center {
+      clip-path: url(#torn-photo-2);
+    }
+
+    .torn-photo-right {
+      clip-path: url(#torn-photo-3);
+    }
+
+    .photo-frame img,
+    .landmark-illustration {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      transition: filter 0.4s ease, transform 0.4s ease;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .landmark-illustration svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .item-center .photo-frame img,
+    .item-center .landmark-illustration {
+      height: 210px;
+    }
+
+    .photo-frame:hover img,
+    .photo-frame:hover .landmark-illustration svg {
+      transform: scale(1.03);
+    }
+
+    .photo-caption {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 0.8rem;
+      color: var(--sepia-dark);
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ABOUT / DESCRIPCION SECTION */
+    .about {
+      background: var(--parchment);
+      border-top: 4px double var(--sepia);
+      border-bottom: 4px double var(--sepia);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05), 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .about-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-text {
+      font-size: 1.25rem;
+      line-height: 1.85;
+      color: var(--sepia-dark);
+      margin: 2rem 0;
+      font-weight: 500;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .feature-card {
+      background: var(--parchment-dark);
+      border: 1px solid var(--parchment-darker);
+      border-top: 4px solid var(--gold);
+      padding: 2.2rem 1.8rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(26, 16, 8, 0.1);
+    }
+
+    .feature-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      display: block;
+      color: var(--red-old);
+    }
+
+    .feature-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--sepia-dark);
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .feature-desc {
+      font-size: 0.95rem;
+      color: var(--sepia-dark);
+      line-height: 1.6;
+    }
+
+    /* HISTORIAS OCULTAS SECTION: Scroll Carrousel Deck for youth */
+    .stories {
+      background: var(--sepia-dark);
+      background-image:
+        radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%),
+        url('images/parchment_bg.webp');
+      background-size: cover;
+      color: var(--parchment);
+    }
+
+    .stories .section-title {
+      color: var(--parchment);
+    }
+
+    .stories .ornament {
+      color: var(--gold-light);
+    }
+
+    .stories-subtitle {
+      font-style: italic;
+      color: var(--parchment-dark);
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+
+    .stories-container {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      overflow: hidden;
+      padding: 1.5rem 0;
+    }
+
+    /* Fading edge to signal horizontal scroll */
+    .stories-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 80px;
+      background: linear-gradient(90deg, transparent, rgba(30, 17, 7, 0.8));
+      pointer-events: none;
+      z-index: 5;
+      transition: opacity 0.4s ease;
+    }
+
+    .stories-container.scrolled::after {
+      opacity: 0;
+    }
+
+    .stories-track {
+      display: flex;
+      gap: 2rem;
+      padding: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold) var(--sepia-dark);
+    }
+
+    .stories-track::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .stories-track::-webkit-scrollbar-track {
+      background: rgba(252, 250, 242, 0.05);
+      border-radius: 4px;
+    }
+
+    .stories-track::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 4px;
+    }
+
+    .stories-track::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-light);
+    }
+
+    .story-card-wrapper {
+      flex: 0 0 330px;
+      scroll-snap-align: start;
+      filter: drop-shadow(0px 10px 16px rgba(0, 0, 0, 0.35));
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .story-card-wrapper:hover {
+      transform: scale(1.03) translateY(-4px);
+    }
+
+    .story-card {
+      background: var(--white-torn);
+      color: var(--ink);
+      clip-path: url(#torn-card);
+      padding: 1.5rem 1.5rem 2.5rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    /* Red level badge */
+    .story-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--red-old);
+      color: var(--parchment);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.35rem 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      clip-path: polygon(2% 8%, 98% 2%, 95% 92%, 5% 95%);
+    }
+
+    .story-image-wrap {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      clip-path: url(#torn-photo-1);
+    }
+
+    .story-image-wrap img,
+    .story-image-wrap .landmark-illustration {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+
+    .story-image-wrap .landmark-illustration svg {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.4s ease;
+    }
+
+    .story-card:hover .story-image-wrap .landmark-illustration svg {
+      transform: scale(1.04);
+    }
+
+    .story-location {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--sepia);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .story-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--sepia-dark);
+      margin-bottom: 0.8rem;
+    }
+
+    .story-desc {
+      font-size: 0.95rem;
+      color: var(--sepia-dark);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+      font-style: italic;
+    }
+
+    /* CREAR UN JUEGO / STORY BUILDER */
+    .builder {
+      background: var(--parchment-dark);
+      background-image: url('images/parchment_bg.webp');
+      background-size: cover;
+      border-top: 4px double var(--sepia);
+      border-bottom: 4px double var(--sepia);
+    }
+
+    .journal-wrapper {
+      max-width: 1000px;
+      margin: 4rem auto 0;
+      filter: drop-shadow(0px 12px 24px rgba(26, 16, 8, 0.25));
+    }
+
+    /* Double-page open journal layout */
+    .journal {
+      background: var(--white-torn);
+      border: 3px double var(--sepia);
+      border-radius: 4px;
+      padding: 3rem;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      background-image: radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.06) 100%);
+    }
+
+    /* Book center spine shadow binding */
+    .journal::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 40px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.18) 50%, rgba(0, 0, 0, 0.08) 100%);
+      border-left: 1px dashed rgba(58, 34, 17, 0.15);
+      border-right: 1px dashed rgba(58, 34, 17, 0.15);
+      pointer-events: none;
+    }
+
+    .journal-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Visual Novel styled mockup */
+    .journal-right {
+      background: #faf4e5;
+      border: 2px solid var(--sepia-dark);
+      padding: 1.8rem;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-radius: 4px;
+    }
+
+    .journal-right::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 15px;
+      width: 1px;
+      background: rgba(255, 0, 0, 0.15);
+    }
+
+    .builder-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.5rem;
+      color: var(--sepia-dark);
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid var(--gold-light);
+      padding-bottom: 0.5rem;
+    }
+
+    .builder-desc {
+      font-size: 1.05rem;
+      color: var(--sepia-dark);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .builder-bullets {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .builder-bullets li {
+      position: relative;
+      padding-left: 1.8rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+      color: var(--sepia-dark);
+      font-weight: 500;
+    }
+
+    .builder-bullets li::before {
+      content: '✒️';
+      position: absolute;
+      left: 0;
+      top: 1px;
+      font-size: 0.9rem;
+    }
+
+    /* RPG dialogue preview styling */
+    .preview-header {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--red-old);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .preview-body {
+      background: var(--white-torn);
+      border: 2px solid var(--sepia-dark);
+      border-radius: 4px;
+      padding: 1.2rem;
+      min-height: 165px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .avatar-sketch {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--red-old);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: var(--parchment);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      border: 2px solid var(--white-torn);
+    }
+
+    .speech-bubble {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bubble-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--sepia-dark);
+      margin-bottom: 2px;
+    }
+
+    .bubble-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.75rem;
+      color: var(--sepia);
+      margin-bottom: 0.5rem;
+    }
+
+    .bubble-text {
+      font-size: 0.95rem;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    .preview-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .mock-option {
+      background: var(--white-torn);
+      border: 1px solid var(--parchment-darker);
+      border-left: 4px solid var(--gold);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--sepia-dark);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      outline: none;
+      border-radius: 2px;
+    }
+
+    .mock-option:hover {
+      background: var(--sepia-dark);
+      color: var(--parchment);
+      border-left-color: var(--red-old);
+    }
+
+    .mock-option.selected {
+      background: var(--sepia-dark);
+      color: var(--parchment);
+      border-left-color: var(--red-old);
+    }
+
+    .option-bullet {
+      background: var(--gold);
+      color: #fff;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .mock-option.selected .option-bullet,
+    .mock-option:hover .option-bullet {
+      background: var(--red-old);
+      color: var(--parchment);
+    }
+
+    /* TEAM / EQUIPO SECTION */
+    .team {
+      background: var(--parchment);
+      border-bottom: 4px double var(--sepia);
+    }
+
+    .team-grid {
+      max-width: 950px;
+      margin: 4rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .team-card-shadow {
+      filter: drop-shadow(0 6px 12px var(--shadow-color));
+      transition: transform 0.3s ease;
+    }
+
+    .team-card {
+      background: var(--white-torn);
+      border: 3px double var(--parchment-darker);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+      outline: none;
+    }
+
+    .team-card-shadow:hover {
+      transform: translateY(-4px);
+    }
+
+    .team-card:hover,
+    .team-card:focus-within {
+      border-color: var(--gold);
+    }
+
+    .team-card.active {
+      transform: scale(1.02) rotate(-1deg);
+      border-color: var(--gold);
+    }
+
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 1px dashed rgba(139, 104, 62, 0.25);
+      pointer-events: none;
+    }
+
+    /* Vintage Stamp Frame for Avatars */
+    .team-avatar-frame {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--sepia-dark);
+      border: 4px double var(--gold);
+      margin: 0 auto 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.8rem;
+      color: var(--gold-light);
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .team-avatar-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(0.8) contrast(1.1) brightness(0.95);
+      transition: filter 0.3s ease;
+    }
+
+    .team-card:hover .team-avatar-frame img {
+      filter: sepia(0.2) contrast(1);
+    }
+
+    .team-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--sepia-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .team-role {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--red-old);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .click-hint {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--sepia);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.5rem;
+      transition: opacity 0.3s ease;
+    }
+
+    .team-card.active .click-hint {
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    /* Smooth accordion description expansion */
+    .team-desc {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+      padding: 0 0.5rem;
+      margin-top: 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--sepia-dark);
+      border-top: 1px dashed transparent;
+      text-align: left;
+      font-style: italic;
+    }
+
+    .team-card.active .team-desc {
+      max-height: 180px;
+      padding-top: 1rem;
+      margin-top: 1rem;
+      border-top: 1px dashed var(--parchment-darker);
+    }
+
+    /* DOWNLOAD SECTION */
+    .download {
+      background: var(--sepia-dark);
+      background-image:
+        radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.5) 100%),
+        url('images/parchment_bg.webp');
+      background-size: cover;
+      padding: 6rem 2rem;
+      text-align: center;
+      border-top: 4px double var(--gold);
+    }
+
+    .download .section-title {
+      color: var(--parchment);
+    }
+
+    .download .ornament {
+      color: var(--gold-light);
+    }
+
+    .download-text {
+      font-style: italic;
+      color: var(--parchment-dark);
+      max-width: 580px;
+      margin: 1rem auto 2.5rem;
+      font-size: 1.15rem;
+      line-height: 1.8;
+    }
+
+    .platforms {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .plat-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--gold-light);
+      border: 1px solid var(--gold);
+      padding: 0.5rem 1.4rem;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .btn-download-container {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #180d05;
+      padding: 4rem 2rem 2.5rem;
+      border-top: 3px double var(--gold);
+      text-align: center;
+      color: var(--parchment-darker);
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-text {
+      font-size: 0.85rem;
+      color: var(--sepia);
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    .contacto-info {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(235, 208, 155, 0.1);
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--parchment-dark);
+    }
+
+    .contacto-info a {
+      color: var(--gold-light);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .contacto-info a:hover {
+      color: var(--white-torn);
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVE MEDIA QUERIES */
+    @media (max-width: 900px) {
+      .journal {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding: 2.2rem;
+      }
+
+      .journal::after {
+        display: none;
+      }
+
+      .journal-right::before {
+        display: none;
+      }
+
+      .hero-collage {
+        height: 240px;
+      }
+
+      .collage-item-wrapper {
+        width: 190px;
+      }
+
+      .photo-frame img {
+        height: 120px;
+      }
+
+      .item-center .photo-frame img {
+        height: 140px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      section {
+        padding: 5rem 1.5rem;
+      }
+
+      nav {
+        padding: 0.8rem 1.5rem;
+      }
+
+      /* Sliding mobile menu panel from the right */
+      .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 280px;
+        background: var(--sepia-dark);
+        border-left: 2px solid var(--gold);
+        padding: 5rem 2rem 2rem;
+        gap: 2rem;
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.4);
+        z-index: 999;
+      }
+
+      .nav-links.active {
+        transform: translateX(0);
+      }
+
+      .nav-links a {
+        font-size: 1rem;
+        border-bottom: 1px dashed rgba(252, 250, 242, 0.15);
+        padding-bottom: 0.5rem;
+        width: 100%;
+        display: block;
+      }
+
+      .nav-toggle {
+        display: block;
+        /* Show hamburger button */
+      }
+
+      /* Toggle icon animation */
+      .nav-toggle.open .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 5px);
+      }
+
+      .nav-toggle.open .bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      .nav-toggle.open .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 8rem;
+        padding-bottom: 3rem;
+      }
+
+      .hero-title-card {
+        padding: 2rem 1.5rem;
+      }
+
+      /* Stack collage vertically or slide down on mobile */
+      .hero-collage {
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 3rem;
+        padding-bottom: 0;
+      }
+
+      .collage-item-wrapper {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        transform: none !important;
+        width: 100%;
+        max-width: 320px;
+        animation: none !important;
+      }
+
+      .photo-frame img {
+        height: 180px;
+      }
+
+      .item-center .photo-frame img {
+        height: 180px;
+      }
+
+      .collage-scrap {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
+
+  <!-- Dynamic SVG Clip Paths (100% vector, responsive, 0ms network request) -->
+  <svg width="0" height="0" style="position: absolute;">
+    <defs>
+      <!-- Ripped border horizontal (top & bottom) -->
+      <clipPath id="torn-horizontal" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0.08 L0.03,0.06 L0.07,0.1 L0.1,0.07 L0.13,0.09 L0.17,0.05 L0.2,0.08 L0.24,0.06 L0.28,0.11 L0.31,0.07 L0.35,0.09 L0.38,0.05 L0.42,0.08 L0.45,0.06 L0.49,0.1 L0.52,0.07 L0.56,0.09 L0.59,0.05 L0.63,0.08 L0.66,0.06 L0.7,0.1 L0.73,0.07 L0.77,0.09 L0.8,0.05 L0.84,0.08 L0.87,0.06 L0.91,0.1 L0.94,0.07 L0.98,0.09 L1,0.05 L1,0.92 L0.97,0.94 L0.93,0.9 L0.9,0.93 L0.87,0.91 L0.83,0.95 L0.8,0.92 L0.76,0.94 L0.72,0.89 L0.69,0.93 L0.65,0.91 L0.62,0.95 L0.58,0.92 L0.55,0.94 L0.51,0.9 L0.48,0.93 L0.44,0.91 L0.41,0.95 L0.37,0.92 L0.34,0.94 L0.3,0.9 L0.27,0.93 L0.23,0.91 L0.2,0.95 L0.16,0.92 L0.13,0.94 L0.09,0.9 L0.06,0.93 L0.02,0.91 L0,0.95 Z" />
+      </clipPath>
+      <!-- Story Card all-around torn clip path -->
+      <clipPath id="torn-card" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0.05,0.03 L0.15,0.02 L0.25,0.04 L0.35,0.01 L0.45,0.03 L0.55,0.01 L0.65,0.04 L0.75,0.02 L0.85,0.03 L0.95,0.01 L0.97,0.05 L0.98,0.15 L0.96,0.25 L0.99,0.35 L0.97,0.45 L0.98,0.55 L0.96,0.65 L0.99,0.75 L0.97,0.85 L0.98,0.95 L0.95,0.97 L0.85,0.98 L0.75,0.96 L0.65,0.99 L0.55,0.97 L0.45,0.98 L0.35,0.96 L0.25,0.99 L0.15,0.97 L0.05,0.98 L0.02,0.95 L0.01,0.85 L0.03,0.75 L0.01,0.65 L0.02,0.55 L0.01,0.45 L0.03,0.35 L0.01,0.25 L0.03,0.15 L0.02,0.05 Z" />
+      </clipPath>
+      <!-- Torn photos clipping variation 1 -->
+      <clipPath id="torn-photo-1" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0 L1,0 L1,0.91 L0.96,0.93 L0.91,0.89 L0.87,0.92 L0.83,0.9 L0.79,0.93 L0.75,0.9 L0.71,0.94 L0.66,0.91 L0.62,0.95 L0.57,0.91 L0.52,0.94 L0.48,0.9 L0.43,0.93 L0.38,0.91 L0.34,0.95 L0.29,0.91 L0.24,0.94 L0.19,0.9 L0.15,0.93 L0.11,0.91 L0.07,0.95 L0,0.9 Z" />
+      </clipPath>
+      <!-- Torn photos clipping variation 2 -->
+      <clipPath id="torn-photo-2" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0 L1,0 L1,0.93 L0.97,0.91 L0.94,0.95 L0.9,0.92 L0.86,0.94 L0.82,0.9 L0.78,0.93 L0.74,0.91 L0.7,0.95 L0.65,0.92 L0.61,0.94 L0.57,0.9 L0.53,0.93 L0.49,0.91 L0.45,0.95 L0.41,0.92 L0.37,0.94 L0.33,0.9 L0.29,0.93 L0.25,0.91 L0.21,0.95 L0.17,0.92 L0.13,0.94 L0.09,0.9 L0.05,0.93 L0,0.91 Z" />
+      </clipPath>
+      <!-- Torn photos clipping variation 3 -->
+      <clipPath id="torn-photo-3" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0 L1,0 L1,0.9 L0.95,0.93 L0.91,0.9 L0.87,0.93 L0.83,0.91 L0.79,0.95 L0.75,0.92 L0.71,0.94 L0.67,0.9 L0.63,0.93 L0.59,0.91 L0.55,0.95 L0.51,0.92 L0.47,0.94 L0.43,0.9 L0.39,0.93 L0.35,0.91 L0.31,0.95 L0.27,0.92 L0.23,0.94 L0.19,0.9 L0.15,0.93 L0.11,0.91 L0.07,0.95 L0,0.92 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+
+  <!-- Navegación -->
+  <nav>
+    <a href="#" class="nav-logo" aria-label="Volver al Inicio">
+      <span class="logo-subtitle">Proyecto de</span>
+      <span class="logo-title">HISTORIA</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#historias">Historias</a></li>
+      <li><a href="#creador">Creador</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+      <li><a href="#descarga">Descargar</a></li>
+    </ul>
+
+    <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </nav>
+
+  <!-- Hero Section -->
+  <header id="inicio" class="hero">
+    <!-- Faded background scraps -->
+    <div class="scrap-paper scrap-newspaper" aria-hidden="true"></div>
+    <div class="scrap-paper scrap-notebook" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <div class="shadow-wrapper title-shadow">
+        <div class="hero-title-card">
+          <p class="hero-subtitle" data-aos="fade-down" data-aos-duration="800">Proyecto de</p>
+          <h1 class="hero-title" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">HISTORIA</h1>
+          <p class="hero-gametitle" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">Relatos Ocultos de
+            Paraguay</p>
+        </div>
+      </div>
+
+      <div class="hero-buttons" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+        <a href="#historias" class="btn btn-primary">Explorar Relatos</a>
+        <a href="#creador" class="btn btn-secondary">Crear un Juego</a>
+      </div>
+    </div>
+
+    <!-- Dynamic Torn-Edge Collage of Paraguayan landmarks -->
+    <div class="hero-collage">
+      <!-- Scrap papers underlay -->
+      <div class="collage-scrap scrap-1" aria-hidden="true"></div>
+      <div class="collage-scrap scrap-2" aria-hidden="true"></div>
+
+      <!-- San Cosme y San Damián (Left) -->
+      <div class="shadow-wrapper collage-item-wrapper item-left" data-aos="fade-right" data-aos-duration="1000"
+        data-aos-delay="700">
+        <div class="photo-frame torn-photo-left">
+          <div class="landmark-illustration" aria-label="Ruinas Jesuitas de San Cosme y San Damián" role="img">
+            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <filter id="sepia-left">
+                  <feColorMatrix type="saturate" values="0.15" />
+                  <feComponentTransfer>
+                    <feFuncR type="linear" slope="1.1" intercept="0.05" />
+                    <feFuncG type="linear" slope="0.95" intercept="0.02" />
+                    <feFuncB type="linear" slope="0.75" />
+                  </feComponentTransfer>
+                </filter>
+                <radialGradient id="sky-l" cx="50%" cy="20%" r="80%">
+                  <stop offset="0%" stop-color="#d4b896" />
+                  <stop offset="100%" stop-color="#8b6040" />
+                </radialGradient>
+              </defs>
+              <rect width="280" height="180" fill="url(#sky-l)" filter="url(#sepia-left)" />
+              <!-- Ground -->
+              <rect x="0" y="130" width="280" height="50" fill="#6b4423" opacity="0.7" />
+              <!-- Arch ruins left -->
+              <rect x="20" y="60" width="18" height="80" fill="#8b5e3c" rx="2" />
+              <path d="M20 60 Q29 44 38 60" fill="#7a4f2e" stroke="#5c3820" stroke-width="1" />
+              <!-- Arch ruins center -->
+              <rect x="55" y="40" width="22" height="100" fill="#9b6e4a" rx="2" />
+              <rect x="90" y="40" width="22" height="100" fill="#8b5e3c" rx="2" />
+              <path d="M55 40 Q66 18 112 40" fill="none" stroke="#7a4f2e" stroke-width="3" />
+              <rect x="55" y="35" width="57" height="8" fill="#7a4f2e" rx="1" />
+              <!-- Pillar right -->
+              <rect x="140" y="50" width="18" height="90" fill="#a07050" rx="2" />
+              <rect x="170" y="65" width="15" height="75" fill="#8b5e3c" rx="2" opacity="0.8" />
+              <!-- Sundial base -->
+              <ellipse cx="195" cy="125" rx="18" ry="6" fill="#6b4020" opacity="0.9" />
+              <rect x="192" y="100" width="6" height="25" fill="#8b6040" />
+              <line x1="195" y1="100" x2="215" y2="108" stroke="#c8a070" stroke-width="1.5" />
+              <!-- Vegetation -->
+              <ellipse cx="30" cy="125" rx="15" ry="12" fill="#556b2f" opacity="0.5" />
+              <ellipse cx="120" cy="128" rx="20" ry="10" fill="#4a5e28" opacity="0.4" />
+              <ellipse cx="240" cy="124" rx="25" ry="12" fill="#556b2f" opacity="0.45" />
+              <!-- Grain overlay -->
+              <rect width="280" height="180" fill="url(#sky-l)" opacity="0.12" />
+            </svg>
+          </div>
+          <div class="photo-caption">San Cosme y San Damián</div>
+        </div>
+      </div>
+
+      <!-- Palacio de los López (Center) -->
+      <div class="shadow-wrapper collage-item-wrapper item-center" data-aos="fade-up" data-aos-duration="1000"
+        data-aos-delay="500">
+        <div class="photo-frame torn-photo-center">
+          <div class="landmark-illustration" aria-label="Palacio de los López, Asunción" role="img">
+            <svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <filter id="sepia-c">
+                  <feColorMatrix type="saturate" values="0.1" />
+                  <feComponentTransfer>
+                    <feFuncR type="linear" slope="1.08" intercept="0.04" />
+                    <feFuncG type="linear" slope="0.92" intercept="0.01" />
+                    <feFuncB type="linear" slope="0.7" />
+                  </feComponentTransfer>
+                </filter>
+                <linearGradient id="sky-c" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#c8a878" />
+                  <stop offset="100%" stop-color="#8b6040" />
+                </linearGradient>
+              </defs>
+              <rect width="320" height="210" fill="url(#sky-c)" filter="url(#sepia-c)" />
+              <!-- Ground -->
+              <rect x="0" y="160" width="320" height="50" fill="#5c3820" opacity="0.65" />
+              <!-- Main building body -->
+              <rect x="40" y="90" width="240" height="80" fill="#c8a870" rx="1" />
+              <!-- Neoclassical columns -->
+              <rect x="55" y="85" width="12" height="85" fill="#e0c090" rx="2" />
+              <rect x="80" y="85" width="12" height="85" fill="#d4b47a" rx="2" />
+              <rect x="105" y="85" width="12" height="85" fill="#e0c090" rx="2" />
+              <rect x="200" y="85" width="12" height="85" fill="#e0c090" rx="2" />
+              <rect x="225" y="85" width="12" height="85" fill="#d4b47a" rx="2" />
+              <rect x="250" y="85" width="12" height="85" fill="#e0c090" rx="2" />
+              <!-- Entablature -->
+              <rect x="40" y="78" width="240" height="12" fill="#b89050" rx="1" />
+              <!-- Pediment / Triangle top -->
+              <polygon points="160,30 50,78 270,78" fill="#c8a060" stroke="#a07840" stroke-width="1.5" />
+              <!-- Central door -->
+              <rect x="145" y="130" width="30" height="40" fill="#3a2010" rx="2" />
+              <path d="M145 130 Q160 118 175 130" fill="#3a2010" />
+              <!-- Windows -->
+              <rect x="65" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
+              <rect x="110" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
+              <rect x="195" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
+              <rect x="240" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
+              <!-- Flag -->
+              <line x1="160" y1="10" x2="160" y2="32" stroke="#8b6040" stroke-width="1.5" />
+              <rect x="160" y="10" width="20" height="12" fill="#bc2f1e" opacity="0.8" />
+              <!-- Vignette overlay -->
+              <radialGradient id="vig" cx="50%" cy="50%" r="70%">
+                <stop offset="0%" stop-color="transparent" />
+                <stop offset="100%" stop-color="rgba(30,15,5,0.45)" />
+              </radialGradient>
+              <rect width="320" height="210" fill="url(#vig)" />
+            </svg>
+          </div>
+          <div class="photo-caption">Palacio de los López</div>
+        </div>
+      </div>
+
+      <!-- Panteón de los Héroes (Right) -->
+      <div class="shadow-wrapper collage-item-wrapper item-right-photo" data-aos="fade-left" data-aos-duration="1000"
+        data-aos-delay="800">
+        <div class="photo-frame torn-photo-right">
+          <div class="landmark-illustration" aria-label="Panteón Nacional de los Héroes, Asunción" role="img">
+            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <filter id="sepia-r">
+                  <feColorMatrix type="saturate" values="0.12" />
+                  <feComponentTransfer>
+                    <feFuncR type="linear" slope="1.1" intercept="0.05" />
+                    <feFuncG type="linear" slope="0.93" intercept="0.01" />
+                    <feFuncB type="linear" slope="0.72" />
+                  </feComponentTransfer>
+                </filter>
+                <radialGradient id="sky-r" cx="50%" cy="0%" r="100%">
+                  <stop offset="0%" stop-color="#d0a870" />
+                  <stop offset="100%" stop-color="#7a5030" />
+                </radialGradient>
+              </defs>
+              <rect width="280" height="180" fill="url(#sky-r)" filter="url(#sepia-r)" />
+              <!-- Ground -->
+              <rect x="0" y="145" width="280" height="35" fill="#5c3820" opacity="0.7" />
+              <!-- Dome building body -->
+              <rect x="55" y="105" width="170" height="50" fill="#c0944a" rx="1" />
+              <!-- Dome -->
+              <ellipse cx="140" cy="95" rx="55" ry="20" fill="#b08040" />
+              <ellipse cx="140" cy="82" rx="42" ry="18" fill="#c09850" />
+              <ellipse cx="140" cy="70" rx="28" ry="14" fill="#d4aa60" />
+              <ellipse cx="140" cy="60" rx="14" ry="8" fill="#c09040" />
+              <!-- Lantern top -->
+              <rect x="133" y="40" width="14" height="22" fill="#d4aa60" rx="2" />
+              <ellipse cx="140" cy="38" rx="10" ry="5" fill="#c09040" />
+              <!-- Ionic columns -->
+              <rect x="65" y="95" width="10" height="60" fill="#dfc090" rx="1" />
+              <rect x="90" y="95" width="10" height="60" fill="#d0ae78" rx="1" />
+              <rect x="180" y="95" width="10" height="60" fill="#dfc090" rx="1" />
+              <rect x="205" y="95" width="10" height="60" fill="#d0ae78" rx="1" />
+              <!-- Entablature -->
+              <rect x="55" y="90" width="170" height="10" fill="#a87838" rx="1" />
+              <!-- Central door arch -->
+              <rect x="125" y="120" width="30" height="35" fill="#3a2010" rx="2" />
+              <path d="M125 120 Q140 108 155 120" fill="#3a2010" />
+              <!-- Side windows -->
+              <rect x="70" y="108" width="14" height="18" fill="#3a2010" rx="1" opacity="0.8" />
+              <rect x="196" y="108" width="14" height="18" fill="#3a2010" rx="1" opacity="0.8" />
+              <!-- Vignette -->
+              <radialGradient id="vigr" cx="50%" cy="50%" r="70%">
+                <stop offset="0%" stop-color="transparent" />
+                <stop offset="100%" stop-color="rgba(25,12,4,0.5)" />
+              </radialGradient>
+              <rect width="280" height="180" fill="url(#vigr)" />
+            </svg>
+          </div>
+          <div class="photo-caption">Panteón de los Héroes</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Sección Descripción / Acerca del Proyecto -->
+    <section id="descripcion" class="about">
+      <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
+        <h2 class="section-title">Una Búsqueda en el Pasado</h2>
+        <div class="divider" aria-hidden="true"></div>
+        <p class="about-text">
+          "Relatos Ocultos: HISTORIA de Paraguay" no es solo un videojuego; es un portal interactivo para descubrir los
+          misterios y héroes olvidados de nuestra patria. Sumérgete en recreaciones fieles de eventos que formaron
+          nuestra identidad.
+        </p>
+
+        <div class="features-grid">
+          <!-- Feature 1 -->
+          <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+            <span class="feature-icon" aria-hidden="true">📖</span>
+            <h3 class="feature-title">Riqueza Histórica</h3>
+            <p class="feature-desc">Basado en crónicas históricas reales, actas oficiales y correspondencia del Paraguay
+              de los siglos XVIII y XIX.</p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+            <span class="feature-icon" aria-hidden="true">🧭</span>
+            <h3 class="feature-title">Narrativa Interactiva</h3>
+            <p class="feature-desc">Cada decisión tomada influye en el desenlace del relato. Controla el curso de los
+              eventos con tus elecciones morales.</p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+            <span class="feature-icon" aria-hidden="true">✒️</span>
+            <h3 class="feature-title">Crea tus Historias</h3>
+            <p class="feature-desc">Utiliza nuestro motor integrado para redactar tus propios pasajes interactivos y
+              compartirlos con la comunidad.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Historias Destacadas -->
+    <section id="historias" class="stories">
+      <h2 class="section-title" data-aos="fade-up">Historias Ocultas</h2>
+      <div class="ornament" aria-hidden="true">❦ ❦ ❦</div>
+      <p class="stories-subtitle" data-aos="fade-up" data-aos-delay="100">Pasajes jugables que te transportarán a
+        momentos clave de nuestra tierra.</p>
+
+      <div class="stories-container">
+        <div class="stories-track">
+          <!-- Story 1 -->
+          <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+            <article class="story-card">
+              <span class="story-badge">Nivel 1</span>
+              <div class="story-image-wrap">
+                <div class="landmark-illustration" aria-label="Ruinas de la Misión de San Cosme y San Damián"
+                  role="img">
+                  <svg viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                    <rect width="330" height="180" fill="#c8a060" />
+                    <rect x="0" y="130" width="330" height="50" fill="#6b4020" opacity="0.7" />
+                    <rect x="25" y="55" width="20" height="85" fill="#8b5e3c" rx="1" />
+                    <path d="M25 55 Q35 35 45 55" fill="#7a4f2e" />
+                    <rect x="60" y="38" width="24" height="102" fill="#9b6e4a" rx="1" />
+                    <rect x="98" y="38" width="24" height="102" fill="#8b5e3c" rx="1" />
+                    <path d="M60 38 Q72 12 122 38" fill="none" stroke="#6b4020" stroke-width="3" />
+                    <rect x="60" y="32" width="62" height="9" fill="#7a4f2e" rx="1" />
+                    <rect x="155" y="50" width="19" height="90" fill="#a07050" rx="1" />
+                    <rect x="185" y="65" width="16" height="75" fill="#8b5e3c" rx="1" opacity="0.8" />
+                    <ellipse cx="225" cy="125" rx="20" ry="7" fill="#6b4020" opacity="0.9" />
+                    <rect x="222" y="98" width="6" height="27" fill="#8b6040" />
+                    <line x1="225" y1="98" x2="248" y2="108" stroke="#c8a070" stroke-width="2" />
+                    <ellipse cx="35" cy="126" rx="16" ry="11" fill="#556b2f" opacity="0.5" />
+                    <ellipse cx="135" cy="128" rx="22" ry="11" fill="#4a5e28" opacity="0.45" />
+                    <ellipse cx="285" cy="124" rx="28" ry="13" fill="#556b2f" opacity="0.4" />
+                    <radialGradient id="vig1" cx="50%" cy="50%" r="70%">
+                      <stop offset="0%" stop-color="transparent" />
+                      <stop offset="100%" stop-color="rgba(20,8,0,0.4)" />
+                    </radialGradient>
+                    <rect width="330" height="180" fill="url(#vig1)" />
+                  </svg>
+                </div>
+              </div>
+              <span class="story-location">San Cosme y San Damián</span>
+              <h3 class="story-title">La Misión de las Estrellas</h3>
+              <p class="story-desc">El padre Buenaventura Suárez construye un telescopio de cuarzo y escribe el primer
+                calendario astronómico del Cono Sur en 1706.</p>
+              <a href="#descarga" class="btn btn-secondary btn-sm"
+                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
+            </article>
+          </div>
+
+          <!-- Story 2 -->
+          <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+            <article class="story-card">
+              <span class="story-badge">Nivel 2</span>
+              <div class="story-image-wrap">
+                <div class="landmark-illustration" aria-label="Palacio de los López, Asunción" role="img">
+                  <svg viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                    <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#c8a878" />
+                      <stop offset="100%" stop-color="#8b6040" />
+                    </linearGradient>
+                    <rect width="330" height="180" fill="url(#sky2)" />
+                    <rect x="0" y="148" width="330" height="32" fill="#5c3820" opacity="0.65" />
+                    <rect x="45" y="88" width="240" height="72" fill="#c8a870" rx="1" />
+                    <rect x="58" y="82" width="13" height="78" fill="#e0c090" rx="1" />
+                    <rect x="85" y="82" width="13" height="78" fill="#d4b47a" rx="1" />
+                    <rect x="112" y="82" width="13" height="78" fill="#e0c090" rx="1" />
+                    <rect x="205" y="82" width="13" height="78" fill="#e0c090" rx="1" />
+                    <rect x="232" y="82" width="13" height="78" fill="#d4b47a" rx="1" />
+                    <rect x="259" y="82" width="13" height="78" fill="#e0c090" rx="1" />
+                    <rect x="45" y="75" width="240" height="13" fill="#b09050" rx="1" />
+                    <polygon points="165,28 48,75 282,75" fill="#c0a060" stroke="#a07840" stroke-width="1.5" />
+                    <rect x="150" y="125" width="30" height="38" fill="#3a2010" rx="2" />
+                    <path d="M150 125 Q165 112 180 125" fill="#3a2010" />
+                    <rect x="68" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
+                    <rect x="114" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
+                    <rect x="200" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
+                    <rect x="245" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
+                    <line x1="165" y1="8" x2="165" y2="30" stroke="#8b6040" stroke-width="2" />
+                    <rect x="165" y="8" width="22" height="13" fill="#bc2f1e" opacity="0.8" />
+                    <radialGradient id="vig2" cx="50%" cy="50%" r="70%">
+                      <stop offset="0%" stop-color="transparent" />
+                      <stop offset="100%" stop-color="rgba(20,8,0,0.45)" />
+                    </radialGradient>
+                    <rect width="330" height="180" fill="url(#vig2)" />
+                  </svg>
+                </div>
+              </div>
+              <span class="story-location">Asunción</span>
+              <h3 class="story-title">El Secreto del Palacio</h3>
+              <p class="story-desc">Aventúrate en los oscuros pasillos y túneles del palacio gubernamental durante los
+                caóticos días finales de la Guerra de la Triple Alianza.</p>
+              <a href="#descarga" class="btn btn-secondary btn-sm"
+                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
+            </article>
+          </div>
+
+          <!-- Story 3 -->
+          <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+            <article class="story-card">
+              <span class="story-badge">Nivel 3</span>
+              <div class="story-image-wrap">
+                <div class="landmark-illustration" aria-label="Panteón Nacional de los Héroes, Asunción" role="img">
+                  <svg viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                    <radialGradient id="sky3" cx="50%" cy="0%" r="100%">
+                      <stop offset="0%" stop-color="#d0a870" />
+                      <stop offset="100%" stop-color="#7a5030" />
+                    </radialGradient>
+                    <rect width="330" height="180" fill="url(#sky3)" />
+                    <rect x="0" y="148" width="330" height="32" fill="#5c3820" opacity="0.7" />
+                    <rect x="65" y="108" width="200" height="50" fill="#c0944a" rx="1" />
+                    <ellipse cx="165" cy="97" rx="62" ry="22" fill="#b08040" />
+                    <ellipse cx="165" cy="84" rx="48" ry="19" fill="#c09850" />
+                    <ellipse cx="165" cy="70" rx="32" ry="16" fill="#d4aa60" />
+                    <ellipse cx="165" cy="58" rx="16" ry="9" fill="#c09040" />
+                    <rect x="157" y="36" width="16" height="24" fill="#d4aa60" rx="2" />
+                    <ellipse cx="165" cy="34" rx="12" ry="6" fill="#c09040" />
+                    <rect x="75" y="98" width="11" height="62" fill="#dfc090" rx="1" />
+                    <rect x="101" y="98" width="11" height="62" fill="#d0ae78" rx="1" />
+                    <rect x="218" y="98" width="11" height="62" fill="#dfc090" rx="1" />
+                    <rect x="244" y="98" width="11" height="62" fill="#d0ae78" rx="1" />
+                    <rect x="65" y="93" width="200" height="11" fill="#a07838" rx="1" />
+                    <rect x="148" y="120" width="34" height="38" fill="#3a2010" rx="2" />
+                    <path d="M148 120 Q165 106 182 120" fill="#3a2010" />
+                    <rect x="82" y="110" width="15" height="19" fill="#3a2010" rx="1" opacity="0.8" />
+                    <rect x="233" y="110" width="15" height="19" fill="#3a2010" rx="1" opacity="0.8" />
+                    <radialGradient id="vig3" cx="50%" cy="50%" r="70%">
+                      <stop offset="0%" stop-color="transparent" />
+                      <stop offset="100%" stop-color="rgba(20,8,0,0.5)" />
+                    </radialGradient>
+                    <rect width="330" height="180" fill="url(#vig3)" />
+                  </svg>
+                </div>
+              </div>
+              <span class="story-location">Casa de la Independencia</span>
+              <h3 class="story-title">La Noche de los Próceres</h3>
+              <p class="story-desc">Acompaña a Pedro Juan Caballero y Vicente Ignacio Iturbe en la tensa medianoche de
+                mayo de 1811 para derrocar al Gobernador Velasco.</p>
+              <a href="#descarga" class="btn btn-secondary btn-sm"
+                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Crear un Juego / Story Builder Showcase -->
+    <section id="creador" class="builder">
+      <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
+        <h2 class="section-title">Nuestro Objetivo</h2>
+        <div class="divider" aria-hidden="true"></div>
+        <p class="about-text" style="max-width: 720px; margin: 0 auto 3rem;">
+          Queremos que seas parte del desarrollo. Relatos Ocultos cuenta con un completo editor de escenarios que te
+          permite redactar tramas, decisiones e investigaciones históricas.
+        </p>
+      </div>
+
+      <div class="journal-wrapper" data-aos="zoom-in" data-aos-duration="1000">
+        <div class="journal">
+          <div class="preview-options">
+            <button class="mock-option opt-a selected" onclick="selectOption('A')"
+              aria-label="Opción A: Marchar en silencio hacia el cuartel con los conspiradores">
+              <span class="option-bullet">A</span>
+              <span>Marchar en silencio con los conspiradores.</span>
+            </button>
+            <button class="mock-option opt-b" onclick="selectOption('B')"
+              aria-label="Opción B: Enviar un emisario a convencer a las guardias coloniales">
+              <span class="option-bullet">B</span>
+              <span>Enviar un emisario a negociar con las guardias.</span>
+            </button>
+            <button class="mock-option opt-c" onclick="selectOption('C')"
+              aria-label="Opción C: Esperar al amanecer para dar el golpe">
+              <span class="option-bullet">C</span>
+              <span>Esperar al amanecer para actuar.</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- Sección Equipo -->
+    <section id="equipo" class="team">
+      <h2 class="section-title" data-aos="fade-up">El Equipo Desarrollador</h2>
+      <div class="ornament" aria-hidden="true">❦ ❦ ❦</div>
+
+      <div class="team-grid">
+        <!-- Axel Rolón -->
+        <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+          <div class="team-card" tabindex="0"
+            aria-label="Tarjeta de Axel Rolón, Programador del Juego. Haz clic o presiona Enter para más información.">
+            <div class="team-avatar-frame">
+              <img src="https://ui-avatars.com/api/?name=Axel+Rolon&background=83271c&color=f7eed7&size=150"
+                alt="Axel Rolón, Programador de Relatos Ocultos">
+            </div>
+            <h3 class="team-name">Axel Rolón</h3>
+            <h4 class="team-role">Programador del Juego</h4>
+            <p class="click-hint">(Haz clic para más info)</p>
+            <div class="team-desc">
+              Responsable de toda la lógica, mecánicas jugables e implementación funcional. Se asegura de que el motor
+              de relatos interactivos responda perfectamente en todos los dispositivos y plataformas.
+            </div>
+          </div>
+        </div>
+
+        <!-- Cayo Ávalos -->
+        <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+          <div class="team-card" tabindex="0"
+            aria-label="Tarjeta de Cayo Ávalos, Diseñador de Gráficos. Haz clic o presiona Enter para más información.">
+            <div class="team-avatar-frame">
+              <img src="https://ui-avatars.com/api/?name=Cayo+Avalos&background=3a2211&color=f7eed7&size=150"
+                alt="Cayo Ávalos, Diseñador Gráfico de Relatos Ocultos">
+            </div>
+            <h3 class="team-name">Cayo Ávalos</h3>
+            <h4 class="team-role">Diseñador de Gráficos</h4>
+            <p class="click-hint">(Haz clic para más info)</p>
+            <div class="team-desc">
+              Creador de la atmósfera visual del juego. Diseña los retratos históricos de los próceres, las portadas
+              texturizadas de los relatos y todos los elementos estéticos que recrean el Paraguay de antaño.
+            </div>
+          </div>
+        </div>
+
+        <!-- Miguel Giménez -->
+        <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+          <div class="team-card" tabindex="0"
+            aria-label="Tarjeta de Miguel Giménez, Creador de la Página Web. Haz clic o presiona Enter para más información.">
+            <div class="team-avatar-frame">
+              <img src="https://ui-avatars.com/api/?name=Miguel+Gimenez&background=8b683e&color=f7eed7&size=150"
+                alt="Miguel Giménez, Creador de la página web de Relatos Ocultos">
+            </div>
+            <h3 class="team-name">Miguel Giménez</h3>
+            <h4 class="team-role">Creador de la Página Web</h4>
+            <p class="click-hint">(Haz clic para más info)</p>
+            <div class="team-desc">
+              Diseña y desarrolla este sitio web para conectar a la comunidad. Implementa el sistema responsivo,
+              optimiza la carga de recursos y asegura una experiencia accesible y visualmente atractiva.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Descarga -->
+    <section id="descarga" class="download">
+      <h2 class="section-title" data-aos="fade-up">Comienza tu Relato</h2>
+      <div class="ornament" aria-hidden="true">❦ ❦ ❦</div>
+      <p class="download-text" data-aos="fade-up" data-aos-delay="100">
+        Descarga el juego gratis y experimenta los relatos interactivos desde tu PC o teléfono inteligente Android.
+      </p>
+
+      <div class="platforms" data-aos="fade-up" data-aos-delay="200">
+        <span class="plat-badge">Windows PC</span>
+        <span class="plat-badge">Android App</span>
+        <span class="plat-badge">Web Versión</span>
+      </div>
+
+      <div class="btn-download-container" data-aos="fade-up" data-aos-delay="300">
+        <a class="btn btn-primary" onclick="alert('Iniciando descarga para Windows PC...')">Descargar para PC</a>
+        <a class="btn btn-secondary" onclick="alert('Iniciando descarga de APK para Android...')">Descargar para
+          Android</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">Relatos Ocultos</div>
+    <p class="footer-text">Explorando y recreando la historia del Paraguay.</p>
+
+    <div class="contacto-info">
+      <p>© 2026 DevGroup & Relatos Ocultos. Todos los derechos reservados.</p>
+      <p>¿Tienes dudas o comentarios? Escríbenos a <a
+          href="mailto:contacto@relatosocultos.com.py">contacto@relatosocultos.com.py</a></p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Inicializar biblioteca de animaciones AOS
+    AOS.init({
+      once: true,
+      offset: 60,
+      duration: 800,
+      easing: 'ease-out-quad'
+    });
+
+    // Lógica para el menú responsivo móvil
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = navToggle.classList.contains('open');
+      navToggle.classList.toggle('open');
+      navLinks.classList.toggle('active');
+      navToggle.setAttribute('aria-expanded', !isOpen);
+    });
+
+    // Cerrar menú móvil al hacer clic en un enlace
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('open');
+        navLinks.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', false);
+      });
+    });
+
+    // Lógica interactiva para el Simulador de Escenas de "Crear un Juego"
+    const dialogText = document.getElementById('dialog-text');
+    const dialogChar = document.getElementById('dialog-char');
+    const dialogRole = document.getElementById('dialog-role');
+    const dialogAvatar = document.getElementById('dialog-avatar');
+
+    window.selectOption = function (option) {
+      const buttons = document.querySelectorAll('.mock-option');
+      buttons.forEach(btn => btn.classList.remove('selected'));
+
+      if (option === 'A') {
+        document.querySelector('.opt-a').classList.add('selected');
+        dialogChar.innerText = "Juana de Lara";
+        dialogRole.innerText = "Prócer de la Independencia";
+        dialogAvatar.innerText = "JL";
+        dialogAvatar.style.background = "var(--red-old)";
+        dialogText.innerHTML = '"¡El Gobernador Velasco ha aceptado entregar el cuartel sin derramar sangre! Pedro Juan y Vicente ya están firmando la capitulación. ¡Paraguay es libre!"';
+      } else if (option === 'B') {
+        document.querySelector('.opt-b').classList.add('selected');
+        dialogChar.innerText = "Teniente Coronel";
+        dialogRole.innerText = "Guardia del Gobernador";
+        dialogAvatar.innerText = "TG";
+        dialogAvatar.style.background = "#5c432d";
+        dialogText.innerHTML = '"¿Quién va allí? ¡Identifíquese! Las guardias en la plaza central están en alerta máxima y no permitirán ningún movimiento sospechoso."';
+      } else if (option === 'C') {
+        document.querySelector('.opt-c').classList.add('selected');
+        dialogChar.innerText = "Vicente I. Iturbe";
+        dialogRole.innerText = "Prócer de la Independencia";
+        dialogAvatar.innerText = "VI";
+        dialogAvatar.style.background = "var(--sepia)";
+        dialogText.innerHTML = '"El sol está saliendo y el cuartel de la plaza central ha recibido refuerzos de caballería. Hemos perdido la ventaja táctica. Debemos retirarnos."';
+      }
+    };
+
+    // Lógica para expandir/colapsar las tarjetas del equipo con soporte de teclado y accesibilidad
+    document.addEventListener('DOMContentLoaded', () => {
+      const teamCards = document.querySelectorAll('.team-card');
+
+      teamCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          // Si el clic fue en un elemento interactivo interior, evitar conflicto
+          if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+
+          const isActive = card.classList.contains('active');
+
+          // Cerrar todas las tarjetas primero para limpieza visual
+          teamCards.forEach(c => c.classList.remove('active'));
+
+          if (!isActive) {
+            card.classList.add('active');
+          }
+        });
+
+        // Soporte de accesibilidad para teclado (Enter o Espacio)
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+    });
+
+    // Scroll suave mejorado que tiene en cuenta el navbar fijo
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+
+        e.preventDefault();
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+          const navHeight = document.querySelector('nav').offsetHeight;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navHeight;
+
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Detectar scroll para quitar el degradado de indicación de carrusel
+    const storiesTrack = document.querySelector('.stories-track');
+    const storiesContainer = document.querySelector('.stories-container');
+    if (storiesTrack && storiesContainer) {
+      storiesTrack.addEventListener('scroll', () => {
+        if (storiesTrack.scrollLeft + storiesTrack.clientWidth >= storiesTrack.scrollWidth - 10) {
+          storiesContainer.classList.add('scrolled');
+        } else {
+          storiesContainer.classList.remove('scrolled');
+        }
+      });
+    }
+  </script>
+
 </body>
 
 </html>
