@@ -17,8 +17,16 @@
     href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
-  <!-- AOS Animation Library CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <!-- Preload de imágenes críticas -->
+  <link rel="preload" href="images/parchment_bg.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="images/brown_paper_texture.webp" as="image" type="image/webp">
+
+  <!-- AOS Animation Library CSS (carga no bloqueante) -->
+  <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  </noscript>
 
   <style>
     *,
@@ -41,6 +49,10 @@
       --red-old: #bc2f1e;
       --white-torn: #ffffff;
       --shadow-color: rgba(30, 17, 7, 0.15);
+      /* Sidebar */
+      --sidebar-border: rgba(212, 154, 55, 0.3);
+      --sidebar-active: rgba(212, 154, 55, 0.12);
+      --sidebar-width: 220px;
     }
 
     html {
@@ -56,6 +68,8 @@
       color: var(--ink);
       overflow-x: hidden;
       line-height: 1.65;
+      padding-left: var(--sidebar-width);
+      /* Espacio para el sidebar */
     }
 
     /* Scanline paper texture overlay */
@@ -69,6 +83,8 @@
       background-size: 100% 4px, 4px 100%;
       pointer-events: none;
       z-index: 999;
+      will-change: transform;
+      contain: strict;
     }
 
     /* Accessibility Focus Style */
@@ -79,20 +95,31 @@
       outline-offset: 4px;
     }
 
-    /* NAVIGATION */
+    /* ============================================
+       SIDEBAR NAV — Menú vertical izquierdo
+       ============================================ */
     nav {
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      background: var(--sepia-dark);
-      border-bottom: 3px double var(--gold);
-      padding: 0.8rem 2rem;
+      bottom: 0;
+      right: auto;
+      width: var(--sidebar-width);
+      background:
+        linear-gradient(180deg, rgba(30, 17, 7, 0.97) 0%, rgba(20, 9, 2, 0.99) 100%),
+        url('images/parchment_bg.webp');
+      background-size: cover;
+      border-right: 2px solid var(--sidebar-border);
+      border-bottom: none;
+      padding: 2.5rem 0;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
       z-index: 1000;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .nav-logo {
@@ -100,12 +127,15 @@
       flex-direction: column;
       text-decoration: none;
       line-height: 1;
+      padding: 0 1.5rem 2rem;
+      border-bottom: 1px solid var(--sidebar-border);
+      margin-bottom: 1.5rem;
     }
 
     .logo-subtitle {
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       color: var(--parchment-dark);
       letter-spacing: 0.3em;
       text-transform: uppercase;
@@ -114,76 +144,79 @@
     .logo-title {
       font-family: 'Cinzel Decorative', serif;
       font-weight: 700;
-      font-size: 1.15rem;
+      font-size: 1rem;
       color: var(--gold-light);
       letter-spacing: 0.05em;
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     .nav-links {
       display: flex;
-      gap: 2.2rem;
+      flex-direction: column;
+      gap: 0;
       list-style: none;
-      align-items: center;
+      align-items: stretch;
+      padding: 0;
+    }
+
+    .nav-links li {
+      width: 100%;
     }
 
     .nav-links a {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: var(--parchment);
       text-decoration: none;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      transition: color 0.3s ease;
+      transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease, border-left-color 0.2s ease;
       position: relative;
-      padding: 0.25rem 0;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--sidebar-active);
+      color: var(--gold-light);
+      border-left-color: var(--gold);
+      padding-left: 1.8rem;
     }
 
     .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1.5px;
-      background: var(--gold-light);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.3s ease;
+      display: none;
     }
 
-    .nav-links a:hover {
-      color: var(--gold-light);
-    }
-
-    .nav-links a:hover::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    /* Mobile Nav Toggle */
+    /* Mobile Nav Toggle — oculto en desktop */
     .nav-toggle {
       display: none;
-      background: none;
-      border: none;
+      background: var(--sepia-dark);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 4px;
       cursor: pointer;
-      padding: 0.5rem;
+      padding: 0.55rem 0.6rem;
       z-index: 1001;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
     }
 
     .nav-toggle .bar {
       display: block;
-      width: 25px;
+      width: 22px;
       height: 2px;
       background-color: var(--parchment);
-      margin: 5px 0;
       transition: all 0.3s ease;
     }
 
     /* GENERAL STYLES */
     section {
-      padding: 7rem 2rem;
+      padding: 6rem 2.5rem;
       position: relative;
       z-index: 1;
     }
@@ -225,13 +258,13 @@
 
     /* HERO SECTION */
     .hero {
-      min-height: 110vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
       text-align: center;
-      padding: 7.5rem 2rem 5rem;
+      padding: 5rem 2rem 5rem;
       position: relative;
       overflow: hidden;
       background-image:
@@ -1323,53 +1356,47 @@
     }
 
     @media (max-width: 768px) {
+      body {
+        padding-left: 0;
+        /* Sin sidebar en móvil */
+      }
+
       section {
         padding: 5rem 1.5rem;
       }
 
+      /* Sidebar en móvil: oculto por defecto, desliza desde la izquierda */
       nav {
-        padding: 0.8rem 1.5rem;
-      }
-
-      /* Sliding mobile menu panel from the right */
-      .nav-links {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 280px;
-        background: var(--sepia-dark);
-        border-left: 2px solid var(--gold);
-        padding: 5rem 2rem 2rem;
-        gap: 2rem;
-        transform: translateX(100%);
+        width: 260px;
+        transform: translateX(-100%);
         transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.4);
-        z-index: 999;
+        border-right: 2px solid var(--gold);
+        border-bottom: none;
+        box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
       }
 
-      .nav-links.active {
+      nav.active {
         transform: translateX(0);
       }
 
+      /* Links del sidebar en móvil: texto un poco más grande */
       .nav-links a {
-        font-size: 1rem;
-        border-bottom: 1px dashed rgba(252, 250, 242, 0.15);
-        padding-bottom: 0.5rem;
-        width: 100%;
-        display: block;
+        font-size: 0.8rem;
+        padding: 1rem 1.5rem;
       }
 
+      /* Botón hamburger fijo en esquina superior izquierda */
       .nav-toggle {
-        display: block;
-        /* Show hamburger button */
+        display: flex;
+        position: fixed;
+        top: 0.85rem;
+        left: 0.85rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
       }
 
-      /* Toggle icon animation */
+      /* Toggle icon animation (X al abrir) */
       .nav-toggle.open .bar:nth-child(1) {
-        transform: rotate(-45deg) translate(-5px, 5px);
+        transform: rotate(-45deg) translate(-4px, 5px);
       }
 
       .nav-toggle.open .bar:nth-child(2) {
@@ -1377,12 +1404,12 @@
       }
 
       .nav-toggle.open .bar:nth-child(3) {
-        transform: rotate(45deg) translate(-5px, -6px);
+        transform: rotate(45deg) translate(-4px, -5px);
       }
 
       .hero {
         min-height: auto;
-        padding-top: 8rem;
+        padding-top: 5rem;
         padding-bottom: 3rem;
       }
 
@@ -1390,7 +1417,7 @@
         padding: 2rem 1.5rem;
       }
 
-      /* Stack collage vertically or slide down on mobile */
+      /* Stack collage verticalmente en móvil */
       .hero-collage {
         height: auto;
         flex-direction: column;
@@ -1421,6 +1448,57 @@
 
       .collage-scrap {
         display: none;
+      }
+    }
+
+    /* ============================================
+       SIDEBAR — Clases adicionales
+       ============================================ */
+    .sidebar-ornament {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--sidebar-border);
+      padding: 1.5rem 1.5rem;
+      letter-spacing: 0.2em;
+      margin-top: auto;
+    }
+
+    .nav-icon {
+      font-size: 1rem;
+      opacity: 0.7;
+      flex-shrink: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-links a:hover .nav-icon,
+    .nav-links a.active .nav-icon {
+      opacity: 1;
+    }
+
+    /* Overlay semitransparente para cerrar el menú móvil */
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 998;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    .nav-overlay.active {
+      display: block;
+    }
+
+    /* Fix Safari iOS: background-attachment fixed no funciona en iOS */
+    @supports (-webkit-touch-callout: none) {
+
+      body,
+      .hero,
+      .stories,
+      .builder,
+      .download {
+        background-attachment: scroll;
       }
     }
   </style>
@@ -1460,25 +1538,46 @@
   </svg>
 
   <!-- Navegación -->
-  <nav>
-    <a href="#" class="nav-logo" aria-label="Volver al Inicio">
+  <nav id="sidebar" aria-label="Menú de navegación principal">
+    <a href="#inicio" class="nav-logo" aria-label="Volver al Inicio - Relatos Ocultos">
       <span class="logo-subtitle">Proyecto de</span>
       <span class="logo-title">HISTORIA</span>
     </a>
 
-    <ul class="nav-links">
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#historias">Historias</a></li>
-      <li><a href="#creador">Creador</a></li>
-      <li><a href="#equipo">Equipo</a></li>
-      <li><a href="#descarga">Descargar</a></li>
+    <ul class="nav-links" role="list">
+      <li>
+        <a href="#inicio" id="nav-inicio" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">⌂</span>
+          Inicio
+        </a>
+      </li>
+      <li>
+        <a href="#historias" id="nav-historias">
+          <span class="nav-icon" aria-hidden="true">📜</span>
+          Historias
+        </a>
+      </li>
+      <li>
+        <a href="#creador" id="nav-creador">
+          <span class="nav-icon" aria-hidden="true">✒️</span>
+          Creador
+        </a>
+      </li>
+      <li>
+        <a href="#equipo" id="nav-equipo">
+          <span class="nav-icon" aria-hidden="true">⚔</span>
+          Equipo
+        </a>
+      </li>
+      <li>
+        <a href="#descarga" id="nav-descarga">
+          <span class="nav-icon" aria-hidden="true">↓</span>
+          Descargar
+        </a>
+      </li>
     </ul>
 
-    <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
+    <div class="sidebar-ornament" aria-hidden="true">❦</div>
   </nav>
 
   <!-- Hero Section -->
@@ -1877,25 +1976,51 @@
 
       <div class="journal-wrapper" data-aos="zoom-in" data-aos-duration="1000">
         <div class="journal">
-          <div class="preview-options">
-            <button class="mock-option opt-a selected" onclick="selectOption('A')"
-              aria-label="Opción A: Marchar en silencio hacia el cuartel con los conspiradores">
-              <span class="option-bullet">A</span>
-              <span>Marchar en silencio con los conspiradores.</span>
-            </button>
-            <button class="mock-option opt-b" onclick="selectOption('B')"
-              aria-label="Opción B: Enviar un emisario a convencer a las guardias coloniales">
-              <span class="option-bullet">B</span>
-              <span>Enviar un emisario a negociar con las guardias.</span>
-            </button>
-            <button class="mock-option opt-c" onclick="selectOption('C')"
-              aria-label="Opción C: Esperar al amanecer para dar el golpe">
-              <span class="option-bullet">C</span>
-              <span>Esperar al amanecer para actuar.</span>
-            </button>
+          <!-- Lado Izquierdo: Explicación del Editor -->
+          <div class="journal-left">
+            <h3 class="builder-title">Editor de Relatos</h3>
+            <p class="builder-desc">Crea pasajes jugables y ramificados para Relatos Ocultos:</p>
+            <ul class="builder-bullets">
+              <li>Define las opciones y caminos de la historia.</li>
+              <li>Escribe diálogos de personajes reales de la época.</li>
+              <li>Asigna consecuencias históricas a cada decisión.</li>
+            </ul>
+          </div>
+
+          <!-- Lado Derecho: Simulador de Conversación -->
+          <div class="journal-right">
+            <div class="preview-header">
+              <span>Vista Previa del Juego</span>
+              <span>Escena #12</span>
+            </div>
+            <div class="preview-body">
+              <div class="avatar-sketch" id="dialog-avatar">JL</div>
+              <div class="speech-bubble">
+                <span class="bubble-name" id="dialog-char">Juana de Lara</span>
+                <span class="bubble-role" id="dialog-role">Prócer de la Independencia</span>
+                <p class="bubble-text" id="dialog-text">"¡El Gobernador Velasco ha aceptado entregar el cuartel sin
+                  derramar sangre! Pedro Juan y Vicente ya están firmando la capitulación. ¡Paraguay es libre!"</p>
+              </div>
+            </div>
+            <div class="preview-options">
+              <button class="mock-option opt-a selected" onclick="selectOption('A')"
+                aria-label="Opción A: Marchar en silencio hacia el cuartel con los conspiradores">
+                <span class="option-bullet">A</span>
+                <span>Marchar en silencio con los conspiradores.</span>
+              </button>
+              <button class="mock-option opt-b" onclick="selectOption('B')"
+                aria-label="Opción B: Enviar un emisario a convencer a las guardias coloniales">
+                <span class="option-bullet">B</span>
+                <span>Enviar un emisario a negociar con las guardias.</span>
+              </button>
+              <button class="mock-option opt-c" onclick="selectOption('C')"
+                aria-label="Opción C: Esperar al amanecer para dar el golpe">
+                <span class="option-bullet">C</span>
+                <span>Esperar al amanecer para actuar.</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </section>
 
@@ -1911,7 +2036,8 @@
             aria-label="Tarjeta de Axel Rolón, Programador del Juego. Haz clic o presiona Enter para más información.">
             <div class="team-avatar-frame">
               <img src="https://ui-avatars.com/api/?name=Axel+Rolon&background=83271c&color=f7eed7&size=150"
-                alt="Axel Rolón, Programador de Relatos Ocultos">
+                alt="Axel Rolón, Programador de Relatos Ocultos" loading="lazy" decoding="async" width="150"
+                height="150">
             </div>
             <h3 class="team-name">Axel Rolón</h3>
             <h4 class="team-role">Programador del Juego</h4>
@@ -1929,7 +2055,8 @@
             aria-label="Tarjeta de Cayo Ávalos, Diseñador de Gráficos. Haz clic o presiona Enter para más información.">
             <div class="team-avatar-frame">
               <img src="https://ui-avatars.com/api/?name=Cayo+Avalos&background=3a2211&color=f7eed7&size=150"
-                alt="Cayo Ávalos, Diseñador Gráfico de Relatos Ocultos">
+                alt="Cayo Ávalos, Diseñador Gráfico de Relatos Ocultos" loading="lazy" decoding="async" width="150"
+                height="150">
             </div>
             <h3 class="team-name">Cayo Ávalos</h3>
             <h4 class="team-role">Diseñador de Gráficos</h4>
@@ -1947,7 +2074,8 @@
             aria-label="Tarjeta de Miguel Giménez, Creador de la Página Web. Haz clic o presiona Enter para más información.">
             <div class="team-avatar-frame">
               <img src="https://ui-avatars.com/api/?name=Miguel+Gimenez&background=8b683e&color=f7eed7&size=150"
-                alt="Miguel Giménez, Creador de la página web de Relatos Ocultos">
+                alt="Miguel Giménez, Creador de la página web de Relatos Ocultos" loading="lazy" decoding="async"
+                width="150" height="150">
             </div>
             <h3 class="team-name">Miguel Giménez</h3>
             <h4 class="team-role">Creador de la Página Web</h4>
@@ -1995,6 +2123,17 @@
     </div>
   </footer>
 
+  <!-- Overlay para móvil -->
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
+  <!-- Botón hamburger para móvil -->
+  <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false"
+    aria-controls="sidebar">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
   <!-- Scripts -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
@@ -2006,72 +2145,165 @@
       easing: 'ease-out-quad'
     });
 
-    // Lógica para el menú responsivo móvil
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    // =============================================
+    // Sidebar: toggle móvil
+    // =============================================
+    const sidebar = document.getElementById('sidebar');
+    const navToggle = document.getElementById('nav-toggle');
+    const navOverlay = document.getElementById('nav-overlay');
 
-    navToggle.addEventListener('click', () => {
-      const isOpen = navToggle.classList.contains('open');
-      navToggle.classList.toggle('open');
-      navLinks.classList.toggle('active');
-      navToggle.setAttribute('aria-expanded', !isOpen);
+    function openSidebar() {
+      if (sidebar) sidebar.classList.add('active');
+      if (navOverlay) {
+        navOverlay.classList.add('active');
+        navOverlay.setAttribute('aria-hidden', 'false');
+      }
+      if (navToggle) {
+        navToggle.classList.add('open');
+        navToggle.setAttribute('aria-expanded', 'true');
+      }
+      document.body.style.overflow = 'hidden'; // Bloquear scroll del body
+    }
+
+    function closeSidebar() {
+      if (sidebar) sidebar.classList.remove('active');
+      if (navOverlay) {
+        navOverlay.classList.remove('active');
+        navOverlay.setAttribute('aria-hidden', 'true');
+      }
+      if (navToggle) {
+        navToggle.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+      document.body.style.overflow = '';
+    }
+
+    if (navToggle) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = sidebar && sidebar.classList.contains('active');
+        isOpen ? closeSidebar() : openSidebar();
+      });
+    }
+
+    if (navOverlay) {
+      navOverlay.addEventListener('click', closeSidebar);
+    }
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+        closeSidebar();
+        if (navToggle) navToggle.focus();
+      }
     });
 
-    // Cerrar menú móvil al hacer clic en un enlace
+    // Cerrar al hacer clic en un link (móvil)
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', () => {
-        navToggle.classList.remove('open');
-        navLinks.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', false);
+        if (window.innerWidth <= 768) closeSidebar();
       });
     });
 
-    // Lógica interactiva para el Simulador de Escenas de "Crear un Juego"
-    const dialogText = document.getElementById('dialog-text');
-    const dialogChar = document.getElementById('dialog-char');
-    const dialogRole = document.getElementById('dialog-role');
-    const dialogAvatar = document.getElementById('dialog-avatar');
+    // =============================================
+    // Sidebar: marcar sección activa con IntersectionObserver
+    // =============================================
+    const sections = document.querySelectorAll('section[id], header[id]');
+    const navItemMap = {
+      'inicio': 'nav-inicio',
+      'descripcion': 'nav-inicio',   // La sección about no tiene nav propio → asigna a Inicio
+      'historias': 'nav-historias',
+      'creador': 'nav-creador',
+      'equipo': 'nav-equipo',
+      'descarga': 'nav-descarga',
+    };
 
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px', // Activa cuando la sección está en el 20%-40% del viewport
+      threshold: 0
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Quitar 'active' de todos
+          document.querySelectorAll('.nav-links a').forEach(a => {
+            a.classList.remove('active');
+            a.removeAttribute('aria-current');
+          });
+          // Agregar 'active' al correspondiente
+          const navId = navItemMap[entry.target.id];
+          if (navId) {
+            const activeLink = document.getElementById(navId);
+            if (activeLink) {
+              activeLink.classList.add('active');
+              activeLink.setAttribute('aria-current', 'page');
+            }
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => {
+      if (sectionObserver) sectionObserver.observe(section);
+    });
+
+    // =============================================
+    // Lógica interactiva para el Simulador de Escenas de "Crear un Juego"
+    // =============================================
     window.selectOption = function (option) {
       const buttons = document.querySelectorAll('.mock-option');
       buttons.forEach(btn => btn.classList.remove('selected'));
 
+      const dialogText = document.getElementById('dialog-text');
+      const dialogChar = document.getElementById('dialog-char');
+      const dialogRole = document.getElementById('dialog-role');
+      const dialogAvatar = document.getElementById('dialog-avatar');
+
       if (option === 'A') {
-        document.querySelector('.opt-a').classList.add('selected');
-        dialogChar.innerText = "Juana de Lara";
-        dialogRole.innerText = "Prócer de la Independencia";
-        dialogAvatar.innerText = "JL";
-        dialogAvatar.style.background = "var(--red-old)";
-        dialogText.innerHTML = '"¡El Gobernador Velasco ha aceptado entregar el cuartel sin derramar sangre! Pedro Juan y Vicente ya están firmando la capitulación. ¡Paraguay es libre!"';
+        const optA = document.querySelector('.opt-a');
+        if (optA) optA.classList.add('selected');
+        if (dialogChar) dialogChar.innerText = "Juana de Lara";
+        if (dialogRole) dialogRole.innerText = "Prócer de la Independencia";
+        if (dialogAvatar) {
+          dialogAvatar.innerText = "JL";
+          dialogAvatar.style.background = "var(--red-old)";
+        }
+        if (dialogText) dialogText.innerHTML = '"¡El Gobernador Velasco ha aceptado entregar el cuartel sin derramar sangre! Pedro Juan y Vicente ya están firmando la capitulación. ¡Paraguay es libre!"';
       } else if (option === 'B') {
-        document.querySelector('.opt-b').classList.add('selected');
-        dialogChar.innerText = "Teniente Coronel";
-        dialogRole.innerText = "Guardia del Gobernador";
-        dialogAvatar.innerText = "TG";
-        dialogAvatar.style.background = "#5c432d";
-        dialogText.innerHTML = '"¿Quién va allí? ¡Identifíquese! Las guardias en la plaza central están en alerta máxima y no permitirán ningún movimiento sospechoso."';
+        const optB = document.querySelector('.opt-b');
+        if (optB) optB.classList.add('selected');
+        if (dialogChar) dialogChar.innerText = "Teniente Coronel";
+        if (dialogRole) dialogRole.innerText = "Guardia del Gobernador";
+        if (dialogAvatar) {
+          dialogAvatar.innerText = "TG";
+          dialogAvatar.style.background = "#5c432d";
+        }
+        if (dialogText) dialogText.innerHTML = '"¿Quién va allí? ¡Identifíquese! Las guardias en la plaza central están en alerta máxima y no permitirán ningún movimiento sospechoso."';
       } else if (option === 'C') {
-        document.querySelector('.opt-c').classList.add('selected');
-        dialogChar.innerText = "Vicente I. Iturbe";
-        dialogRole.innerText = "Prócer de la Independencia";
-        dialogAvatar.innerText = "VI";
-        dialogAvatar.style.background = "var(--sepia)";
-        dialogText.innerHTML = '"El sol está saliendo y el cuartel de la plaza central ha recibido refuerzos de caballería. Hemos perdido la ventaja táctica. Debemos retirarnos."';
+        const optC = document.querySelector('.opt-c');
+        if (optC) optC.classList.add('selected');
+        if (dialogChar) dialogChar.innerText = "Vicente I. Iturbe";
+        if (dialogRole) dialogRole.innerText = "Prócer de la Independencia";
+        if (dialogAvatar) {
+          dialogAvatar.innerText = "VI";
+          dialogAvatar.style.background = "var(--sepia)";
+        }
+        if (dialogText) dialogText.innerHTML = '"El sol está saliendo y el cuartel de la plaza central ha recibido refuerzos de caballería. Hemos perdido la ventaja táctica. Debemos retirarnos."';
       }
     };
 
-    // Lógica para expandir/colapsar las tarjetas del equipo con soporte de teclado y accesibilidad
+    // =============================================
+    // Tarjetas del equipo (acordeón interactivo)
+    // =============================================
     document.addEventListener('DOMContentLoaded', () => {
       const teamCards = document.querySelectorAll('.team-card');
 
       teamCards.forEach(card => {
         card.addEventListener('click', (e) => {
-          // Si el clic fue en un elemento interactivo interior, evitar conflicto
           if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
 
           const isActive = card.classList.contains('active');
-
-          // Cerrar todas las tarjetas primero para limpieza visual
           teamCards.forEach(c => c.classList.remove('active'));
 
           if (!isActive) {
@@ -2079,7 +2311,6 @@
           }
         });
 
-        // Soporte de accesibilidad para teclado (Enter o Espacio)
         card.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -2089,7 +2320,9 @@
       });
     });
 
-    // Scroll suave mejorado que tiene en cuenta el navbar fijo
+    // =============================================
+    // Scroll suave ajustado para sidebar (offset = 0 en desktop)
+    // =============================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
@@ -2099,8 +2332,8 @@
         const targetElement = document.querySelector(targetId);
 
         if (targetElement) {
-          const navHeight = document.querySelector('nav').offsetHeight;
-          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navHeight;
+          const offset = window.innerWidth <= 768 ? 20 : 0;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - offset;
 
           window.scrollTo({
             top: targetPosition,
@@ -2110,7 +2343,9 @@
       });
     });
 
-    // Detectar scroll para quitar el degradado de indicación de carrusel
+    // =============================================
+    // Fading indicador de carrusel al scroll
+    // =============================================
     const storiesTrack = document.querySelector('.stories-track');
     const storiesContainer = document.querySelector('.stories-container');
     if (storiesTrack && storiesContainer) {
@@ -2123,7 +2358,6 @@
       });
     }
   </script>
-
 </body>
 
 </html>
