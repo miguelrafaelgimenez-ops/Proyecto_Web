@@ -690,24 +690,6 @@
       padding: 1.5rem 0;
     }
 
-    /* Fading edge to signal horizontal scroll */
-    .stories-container::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      width: 80px;
-      background: linear-gradient(90deg, transparent, rgba(30, 17, 7, 0.8));
-      pointer-events: none;
-      z-index: 5;
-      transition: opacity 0.4s ease;
-    }
-
-    .stories-container.scrolled::after {
-      opacity: 0;
-    }
-
     .stories-track {
       display: flex;
       gap: 2rem;
@@ -1794,10 +1776,10 @@
     <!-- Sección Descripción / Acerca del Proyecto -->
     <section id="descripcion" class="about">
       <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
-        <h2 class="section-title">Una Búsqueda en el Pasado</h2>
+        <h2 class="section-title">Acerca del Proyecto</h2>
         <div class="divider" aria-hidden="true"></div>
         <p class="about-text">
-          "Relatos Ocultos: HISTORIA de Paraguay" no es solo un videojuego; es un portal interactivo para descubrir los
+          "Relatos Ocultos" no es solo un videojuego; es un portal interactivo para descubrir los
           misterios y héroes olvidados de nuestra patria. Sumérgete en recreaciones fieles de eventos que formaron
           nuestra identidad.
         </p>
@@ -1806,25 +1788,26 @@
           <!-- Feature 1 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
             <span class="feature-icon" aria-hidden="true">📖</span>
-            <h3 class="feature-title">Riqueza Histórica</h3>
-            <p class="feature-desc">Basado en crónicas históricas reales, actas oficiales y correspondencia del Paraguay
-              de los siglos XVIII y XIX.</p>
+            <h3 class="feature-title">Relatos</h3>
+            <p class="feature-desc">Conoce tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel
+              presenta una historia diferente que invita a descubrir parte de nuestro patrimonio histórico y cultural.
+            </p>
           </div>
 
           <!-- Feature 2 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-            <span class="feature-icon" aria-hidden="true">🧭</span>
-            <h3 class="feature-title">Narrativa Interactiva</h3>
-            <p class="feature-desc">Cada decisión tomada influye en el desenlace del relato. Controla el curso de los
-              eventos con tus elecciones morales.</p>
+            <span class="feature-icon" aria-hidden="true">🎮</span>
+            <h3 class="feature-title">Experiencia Interactiva</h3>
+            <p class="feature-desc">Explora escenarios en 3D, conversa con personajes, supera obstáculos y
+              descubre la historia a través del entorno, pequeños diálogos y la exploración.</p>
           </div>
 
           <!-- Feature 3 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-            <span class="feature-icon" aria-hidden="true">✒️</span>
-            <h3 class="feature-title">Crea tus Historias</h3>
-            <p class="feature-desc">Utiliza nuestro motor integrado para redactar tus propios pasajes interactivos y
-              compartirlos con la comunidad.</p>
+            <span class="feature-icon" aria-hidden="true">🌎</span>
+            <h3 class="feature-title">Cultura y Memoria</h3>
+            <p class="feature-desc">Al finalizar cada nivel podrás ampliar la información desde esta página web, donde
+              encontrarás el contexto y la historia detrás de cada relato presentado en el juego.</p>
           </div>
         </div>
       </div>
@@ -1832,10 +1815,12 @@
 
     <!-- Sección Historias Destacadas -->
     <section id="historias" class="stories">
-      <h2 class="section-title" data-aos="fade-up">Historias Ocultas</h2>
-      <div class="ornament" aria-hidden="true">❦ ❦ ❦</div>
-      <p class="stories-subtitle" data-aos="fade-up" data-aos-delay="100">Pasajes jugables que te transportarán a
-        momentos clave de nuestra tierra.</p>
+      <h2 class="section-title" data-aos="fade-up">RELATOS</h2>
+
+      <p class="stories-subtitle" data-aos="fade-up" data-aos-delay="100">
+        Descubre tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel presenta una experiencia
+        diferente que invita a conocer una parte de nuestra historia y cultura.
+      </p>
 
       <div class="stories-container">
         <div class="stories-track">
@@ -1844,8 +1829,7 @@
             <article class="story-card">
               <span class="story-badge">Nivel 1</span>
               <div class="story-image-wrap">
-                <div class="landmark-illustration" aria-label="Ruinas de la Misión de San Cosme y San Damián"
-                  role="img">
+                <div class="landmark-illustration" aria-label="CHACO PARAGUAYO" role="img">
                   <svg viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
                     <rect width="330" height="180" fill="#c8a060" />
                     <rect x="0" y="130" width="330" height="50" fill="#6b4020" opacity="0.7" />
@@ -1871,10 +1855,11 @@
                   </svg>
                 </div>
               </div>
-              <span class="story-location">San Cosme y San Damián</span>
-              <h3 class="story-title">La Misión de las Estrellas</h3>
-              <p class="story-desc">El padre Buenaventura Suárez construye un telescopio de cuarzo y escribe el primer
-                calendario astronómico del Cono Sur en 1706.</p>
+              <span class="story-location">CHACO PARAGUAYO</span>
+              <h3 class="story-title">Camino a la Fiesta</h3>
+              <p class="story-desc">Acompaña a Delfina Servín en su recorrido hacia una fiesta donde se encuentra Mateo
+                Gamarra. Mientras avanzas por los caminos del Chaco, conocerás el entorno, sus habitantes y la tensión
+                que rodea esta historia..</p>
               <a href="#descarga" class="btn btn-secondary btn-sm"
                 style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
             </article>
@@ -1918,10 +1903,10 @@
                   </svg>
                 </div>
               </div>
-              <span class="story-location">Asunción</span>
-              <h3 class="story-title">El Secreto del Palacio</h3>
-              <p class="story-desc">Aventúrate en los oscuros pasillos y túneles del palacio gubernamental durante los
-                caóticos días finales de la Guerra de la Triple Alianza.</p>
+              <span class="story-location">ALTO PARANÁ</span>
+              <h3 class="story-title">Regreso al Hogar</h3>
+              <p class="story-desc">Controla a Dionisio, un trabajador engañado por falsas promesas laborales. Escapa de
+                los yerbales y supera distintos obstáculos para volver junto a tu familia.</p>
               <a href="#descarga" class="btn btn-secondary btn-sm"
                 style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
             </article>
@@ -1964,10 +1949,10 @@
                   </svg>
                 </div>
               </div>
-              <span class="story-location">Casa de la Independencia</span>
-              <h3 class="story-title">La Noche de los Próceres</h3>
-              <p class="story-desc">Acompaña a Pedro Juan Caballero y Vicente Ignacio Iturbe en la tensa medianoche de
-                mayo de 1811 para derrocar al Gobernador Velasco.</p>
+              <span class="story-location">UN PEQUEÑO PUEBLO</span>
+              <h3 class="story-title">El Almacenero</h3>
+              <p class="story-desc">Ponte en el lugar del almacenero del pueblo y descubre, mediante las compras fiadas
+                y las conversaciones cotidianas, la historia de una familia que atraviesa una tragedia silenciosa.</p>
               <a href="#descarga" class="btn btn-secondary btn-sm"
                 style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
             </article>
@@ -1991,47 +1976,97 @@
 
       <div class="journal-wrapper" data-aos="zoom-in" data-aos-duration="1000">
         <div class="journal">
-          <!-- Lado Izquierdo: Explicación del Editor -->
+          <!-- Lado Izquierdo: Información dinámica -->
           <div class="journal-left">
-            <h3 class="builder-title">Editor de Relatos</h3>
-            <p class="builder-desc">Crea pasajes jugables y ramificados para Relatos Ocultos:</p>
-            <ul class="builder-bullets">
-              <li>Define las opciones y caminos de la historia.</li>
-              <li>Escribe diálogos de personajes reales de la época.</li>
-              <li>Asigna consecuencias históricas a cada decisión.</li>
-            </ul>
+            <h3 class="builder-title">¿Cómo se vive la historia?</h3>
+            <div class="divider" aria-hidden="true" style="margin: 0.8rem 0 1.2rem; width: 100px;"></div>
+            
+            <div id="dynamic-level-content" style="transition: opacity 0.25s ease; opacity: 1;">
+              <p class="builder-desc" style="font-weight: 700; color: var(--red-old); margin-bottom: 0.25rem; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;" id="dynamic-level-number">Nivel 1</p>
+              <h4 style="font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 700; color: var(--sepia-dark); margin: 0 0 1rem;" id="dynamic-level-title">Camino a la Fiesta</h4>
+              
+              <p class="builder-desc" style="margin-bottom: 1rem; font-weight: 600;">Durante este nivel podrás:</p>
+              <ul class="builder-bullets" id="dynamic-level-bullets">
+                <li>Conocer el paisaje del Chaco paraguayo.</li>
+                <li>Descubrir cómo era la vida cotidiana de la época.</li>
+                <li>Entender el contexto del relato.</li>
+                <li>Explorar el escenario mientras avanza la historia.</li>
+              </ul>
+            </div>
           </div>
 
-          <!-- Lado Derecho: Simulador de Conversación -->
-          <div class="journal-right">
+          <!-- Lado Derecho: Selector de niveles -->
+          <div class="journal-right" style="display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem;">
             <div class="preview-header">
-              <span>Vista Previa del Juego</span>
-              <span>Escena #12</span>
+              <span>Vista previa de los niveles</span>
+              <span>Relatos Ocultos</span>
             </div>
-            <div class="preview-body">
-              <div class="avatar-sketch" id="dialog-avatar">JL</div>
-              <div class="speech-bubble">
-                <span class="bubble-name" id="dialog-char">Juana de Lara</span>
-                <span class="bubble-role" id="dialog-role">Prócer de la Independencia</span>
-                <p class="bubble-text" id="dialog-text">"¡El Gobernador Velasco ha aceptado entregar el cuartel sin
-                  derramar sangre! Pedro Juan y Vicente ya están firmando la capitulación. ¡Paraguay es libre!"</p>
+
+            <!-- Visor de imagen grande del nivel seleccionado -->
+            <div class="level-viewport" style="border: 2px solid var(--sepia-dark); background: #faf4e5; padding: 0.75rem 0.75rem 1.5rem; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transform: rotate(-0.5deg); transition: transform 0.3s ease;">
+              <div id="level-image-container" style="width: 100%; height: 170px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); background: #eee; clip-path: url(#torn-photo-1); transition: opacity 0.25s ease;">
+                <!-- SVG Level 1 -->
+                <svg id="svg-level-1" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; object-fit: cover;">
+                  <rect width="330" height="180" fill="#e0cfa5" />
+                  <circle cx="165" cy="110" r="45" fill="#8c6a42" opacity="0.3" />
+                  <line x1="165" y1="150" x2="165" y2="90" stroke="#1e1107" stroke-width="3" />
+                  <line x1="165" y1="110" x2="140" y2="100" stroke="#1e1107" stroke-width="2.5" />
+                  <line x1="165" y1="100" x2="195" stroke="#1e1107" stroke-width="2.5" />
+                  <circle cx="240" cy="50" r="15" fill="#d49a37" />
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107" font-weight="700">Chaco Paraguayo</text>
+                </svg>
+                <!-- SVG Level 2 -->
+                <svg id="svg-level-2" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                  <rect width="330" height="180" fill="#ced9bc" />
+                  <path d="M60 150 L90 80 L120 150 Z" fill="#4a5e28" opacity="0.6" />
+                  <path d="M120 160 L160 70 L200 160 Z" fill="#3a4f18" opacity="0.75" />
+                  <path d="M190 150 L220 90 L250 150 Z" fill="#4a5e28" opacity="0.5" />
+                  <line x1="90" y1="150" x2="90" y2="130" stroke="#1e1107" stroke-width="2" />
+                  <line x1="160" y1="160" x2="160" y2="120" stroke="#1e1107" stroke-width="3" />
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107" font-weight="700">Yerbales de Alto Paraná</text>
+                </svg>
+                <!-- SVG Level 3 -->
+                <svg id="svg-level-3" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                  <rect width="330" height="180" fill="#d2c4b9" />
+                  <rect x="100" y="60" width="130" height="90" fill="none" stroke="#1e1107" stroke-width="3" />
+                  <line x1="100" y1="90" x2="230" y2="90" stroke="#1e1107" stroke-width="2" />
+                  <line x1="100" y1="120" x2="230" y2="120" stroke="#1e1107" stroke-width="2" />
+                  <circle cx="120" cy="75" r="5" fill="#bc2f1e" />
+                  <circle cx="160" cy="75" r="5" fill="#bc2f1e" />
+                  <rect x="190" y="100" width="25" height="15" fill="#d49a37" opacity="0.8" />
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107" font-weight="700">El Almacenero</text>
+                </svg>
               </div>
+              <p class="photo-caption" id="level-caption" style="margin-top: 0.5rem; text-align: center; font-size: 0.85rem; font-style: italic;">Camino a la Fiesta</p>
             </div>
-            <div class="preview-options">
-              <button class="mock-option opt-a selected" onclick="selectOption('A')"
-                aria-label="Opción A: Marchar en silencio hacia el cuartel con los conspiradores">
-                <span class="option-bullet">A</span>
-                <span>Marchar en silencio con los conspiradores.</span>
+
+            <!-- Lista de niveles seleccionables -->
+            <div class="level-selector" style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
+              <!-- Nivel 1 -->
+              <button class="mock-option level-btn selected" onclick="showLevel(1)" style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-1">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="option-bullet">1</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">Camino a la Fiesta</span>
+                </div>
+                <span class="status-indicator" style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 1;">Activo</span>
               </button>
-              <button class="mock-option opt-b" onclick="selectOption('B')"
-                aria-label="Opción B: Enviar un emisario a convencer a las guardias coloniales">
-                <span class="option-bullet">B</span>
-                <span>Enviar un emisario a negociar con las guardias.</span>
+              
+              <!-- Nivel 2 -->
+              <button class="mock-option level-btn" onclick="showLevel(2)" style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-2">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="option-bullet">2</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">Regreso al Hogar</span>
+                </div>
+                <span class="status-indicator" style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 0;">Activo</span>
               </button>
-              <button class="mock-option opt-c" onclick="selectOption('C')"
-                aria-label="Opción C: Esperar al amanecer para dar el golpe">
-                <span class="option-bullet">C</span>
-                <span>Esperar al amanecer para actuar.</span>
+
+              <!-- Nivel 3 -->
+              <button class="mock-option level-btn" onclick="showLevel(3)" style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-3">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="option-bullet">3</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">El Almacenero</span>
+                </div>
+                <span class="status-indicator" style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 0;">Activo</span>
               </button>
             </div>
           </div>
@@ -2245,7 +2280,6 @@
             a.classList.remove('active');
             a.removeAttribute('aria-current');
           });
-          // Agregar 'active' al correspondiente
           const navId = navItemMap[entry.target.id];
           if (navId) {
             const activeLink = document.getElementById(navId);
@@ -2263,47 +2297,108 @@
     });
 
     // =============================================
-    // Lógica interactiva para el Simulador de Escenas de "Crear un Juego"
+    // Lógica interactiva para el Explorador de Niveles
     // =============================================
-    window.selectOption = function (option) {
-      const buttons = document.querySelectorAll('.mock-option');
-      buttons.forEach(btn => btn.classList.remove('selected'));
+    const levelData = {
+      1: {
+        number: "Nivel 1",
+        title: "Camino a la Fiesta",
+        caption: "Camino a la Fiesta",
+        bullets: [
+          "Conocer el paisaje del Chaco paraguayo y su vegetación.",
+          "Descubrir cómo era la vida cotidiana y las costumbres de la época.",
+          "Comprender la tensión social y el contexto del relato de Mateo Gamarra.",
+          "Explorar el escenario tridimensional interactivo mientras avanza la historia.",
+          "Aprender sobre los acontecimientos reales que inspiraron esta popular leyenda."
+        ]
+      },
+      2: {
+        number: "Nivel 2",
+        title: "Regreso al Hogar",
+        caption: "Regreso al Hogar",
+        bullets: [
+          "Aprender sobre el régimen de explotación laboral de los yerbales en el siglo XIX.",
+          "Conocer los peligros y la geografía de las selvas del Alto Paraná.",
+          "Descubrir los obstáculos y dificultades que Dionisio debe superar para escapar.",
+          "Comprender la importancia del apoyo familiar en situaciones adversas.",
+          "Explorar el denso monte e interactuar con elementos del entorno."
+        ]
+      },
+      3: {
+        number: "Nivel 3",
+        title: "El Almacenero",
+        caption: "El Almacenero",
+        bullets: [
+          "Aprender sobre la vida y dinámicas sociales de un pequeño pueblo paraguayo.",
+          "Conocer a los diversos vecinos y clientes cotidianos que acuden al almacén.",
+          "Descubrir la historia de la familia a través de las cuentas fiadas.",
+          "Comprender el impacto de una tragedia silenciosa en una comunidad pequeña.",
+          "Explorar la tienda y examinar detalles cotidianos que revelan secretos."
+        ]
+      }
+    };
 
-      const dialogText = document.getElementById('dialog-text');
-      const dialogChar = document.getElementById('dialog-char');
-      const dialogRole = document.getElementById('dialog-role');
-      const dialogAvatar = document.getElementById('dialog-avatar');
+    window.showLevel = function (levelNum) {
+      const data = levelData[levelNum];
+      if (!data) return;
 
-      if (option === 'A') {
-        const optA = document.querySelector('.opt-a');
-        if (optA) optA.classList.add('selected');
-        if (dialogChar) dialogChar.innerText = "Juana de Lara";
-        if (dialogRole) dialogRole.innerText = "Prócer de la Independencia";
-        if (dialogAvatar) {
-          dialogAvatar.innerText = "JL";
-          dialogAvatar.style.background = "var(--red-old)";
+      // Elementos de la página izquierda
+      const containerLeft = document.getElementById('dynamic-level-content');
+      const numEl = document.getElementById('dynamic-level-number');
+      const titleEl = document.getElementById('dynamic-level-title');
+      const bulletsEl = document.getElementById('dynamic-level-bullets');
+
+      // Elementos de la página derecha (imagen y botones)
+      const containerRightImage = document.getElementById('level-image-container');
+      const captionEl = document.getElementById('level-caption');
+
+      // Transición suave: fade out
+      if (containerLeft) containerLeft.style.opacity = 0;
+      if (containerRightImage) containerRightImage.style.opacity = 0;
+
+      setTimeout(() => {
+        // Actualizar textos de la izquierda
+        if (numEl) numEl.innerText = data.number;
+        if (titleEl) titleEl.innerText = data.title;
+        
+        if (bulletsEl) {
+          bulletsEl.innerHTML = '';
+          data.bullets.forEach(bullet => {
+            const li = document.createElement('li');
+            li.innerText = bullet;
+            bulletsEl.appendChild(li);
+          });
         }
-        if (dialogText) dialogText.innerHTML = '"¡El Gobernador Velasco ha aceptado entregar el cuartel sin derramar sangre! Pedro Juan y Vicente ya están firmando la capitulación. ¡Paraguay es libre!"';
-      } else if (option === 'B') {
-        const optB = document.querySelector('.opt-b');
-        if (optB) optB.classList.add('selected');
-        if (dialogChar) dialogChar.innerText = "Teniente Coronel";
-        if (dialogRole) dialogRole.innerText = "Guardia del Gobernador";
-        if (dialogAvatar) {
-          dialogAvatar.innerText = "TG";
-          dialogAvatar.style.background = "#5c432d";
+
+        // Actualizar imágenes/SVGs en la derecha
+        for (let i = 1; i <= 3; i++) {
+          const svg = document.getElementById(`svg-level-${i}`);
+          if (svg) {
+            svg.style.display = (i === levelNum) ? 'block' : 'none';
+          }
         }
-        if (dialogText) dialogText.innerHTML = '"¿Quién va allí? ¡Identifíquese! Las guardias en la plaza central están en alerta máxima y no permitirán ningún movimiento sospechoso."';
-      } else if (option === 'C') {
-        const optC = document.querySelector('.opt-c');
-        if (optC) optC.classList.add('selected');
-        if (dialogChar) dialogChar.innerText = "Vicente I. Iturbe";
-        if (dialogRole) dialogRole.innerText = "Prócer de la Independencia";
-        if (dialogAvatar) {
-          dialogAvatar.innerText = "VI";
-          dialogAvatar.style.background = "var(--sepia)";
+
+        // Actualizar pie de foto
+        if (captionEl) captionEl.innerText = data.caption;
+
+        // Fade in
+        if (containerLeft) containerLeft.style.opacity = 1;
+        if (containerRightImage) containerRightImage.style.opacity = 1;
+      }, 200);
+
+      // Actualizar estado de selección de los botones
+      for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById(`btn-level-${i}`);
+        if (btn) {
+          const indicator = btn.querySelector('.status-indicator');
+          if (i === levelNum) {
+            btn.classList.add('selected');
+            if (indicator) indicator.style.opacity = 1;
+          } else {
+            btn.classList.remove('selected');
+            if (indicator) indicator.style.opacity = 0;
+          }
         }
-        if (dialogText) dialogText.innerHTML = '"El sol está saliendo y el cuartel de la plaza central ha recibido refuerzos de caballería. Hemos perdido la ventaja táctica. Debemos retirarnos."';
       }
     };
 
