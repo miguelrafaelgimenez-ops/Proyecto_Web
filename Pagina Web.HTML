@@ -29,8 +29,7 @@
   </noscript>
 
   <style>
-    *,
-    *::before,
+    * *::before,
     *::after {
       margin: 0;
       padding: 0;
@@ -661,7 +660,7 @@
       background: var(--sepia-dark);
       background-image:
         radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%),
-        url('images/parchment_bg.webp');
+        url('images/background1.png');
       background-size: cover;
       color: var(--parchment);
     }
@@ -690,41 +689,32 @@
       padding: 1.5rem 0;
     }
 
-    .stories-track {
+    #historias .stories-track {
       display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 2rem;
       padding: 1rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-      scrollbar-color: var(--gold) var(--sepia-dark);
+      overflow-x: visible;
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE y Edge */
     }
 
-    .stories-track::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    .stories-track::-webkit-scrollbar-track {
-      background: rgba(252, 250, 242, 0.05);
-      border-radius: 4px;
-    }
-
-    .stories-track::-webkit-scrollbar-thumb {
-      background: var(--gold);
-      border-radius: 4px;
-    }
-
-    .stories-track::-webkit-scrollbar-thumb:hover {
-      background: var(--gold-light);
+    #historias .stories-track::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Safari y Opera */
     }
 
     .story-card-wrapper {
-      flex: 0 0 330px;
-      scroll-snap-align: start;
+      width: 100%;
+      max-width: 350px;
       filter: drop-shadow(0px 10px 16px rgba(0, 0, 0, 0.35));
       transition: transform 0.3s ease;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
     .story-card-wrapper:hover {
@@ -735,12 +725,30 @@
       background: var(--white-torn);
       color: var(--ink);
       clip-path: url(#torn-card);
-      padding: 1.5rem 1.5rem 2.5rem;
-      height: 100%;
+      padding: 1.5rem 1.5rem 3.5rem;
       display: flex;
       flex-direction: column;
+      flex-grow: 1;
       border: 1px solid rgba(0, 0, 0, 0.15);
       position: relative;
+    }
+
+    .story-card .btn {
+      margin-top: auto;
+    }
+
+    @media (min-width: 1024px) {
+      #historias .stories-track {
+        flex-direction: row;
+        justify-content: center;
+        gap: 2.5rem;
+        overflow-x: visible;
+      }
+
+      .story-card-wrapper {
+        flex: 1 1 330px;
+        max-width: 350px;
+      }
     }
 
     /* Red level badge */
@@ -828,7 +836,7 @@
 
     .about-paper-card {
       background-color: var(--parchment);
-      background-image: linear-gradient(rgba(252, 250, 242, 0.65), rgba(252, 250, 242, 0.65)), url('images/parchment_bg.webp');
+      background-image: linear-gradient(rgba(252, 250, 242, 0.65), rgba(252, 250, 242, 0.65)), url('images/parchment_bg_for_papercard.jpg');
       background-size: cover;
       padding: 3rem 4rem;
       border: 1px solid rgba(139, 104, 62, 0.2);
@@ -1134,8 +1142,8 @@
 
     /* Vintage Stamp Frame for Avatars */
     .team-avatar-frame {
-      width: 90px;
-      height: 90px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
       background: var(--sepia-dark);
       border: 4px double var(--gold);
@@ -1603,170 +1611,33 @@
       <div class="collage-scrap scrap-1" aria-hidden="true"></div>
       <div class="collage-scrap scrap-2" aria-hidden="true"></div>
 
-      <!-- San Cosme y San Damián (Left) -->
+      <!-- Camino a la Fiesta (Left) -->
       <div class="shadow-wrapper collage-item-wrapper item-left" data-aos="fade-right" data-aos-duration="1000"
         data-aos-delay="700">
         <div class="photo-frame torn-photo-left">
-          <div class="landmark-illustration" aria-label="Ruinas Jesuitas de San Cosme y San Damián" role="img">
-            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <filter id="sepia-left">
-                  <feColorMatrix type="saturate" values="0.15" />
-                  <feComponentTransfer>
-                    <feFuncR type="linear" slope="1.1" intercept="0.05" />
-                    <feFuncG type="linear" slope="0.95" intercept="0.02" />
-                    <feFuncB type="linear" slope="0.75" />
-                  </feComponentTransfer>
-                </filter>
-                <radialGradient id="sky-l" cx="50%" cy="20%" r="80%">
-                  <stop offset="0%" stop-color="#d4b896" />
-                  <stop offset="100%" stop-color="#8b6040" />
-                </radialGradient>
-              </defs>
-              <rect width="280" height="180" fill="url(#sky-l)" filter="url(#sepia-left)" />
-              <!-- Ground -->
-              <rect x="0" y="130" width="280" height="50" fill="#6b4423" opacity="0.7" />
-              <!-- Arch ruins left -->
-              <rect x="20" y="60" width="18" height="80" fill="#8b5e3c" rx="2" />
-              <path d="M20 60 Q29 44 38 60" fill="#7a4f2e" stroke="#5c3820" stroke-width="1" />
-              <!-- Arch ruins center -->
-              <rect x="55" y="40" width="22" height="100" fill="#9b6e4a" rx="2" />
-              <rect x="90" y="40" width="22" height="100" fill="#8b5e3c" rx="2" />
-              <path d="M55 40 Q66 18 112 40" fill="none" stroke="#7a4f2e" stroke-width="3" />
-              <rect x="55" y="35" width="57" height="8" fill="#7a4f2e" rx="1" />
-              <!-- Pillar right -->
-              <rect x="140" y="50" width="18" height="90" fill="#a07050" rx="2" />
-              <rect x="170" y="65" width="15" height="75" fill="#8b5e3c" rx="2" opacity="0.8" />
-              <!-- Sundial base -->
-              <ellipse cx="195" cy="125" rx="18" ry="6" fill="#6b4020" opacity="0.9" />
-              <rect x="192" y="100" width="6" height="25" fill="#8b6040" />
-              <line x1="195" y1="100" x2="215" y2="108" stroke="#c8a070" stroke-width="1.5" />
-              <!-- Vegetation -->
-              <ellipse cx="30" cy="125" rx="15" ry="12" fill="#556b2f" opacity="0.5" />
-              <ellipse cx="120" cy="128" rx="20" ry="10" fill="#4a5e28" opacity="0.4" />
-              <ellipse cx="240" cy="124" rx="25" ry="12" fill="#556b2f" opacity="0.45" />
-              <!-- Grain overlay -->
-              <rect width="280" height="180" fill="url(#sky-l)" opacity="0.12" />
-            </svg>
+          <div class="landmark-illustration" aria-label="Camino a la Fiesta. CHACO PARAGUAYO" role="img">
+            <img src="images/NL1.png" alt="Camino a la Fiesta" />
           </div>
-          <div class="photo-caption">San Cosme y San Damián</div>
         </div>
       </div>
 
-      <!-- Palacio de los López (Center) -->
+      <!-- Regreso al Hogar (Center) -->
       <div class="shadow-wrapper collage-item-wrapper item-center" data-aos="fade-up" data-aos-duration="1000"
         data-aos-delay="500">
         <div class="photo-frame torn-photo-center">
-          <div class="landmark-illustration" aria-label="Palacio de los López, Asunción" role="img">
-            <svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <filter id="sepia-c">
-                  <feColorMatrix type="saturate" values="0.1" />
-                  <feComponentTransfer>
-                    <feFuncR type="linear" slope="1.08" intercept="0.04" />
-                    <feFuncG type="linear" slope="0.92" intercept="0.01" />
-                    <feFuncB type="linear" slope="0.7" />
-                  </feComponentTransfer>
-                </filter>
-                <linearGradient id="sky-c" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#c8a878" />
-                  <stop offset="100%" stop-color="#8b6040" />
-                </linearGradient>
-              </defs>
-              <rect width="320" height="210" fill="url(#sky-c)" filter="url(#sepia-c)" />
-              <!-- Ground -->
-              <rect x="0" y="160" width="320" height="50" fill="#5c3820" opacity="0.65" />
-              <!-- Main building body -->
-              <rect x="40" y="90" width="240" height="80" fill="#c8a870" rx="1" />
-              <!-- Neoclassical columns -->
-              <rect x="55" y="85" width="12" height="85" fill="#e0c090" rx="2" />
-              <rect x="80" y="85" width="12" height="85" fill="#d4b47a" rx="2" />
-              <rect x="105" y="85" width="12" height="85" fill="#e0c090" rx="2" />
-              <rect x="200" y="85" width="12" height="85" fill="#e0c090" rx="2" />
-              <rect x="225" y="85" width="12" height="85" fill="#d4b47a" rx="2" />
-              <rect x="250" y="85" width="12" height="85" fill="#e0c090" rx="2" />
-              <!-- Entablature -->
-              <rect x="40" y="78" width="240" height="12" fill="#b89050" rx="1" />
-              <!-- Pediment / Triangle top -->
-              <polygon points="160,30 50,78 270,78" fill="#c8a060" stroke="#a07840" stroke-width="1.5" />
-              <!-- Central door -->
-              <rect x="145" y="130" width="30" height="40" fill="#3a2010" rx="2" />
-              <path d="M145 130 Q160 118 175 130" fill="#3a2010" />
-              <!-- Windows -->
-              <rect x="65" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-              <rect x="110" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-              <rect x="195" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-              <rect x="240" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-              <!-- Flag -->
-              <line x1="160" y1="10" x2="160" y2="32" stroke="#8b6040" stroke-width="1.5" />
-              <rect x="160" y="10" width="20" height="12" fill="#bc2f1e" opacity="0.8" />
-              <!-- Vignette overlay -->
-              <radialGradient id="vig" cx="50%" cy="50%" r="70%">
-                <stop offset="0%" stop-color="transparent" />
-                <stop offset="100%" stop-color="rgba(30,15,5,0.45)" />
-              </radialGradient>
-              <rect width="320" height="210" fill="url(#vig)" />
-            </svg>
+          <div class="landmark-illustration" aria-label="Regreso al Hogar, ALTO PARANÁ" role="img">
+            <img src="images/NL2.jpg" alt="Regreso al Hogar" />
           </div>
-          <div class="photo-caption">Palacio de los López</div>
         </div>
       </div>
 
-      <!-- Panteón de los Héroes (Right) -->
+      <!-- El Almacenero (Right) -->
       <div class="shadow-wrapper collage-item-wrapper item-right-photo" data-aos="fade-left" data-aos-duration="1000"
         data-aos-delay="800">
         <div class="photo-frame torn-photo-right">
-          <div class="landmark-illustration" aria-label="Panteón Nacional de los Héroes, Asunción" role="img">
-            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <filter id="sepia-r">
-                  <feColorMatrix type="saturate" values="0.12" />
-                  <feComponentTransfer>
-                    <feFuncR type="linear" slope="1.1" intercept="0.05" />
-                    <feFuncG type="linear" slope="0.93" intercept="0.01" />
-                    <feFuncB type="linear" slope="0.72" />
-                  </feComponentTransfer>
-                </filter>
-                <radialGradient id="sky-r" cx="50%" cy="0%" r="100%">
-                  <stop offset="0%" stop-color="#d0a870" />
-                  <stop offset="100%" stop-color="#7a5030" />
-                </radialGradient>
-              </defs>
-              <rect width="280" height="180" fill="url(#sky-r)" filter="url(#sepia-r)" />
-              <!-- Ground -->
-              <rect x="0" y="145" width="280" height="35" fill="#5c3820" opacity="0.7" />
-              <!-- Dome building body -->
-              <rect x="55" y="105" width="170" height="50" fill="#c0944a" rx="1" />
-              <!-- Dome -->
-              <ellipse cx="140" cy="95" rx="55" ry="20" fill="#b08040" />
-              <ellipse cx="140" cy="82" rx="42" ry="18" fill="#c09850" />
-              <ellipse cx="140" cy="70" rx="28" ry="14" fill="#d4aa60" />
-              <ellipse cx="140" cy="60" rx="14" ry="8" fill="#c09040" />
-              <!-- Lantern top -->
-              <rect x="133" y="40" width="14" height="22" fill="#d4aa60" rx="2" />
-              <ellipse cx="140" cy="38" rx="10" ry="5" fill="#c09040" />
-              <!-- Ionic columns -->
-              <rect x="65" y="95" width="10" height="60" fill="#dfc090" rx="1" />
-              <rect x="90" y="95" width="10" height="60" fill="#d0ae78" rx="1" />
-              <rect x="180" y="95" width="10" height="60" fill="#dfc090" rx="1" />
-              <rect x="205" y="95" width="10" height="60" fill="#d0ae78" rx="1" />
-              <!-- Entablature -->
-              <rect x="55" y="90" width="170" height="10" fill="#a87838" rx="1" />
-              <!-- Central door arch -->
-              <rect x="125" y="120" width="30" height="35" fill="#3a2010" rx="2" />
-              <path d="M125 120 Q140 108 155 120" fill="#3a2010" />
-              <!-- Side windows -->
-              <rect x="70" y="108" width="14" height="18" fill="#3a2010" rx="1" opacity="0.8" />
-              <rect x="196" y="108" width="14" height="18" fill="#3a2010" rx="1" opacity="0.8" />
-              <!-- Vignette -->
-              <radialGradient id="vigr" cx="50%" cy="50%" r="70%">
-                <stop offset="0%" stop-color="transparent" />
-                <stop offset="100%" stop-color="rgba(25,12,4,0.5)" />
-              </radialGradient>
-              <rect width="280" height="180" fill="url(#vigr)" />
-            </svg>
+          <div class="landmark-illustration" aria-label="El Almacenero, UN PEQUEÑO PUEBLO" role="img">
+            <img src="images/NL3.png" alt="El Almacenero" />
           </div>
-          <div class="photo-caption">Panteón de los Héroes</div>
         </div>
       </div>
     </div>
@@ -1815,12 +1686,17 @@
 
     <!-- Sección Historias Destacadas -->
     <section id="historias" class="stories">
-      <h2 class="section-title" data-aos="fade-up">RELATOS</h2>
-
-      <p class="stories-subtitle" data-aos="fade-up" data-aos-delay="100">
-        Descubre tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel presenta una experiencia
-        diferente que invita a conocer una parte de nuestra historia y cultura.
-      </p>
+      <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
+        <div class="about-paper-card">
+          <h2 style="color: #000000" class="section-title">RELATOS</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="stories-subtitle"
+            style="max-width: 700px; color: #000000; margin: 1.5rem auto 0; font-weight: 600;">
+            Descubre tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel presenta una experiencia
+            diferente que invita a conocer una parte de nuestra historia y cultura.
+          </p>
+        </div>
+      </div>
 
       <div class="stories-container">
         <div class="stories-track">
@@ -1830,38 +1706,19 @@
               <span class="story-badge">Nivel 1</span>
               <div class="story-image-wrap">
                 <div class="landmark-illustration" aria-label="CHACO PARAGUAYO" role="img">
-                  <svg viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                    <rect width="330" height="180" fill="#c8a060" />
-                    <rect x="0" y="130" width="330" height="50" fill="#6b4020" opacity="0.7" />
-                    <rect x="25" y="55" width="20" height="85" fill="#8b5e3c" rx="1" />
-                    <path d="M25 55 Q35 35 45 55" fill="#7a4f2e" />
-                    <rect x="60" y="38" width="24" height="102" fill="#9b6e4a" rx="1" />
-                    <rect x="98" y="38" width="24" height="102" fill="#8b5e3c" rx="1" />
-                    <path d="M60 38 Q72 12 122 38" fill="none" stroke="#6b4020" stroke-width="3" />
-                    <rect x="60" y="32" width="62" height="9" fill="#7a4f2e" rx="1" />
-                    <rect x="155" y="50" width="19" height="90" fill="#a07050" rx="1" />
-                    <rect x="185" y="65" width="16" height="75" fill="#8b5e3c" rx="1" opacity="0.8" />
-                    <ellipse cx="225" cy="125" rx="20" ry="7" fill="#6b4020" opacity="0.9" />
-                    <rect x="222" y="98" width="6" height="27" fill="#8b6040" />
-                    <line x1="225" y1="98" x2="248" y2="108" stroke="#c8a070" stroke-width="2" />
-                    <ellipse cx="35" cy="126" rx="16" ry="11" fill="#556b2f" opacity="0.5" />
-                    <ellipse cx="135" cy="128" rx="22" ry="11" fill="#4a5e28" opacity="0.45" />
-                    <ellipse cx="285" cy="124" rx="28" ry="13" fill="#556b2f" opacity="0.4" />
-                    <radialGradient id="vig1" cx="50%" cy="50%" r="70%">
-                      <stop offset="0%" stop-color="transparent" />
-                      <stop offset="100%" stop-color="rgba(20,8,0,0.4)" />
-                    </radialGradient>
-                    <rect width="330" height="180" fill="url(#vig1)" />
-                  </svg>
+                  <img src="images/Camino_a_la_Fiesta.png" alt="Camino a la Fiesta" />
                 </div>
               </div>
               <span class="story-location">CHACO PARAGUAYO</span>
               <h3 class="story-title">Camino a la Fiesta</h3>
-              <p class="story-desc">Acompaña a Delfina Servín en su recorrido hacia una fiesta donde se encuentra Mateo
-                Gamarra. Mientras avanzas por los caminos del Chaco, conocerás el entorno, sus habitantes y la tensión
+              <p class="story-desc">Acompaña a Delfina Servín en su recorrido hacia una fiesta donde se encuentra
+                Mateo
+                Gamarra. Mientras avanzas por los caminos del Chaco, conocerás el entorno, sus habitantes y la
+                tensión
                 que rodea esta historia..</p>
               <a href="#descarga" class="btn btn-secondary btn-sm"
-                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
+                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center; box-sizing: border-box; display: inline-block;">Jugar
+                Relato</a>
             </article>
           </div>
 
@@ -1870,45 +1727,18 @@
             <article class="story-card">
               <span class="story-badge">Nivel 2</span>
               <div class="story-image-wrap">
-                <div class="landmark-illustration" aria-label="Palacio de los López, Asunción" role="img">
-                  <svg viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                    <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#c8a878" />
-                      <stop offset="100%" stop-color="#8b6040" />
-                    </linearGradient>
-                    <rect width="330" height="180" fill="url(#sky2)" />
-                    <rect x="0" y="148" width="330" height="32" fill="#5c3820" opacity="0.65" />
-                    <rect x="45" y="88" width="240" height="72" fill="#c8a870" rx="1" />
-                    <rect x="58" y="82" width="13" height="78" fill="#e0c090" rx="1" />
-                    <rect x="85" y="82" width="13" height="78" fill="#d4b47a" rx="1" />
-                    <rect x="112" y="82" width="13" height="78" fill="#e0c090" rx="1" />
-                    <rect x="205" y="82" width="13" height="78" fill="#e0c090" rx="1" />
-                    <rect x="232" y="82" width="13" height="78" fill="#d4b47a" rx="1" />
-                    <rect x="259" y="82" width="13" height="78" fill="#e0c090" rx="1" />
-                    <rect x="45" y="75" width="240" height="13" fill="#b09050" rx="1" />
-                    <polygon points="165,28 48,75 282,75" fill="#c0a060" stroke="#a07840" stroke-width="1.5" />
-                    <rect x="150" y="125" width="30" height="38" fill="#3a2010" rx="2" />
-                    <path d="M150 125 Q165 112 180 125" fill="#3a2010" />
-                    <rect x="68" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-                    <rect x="114" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-                    <rect x="200" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-                    <rect x="245" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-                    <line x1="165" y1="8" x2="165" y2="30" stroke="#8b6040" stroke-width="2" />
-                    <rect x="165" y="8" width="22" height="13" fill="#bc2f1e" opacity="0.8" />
-                    <radialGradient id="vig2" cx="50%" cy="50%" r="70%">
-                      <stop offset="0%" stop-color="transparent" />
-                      <stop offset="100%" stop-color="rgba(20,8,0,0.45)" />
-                    </radialGradient>
-                    <rect width="330" height="180" fill="url(#vig2)" />
-                  </svg>
+                <div class="landmark-illustration" aria-label="Regreso al Hogar, ALTO PARANÁ" role="img">
+                  <img src="images/Regreso_al_Hogar.jpg" alt="Regreso al Hogar" />
                 </div>
               </div>
               <span class="story-location">ALTO PARANÁ</span>
               <h3 class="story-title">Regreso al Hogar</h3>
-              <p class="story-desc">Controla a Dionisio, un trabajador engañado por falsas promesas laborales. Escapa de
+              <p class="story-desc">Controla a Dionisio, un trabajador engañado por falsas promesas laborales.
+                Escapa de
                 los yerbales y supera distintos obstáculos para volver junto a tu familia.</p>
               <a href="#descarga" class="btn btn-secondary btn-sm"
-                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
+                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center; box-sizing: border-box; display: inline-block;">Jugar
+                Relato</a>
             </article>
           </div>
 
@@ -1917,44 +1747,19 @@
             <article class="story-card">
               <span class="story-badge">Nivel 3</span>
               <div class="story-image-wrap">
-                <div class="landmark-illustration" aria-label="Panteón Nacional de los Héroes, Asunción" role="img">
-                  <svg viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                    <radialGradient id="sky3" cx="50%" cy="0%" r="100%">
-                      <stop offset="0%" stop-color="#d0a870" />
-                      <stop offset="100%" stop-color="#7a5030" />
-                    </radialGradient>
-                    <rect width="330" height="180" fill="url(#sky3)" />
-                    <rect x="0" y="148" width="330" height="32" fill="#5c3820" opacity="0.7" />
-                    <rect x="65" y="108" width="200" height="50" fill="#c0944a" rx="1" />
-                    <ellipse cx="165" cy="97" rx="62" ry="22" fill="#b08040" />
-                    <ellipse cx="165" cy="84" rx="48" ry="19" fill="#c09850" />
-                    <ellipse cx="165" cy="70" rx="32" ry="16" fill="#d4aa60" />
-                    <ellipse cx="165" cy="58" rx="16" ry="9" fill="#c09040" />
-                    <rect x="157" y="36" width="16" height="24" fill="#d4aa60" rx="2" />
-                    <ellipse cx="165" cy="34" rx="12" ry="6" fill="#c09040" />
-                    <rect x="75" y="98" width="11" height="62" fill="#dfc090" rx="1" />
-                    <rect x="101" y="98" width="11" height="62" fill="#d0ae78" rx="1" />
-                    <rect x="218" y="98" width="11" height="62" fill="#dfc090" rx="1" />
-                    <rect x="244" y="98" width="11" height="62" fill="#d0ae78" rx="1" />
-                    <rect x="65" y="93" width="200" height="11" fill="#a07838" rx="1" />
-                    <rect x="148" y="120" width="34" height="38" fill="#3a2010" rx="2" />
-                    <path d="M148 120 Q165 106 182 120" fill="#3a2010" />
-                    <rect x="82" y="110" width="15" height="19" fill="#3a2010" rx="1" opacity="0.8" />
-                    <rect x="233" y="110" width="15" height="19" fill="#3a2010" rx="1" opacity="0.8" />
-                    <radialGradient id="vig3" cx="50%" cy="50%" r="70%">
-                      <stop offset="0%" stop-color="transparent" />
-                      <stop offset="100%" stop-color="rgba(20,8,0,0.5)" />
-                    </radialGradient>
-                    <rect width="330" height="180" fill="url(#vig3)" />
-                  </svg>
+                <div class="landmark-illustration" aria-label="El Almacenero, UN PEQUEÑO PUEBLO" role="img">
+                  <img src="images/El_Almacenero.png" alt="El Almacenero" />
                 </div>
               </div>
               <span class="story-location">UN PEQUEÑO PUEBLO</span>
               <h3 class="story-title">El Almacenero</h3>
-              <p class="story-desc">Ponte en el lugar del almacenero del pueblo y descubre, mediante las compras fiadas
-                y las conversaciones cotidianas, la historia de una familia que atraviesa una tragedia silenciosa.</p>
+              <p class="story-desc">Ponte en el lugar del almacenero del pueblo y descubre, mediante las compras
+                fiadas
+                y las conversaciones cotidianas, la historia de una familia que atraviesa una tragedia silenciosa.
+              </p>
               <a href="#descarga" class="btn btn-secondary btn-sm"
-                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
+                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center; box-sizing: border-box; display: inline-block;">Jugar
+                Relato</a>
             </article>
           </div>
         </div>
@@ -2100,17 +1905,14 @@
     <!-- Sección Equipo -->
     <section id="equipo" class="team">
       <h2 class="section-title" data-aos="fade-up">El Equipo Desarrollador</h2>
-      <div class="ornament" aria-hidden="true">❦ ❦ ❦</div>
-
       <div class="team-grid">
         <!-- Axel Rolón -->
         <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
           <div class="team-card" tabindex="0"
             aria-label="Tarjeta de Axel Rolón, Programador del Juego. Haz clic o presiona Enter para más información.">
             <div class="team-avatar-frame">
-              <img src="https://ui-avatars.com/api/?name=Axel+Rolon&background=83271c&color=f7eed7&size=150"
-                alt="Axel Rolón, Programador de Relatos Ocultos" loading="lazy" decoding="async" width="150"
-                height="150">
+              <img src="images/AxelFoto.jpg" alt="Axel Rolón, Programador de Relatos Ocultos" loading="lazy"
+                decoding="async" width="150" height="150">
             </div>
             <h3 class="team-name">Axel Rolón</h3>
             <h4 class="team-role">Programador del Juego</h4>
@@ -2123,13 +1925,12 @@
         </div>
 
         <!-- Cayo Ávalos -->
-        <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+        <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="400" data-aos-delay="200">
           <div class="team-card" tabindex="0"
             aria-label="Tarjeta de Cayo Ávalos, Diseñador de Gráficos. Haz clic o presiona Enter para más información.">
             <div class="team-avatar-frame">
-              <img src="https://ui-avatars.com/api/?name=Cayo+Avalos&background=3a2211&color=f7eed7&size=150"
-                alt="Cayo Ávalos, Diseñador Gráfico de Relatos Ocultos" loading="lazy" decoding="async" width="150"
-                height="150">
+              <img src="images/CayoFoto.png" alt="Cayo Ávalos, Diseñador Gráfico de Relatos Ocultos" loading="lazy"
+                decoding="async" width="150" height="150">
             </div>
             <h3 class="team-name">Cayo Ávalos</h3>
             <h4 class="team-role">Diseñador de Gráficos</h4>
@@ -2146,7 +1947,7 @@
           <div class="team-card" tabindex="0"
             aria-label="Tarjeta de Miguel Giménez, Creador de la Página Web. Haz clic o presiona Enter para más información.">
             <div class="team-avatar-frame">
-              <img src="images/fotopruebaMG.png" alt="Miguel Giménez, Creador de la página web de Relatos Ocultos"
+              <img src="images/MiguelFoto.png" alt="Miguel Giménez, Creador de la página web de Relatos Ocultos"
                 loading="lazy" decoding="async" width="150" height="150">
             </div>
             <h3 class="team-name">Miguel Giménez</h3>
@@ -2164,34 +1965,26 @@
     <!-- Sección Descarga -->
     <section id="descarga" class="download">
       <h2 class="section-title" data-aos="fade-up">Comienza tu Relato</h2>
-      <div class="ornament" aria-hidden="true">❦ ❦ ❦</div>
       <p class="download-text" data-aos="fade-up" data-aos-delay="100">
-        Descarga el juego gratis y experimenta los relatos interactivos desde tu PC o teléfono inteligente Android.
+        Descarga el juego gratis y experimenta los relatos interactivos desde tu PC.
       </p>
 
       <div class="platforms" data-aos="fade-up" data-aos-delay="200">
         <span class="plat-badge">Windows PC</span>
-        <span class="plat-badge">Android App</span>
-        <span class="plat-badge">Web Versión</span>
       </div>
 
       <div class="btn-download-container" data-aos="fade-up" data-aos-delay="300">
         <a class="btn btn-primary" onclick="alert('Iniciando descarga para Windows PC...')">Descargar para PC</a>
-        <a class="btn btn-secondary" onclick="alert('Iniciando descarga de APK para Android...')">Descargar para
-          Android</a>
-      </div>
     </section>
   </main>
 
   <!-- Footer -->
   <footer>
     <div class="footer-logo">Relatos Ocultos</div>
-    <p class="footer-text">Explorando y recreando la historia del Paraguay.</p>
+    <p class="footer-text">Explorando y recreando relatos del Paraguay.</p>
 
     <div class="contacto-info">
-      <p>© 2026 DevGroup & Relatos Ocultos. Todos los derechos reservados.</p>
-      <p>¿Tienes dudas o comentarios? Escríbenos a <a
-          href="mailto:contacto@relatosocultos.com.py">contacto@relatosocultos.com.py</a></p>
+      <p>© 2026 Relatos Ocultos. Todos los derechos reservados.</p>
     </div>
   </footer>
 
