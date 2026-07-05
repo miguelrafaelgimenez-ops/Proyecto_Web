@@ -38,20 +38,20 @@
     }
 
     :root {
-      --ink: #1e1107;
-      --parchment: #fcfaf2;
+      --ink: #1c120c;
+      --parchment: #faf6eb;
       --parchment-dark: #ebdcb9;
-      --parchment-darker: #7d5b3d;
-      --sepia: #8b683e;
-      --sepia-dark: #1e1107;
-      --gold: #d49a37;
+      --parchment-darker: #755537;
+      --sepia: #755537;
+      --sepia-dark: #1c120c;
+      --gold: #c59b27;
       --gold-light: #ebd09b;
-      --red-old: #bc2f1e;
-      --white-torn: #ffffff;
-      --shadow-color: rgba(30, 17, 7, 0.15);
+      --red-old: #9e2a1b;
+      --white-torn: #faf6eb;
+      --shadow-color: rgba(28, 18, 12, 0.15);
       /* Sidebar */
-      --sidebar-border: rgba(212, 154, 55, 0.3);
-      --sidebar-active: rgba(212, 154, 55, 0.12);
+      --sidebar-border: rgba(197, 155, 39, 0.3);
+      --sidebar-active: rgba(197, 155, 39, 0.12);
       --sidebar-width: 220px;
     }
 
@@ -67,7 +67,8 @@
       background-attachment: fixed;
       color: var(--ink);
       overflow-x: hidden;
-      line-height: 1.65;
+      font-size: 1.15rem;
+      line-height: 1.75;
       padding-left: var(--sidebar-width);
       /* Espacio para el sidebar */
     }
@@ -726,7 +727,7 @@
       background: var(--white-torn);
       color: var(--ink);
       clip-path: url(#torn-card);
-      padding: 1.5rem 1.5rem 3.5rem;
+      padding: 1.5rem 1.5rem 2.2rem;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -734,8 +735,56 @@
       position: relative;
     }
 
-    .story-card .btn {
+    .story-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
       margin-top: auto;
+      align-items: center;
+      width: 100%;
+    }
+
+    .story-btn-read {
+      width: 100%;
+      text-align: center;
+      padding: 0.7rem 1rem !important;
+      font-size: 0.75rem !important;
+    }
+
+    .story-link-play {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--sepia);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color 0.2s ease;
+      border-bottom: 1px dashed var(--sepia);
+      padding-bottom: 2px;
+      margin-top: 0.25rem;
+    }
+
+    .story-link-play:hover {
+      color: var(--red-old);
+      border-bottom-color: var(--red-old);
+    }
+
+    .feature-icon-svg {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 1.2rem;
+      display: block;
+      color: var(--red-old);
+    }
+
+    .nav-svg-icon {
+      width: 1.1rem;
+      height: 1.1rem;
+      stroke: currentColor;
+      flex-shrink: 0;
+      display: inline-block;
+      vertical-align: middle;
     }
 
     @media (min-width: 1024px) {
@@ -772,11 +821,12 @@
 
     .story-image-wrap {
       width: 100%;
-      height: 180px;
+      height: 210px;
       overflow: hidden;
       margin-bottom: 1.5rem;
       border: 1px solid rgba(0, 0, 0, 0.05);
       clip-path: url(#torn-photo-1);
+      background: var(--parchment-dark);
     }
 
     .story-image-wrap img,
@@ -951,11 +1001,12 @@
     }
 
     .builder-bullets li::before {
-      content: '✒️';
+      content: '❦';
       position: absolute;
       left: 0;
       top: 1px;
       font-size: 0.9rem;
+      color: var(--red-old);
     }
 
     /* RPG dialogue preview styling */
@@ -1163,12 +1214,13 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: sepia(0.8) contrast(1.1) brightness(0.95);
-      transition: filter 0.3s ease;
+      filter: sepia(1) contrast(1.1) brightness(0.9);
+      transition: filter 0.3s ease, transform 0.3s ease;
     }
 
     .team-card:hover .team-avatar-frame img {
-      filter: sepia(0.2) contrast(1);
+      filter: sepia(0.3) contrast(1) brightness(0.95);
+      transform: scale(1.05);
     }
 
     .team-name {
@@ -1190,43 +1242,19 @@
     }
 
     .click-hint {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--sepia);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-top: 0.5rem;
-      transition: opacity 0.3s ease;
+      display: none;
     }
 
-    .team-card.active .click-hint {
-      opacity: 0;
-      height: 0;
-      overflow: hidden;
-      margin: 0;
-    }
-
-    /* Smooth accordion description expansion */
+    /* Fixed professional display for team description */
     .team-desc {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
-      padding: 0 0.5rem;
-      margin-top: 0;
+      padding: 1rem 0.5rem 0;
+      margin-top: 1rem;
       font-size: 0.95rem;
       line-height: 1.6;
       color: var(--sepia-dark);
-      border-top: 1px dashed transparent;
+      border-top: 1px dashed var(--parchment-darker);
       text-align: left;
       font-style: italic;
-    }
-
-    .team-card.active .team-desc {
-      max-height: 180px;
-      padding-top: 1rem;
-      margin-top: 1rem;
-      border-top: 1px dashed var(--parchment-darker);
     }
 
     /* DOWNLOAD SECTION */
@@ -1556,31 +1584,54 @@
     <ul class="nav-links" role="list">
       <li>
         <a href="#inicio" id="nav-inicio" aria-current="page">
-          <span class="nav-icon" aria-hidden="true">⌂</span>
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
           Inicio
         </a>
       </li>
       <li>
         <a href="#historias" id="nav-historias">
-          <span class="nav-icon" aria-hidden="true" style="font-family: wingdings"></span>
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z" />
+          </svg>
           Historias
         </a>
       </li>
       <li>
         <a href="#nuestroobjetivo" id="nav-nuestroobjetivo">
-          <span class="nav-icon" aria-hidden="true">✒️</span>
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.2 3.8a4.15 4.15 0 0 0-5.8 0L3 15.2V21h5.8L20.2 9.6a4.15 4.15 0 0 0 0-5.8z" />
+            <line x1="12" y1="8" x2="16" y2="12" />
+          </svg>
           Nuestro Objetivo
         </a>
       </li>
       <li>
         <a href="#equipo" id="nav-equipo">
-          <span class="nav-icon" aria-hidden="true">⚔</span>
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
           Equipo
         </a>
       </li>
       <li>
         <a href="#descarga" id="nav-descarga">
-          <span class="nav-icon" aria-hidden="true">↓</span>
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
           Descargar
         </a>
       </li>
@@ -1659,7 +1710,13 @@
         <div class="features-grid">
           <!-- Feature 1 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-            <span class="feature-icon" aria-hidden="true">📖</span>
+            <svg class="feature-icon-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M32 54c-6-4-14-5-22-5H4V11h6c7 0 16 2 22 6c6-4 15-6 22-6h6v38H54c-8 0-16 1-22 5Z" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+              <path d="M32 17v37M12 20h12M12 28h12M12 36h10M40 20h12M40 28h12M42 36h10" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" />
+              <path d="M50 48c-6 0-13 1-18 4V17c5-3 12-4 18-4h6v35h-6Z" fill="var(--parchment-dark)" opacity="0.3" />
+            </svg>
             <h3 class="feature-title">Relatos</h3>
             <p class="feature-desc">Conoce tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel
               presenta una historia diferente que invita a descubrir parte de nuestro patrimonio histórico y cultural.
@@ -1668,7 +1725,17 @@
 
           <!-- Feature 2 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-            <span class="feature-icon" aria-hidden="true">🎮</span>
+            <svg class="feature-icon-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="32" cy="36" r="22" fill="none" stroke="currentColor" stroke-width="2" />
+              <circle cx="32" cy="36" r="2" fill="currentColor" />
+              <path d="M32 4v10M32 8a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="2" />
+              <path d="M32 20l4 12.5L32 36l-4-3.5L32 20z" fill="var(--gold)" stroke="currentColor" stroke-width="1.5" />
+              <path d="M32 52l-4-12.5L32 36l4 3.5L32 52z" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <path d="M32 14v4M10 36h4M50 36h4M32 54v4" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" />
+              <path d="M21 25l3 3M43 25l-3 3M21 47l3-3M43 47l-3-3" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" />
+            </svg>
             <h3 class="feature-title">Experiencia Interactiva</h3>
             <p class="feature-desc">Explora escenarios en 3D, conversa con personajes, supera obstáculos y
               descubre la historia a través del entorno, pequeños diálogos y la exploración.</p>
@@ -1676,7 +1743,15 @@
 
           <!-- Feature 3 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-            <span class="feature-icon" aria-hidden="true">🌎</span>
+            <svg class="feature-icon-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 10c0 0 8-4 20-4s20 4 20 4v40c0 0-8-4-20-4s-20 4-20 4V10Z" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linejoin="round" />
+              <path d="M32 6v44M22 8c0 0 5 10 5 21s-5 21-5 21M42 8c0 0-5 10-5 21s5 21 5 21" stroke="currentColor"
+                stroke-width="1.5" />
+              <path d="M12 22c10-2 30-2 40 0M12 38c10-2 30-2 40 0" stroke="currentColor" stroke-width="1.5" />
+              <path d="M16 16c4 2 8 0 10-2M38 14c4 2 8 0 10-2M18 46c4 2 8 0 10-2M38 44c4 2 8 0 10-2"
+                stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+            </svg>
             <h3 class="feature-title">Cultura y Memoria</h3>
             <p class="feature-desc">Al finalizar cada nivel podrás ampliar la información desde esta página web, donde
               encontrarás el contexto y la historia detrás de cada relato presentado en el juego.</p>
@@ -1695,76 +1770,69 @@
             style="max-width: 700px; color: #000000; margin: 1.5rem auto 0; font-weight: 600;">
             Descubre tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel presenta una experiencia
             diferente que invita a conocer una parte de nuestra historia y cultura.
-          </p>
-        </div>
-      </div>
-
-      <div class="stories-container">
-        <div class="stories-track">
-          <!-- Story 1 -->
-          <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
-            <article class="story-card">
-              <span class="story-badge">Nivel 1</span>
-              <div class="story-image-wrap">
-                <div class="landmark-illustration" aria-label="CHACO PARAGUAYO" role="img">
-                  <img src="images/Camino_a_la_Fiesta.png" alt="Camino a la Fiesta" />
-                </div>
+          <div class="stories-container">
+            <div class="stories-track">
+              <!-- Story 1 -->
+              <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                <article class="story-card">
+                  <span class="story-badge">Nivel 1</span>
+                  <div class="story-image-wrap">
+                    <div class="landmark-illustration" aria-label="CHACO PARAGUAYO" role="img">
+                      <img src="images/Camino_a_la_Fiesta.png" alt="Camino a la Fiesta" />
+                    </div>
+                  </div>
+                  <span class="story-location">CHACO PARAGUAYO</span>
+                  <h3 class="story-title">Camino a la Fiesta</h3>
+                  <p class="story-desc">Acompaña a Delfina Servín en su recorrido y descubre los secretos que rodean a
+                    esta popular leyenda paraguaya.</p>
+                  <div class="story-actions">
+                    <a href="relato.html?id=1" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                    <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
+                  </div>
+                </article>
               </div>
-              <span class="story-location">CHACO PARAGUAYO</span>
-              <h3 class="story-title">Camino a la Fiesta</h3>
-              <p class="story-desc">Acompaña a Delfina Servín en su recorrido hacia una fiesta donde se encuentra
-                Mateo
-                Gamarra. Mientras avanzas por los caminos del Chaco, conocerás el entorno, sus habitantes y la
-                tensión
-                que rodea esta historia..</p>
-              <a href="#descarga" class="btn btn-secondary btn-sm"
-                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center; box-sizing: border-box; display: inline-block;">Jugar
-                Relato</a>
-            </article>
-          </div>
 
-          <!-- Story 2 -->
-          <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-            <article class="story-card">
-              <span class="story-badge">Nivel 2</span>
-              <div class="story-image-wrap">
-                <div class="landmark-illustration" aria-label="Regreso al Hogar, ALTO PARANÁ" role="img">
-                  <img src="images/Regreso_al_Hogar.jpg" alt="Regreso al Hogar" />
-                </div>
+              <!-- Story 2 -->
+              <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                <article class="story-card">
+                  <span class="story-badge">Nivel 2</span>
+                  <div class="story-image-wrap">
+                    <div class="landmark-illustration" aria-label="Regreso al Hogar, ALTO PARANÁ" role="img">
+                      <img src="images/Regreso_al_Hogar.jpg" alt="Regreso al Hogar" />
+                    </div>
+                  </div>
+                  <span class="story-location">ALTO PARANÁ</span>
+                  <h3 class="story-title">Regreso al Hogar</h3>
+                  <p class="story-desc">Escapa de los yerbales del Alto Paraná y experimenta la dura realidad de la
+                    explotación laboral del siglo XIX.</p>
+                  <div class="story-actions">
+                    <a href="relato.html?id=2" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                    <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
+                  </div>
+                </article>
               </div>
-              <span class="story-location">ALTO PARANÁ</span>
-              <h3 class="story-title">Regreso al Hogar</h3>
-              <p class="story-desc">Controla a Dionisio, un trabajador engañado por falsas promesas laborales.
-                Escapa de
-                los yerbales y supera distintos obstáculos para volver junto a tu familia.</p>
-              <a href="#descarga" class="btn btn-secondary btn-sm"
-                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center; box-sizing: border-box; display: inline-block;">Jugar
-                Relato</a>
-            </article>
-          </div>
 
-          <!-- Story 3 -->
-          <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-            <article class="story-card">
-              <span class="story-badge">Nivel 3</span>
-              <div class="story-image-wrap">
-                <div class="landmark-illustration" aria-label="El Almacenero, UN PEQUEÑO PUEBLO" role="img">
-                  <img src="images/El_Almacenero.png" alt="El Almacenero" />
-                </div>
+              <!-- Story 3 -->
+              <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                <article class="story-card">
+                  <span class="story-badge">Nivel 3</span>
+                  <div class="story-image-wrap">
+                    <div class="landmark-illustration" aria-label="El Almacenero, UN PEQUEÑO PUEBLO" role="img">
+                      <img src="images/NL3.png" alt="El Almacenero" />
+                    </div>
+                  </div>
+                  <span class="story-location">UN PEQUEÑO PUEBLO</span>
+                  <h3 class="story-title">El Almacenero</h3>
+                  <p class="story-desc">Descubre a través de las conversaciones cotidianas y compras fiadas la
+                    silenciosa tragedia de una familia rural.</p>
+                  <div class="story-actions">
+                    <a href="relato.html?id=3" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                    <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
+                  </div>
+                </article>
               </div>
-              <span class="story-location">UN PEQUEÑO PUEBLO</span>
-              <h3 class="story-title">El Almacenero</h3>
-              <p class="story-desc">Ponte en el lugar del almacenero del pueblo y descubre, mediante las compras
-                fiadas
-                y las conversaciones cotidianas, la historia de una familia que atraviesa una tragedia silenciosa.
-              </p>
-              <a href="#descarga" class="btn btn-secondary btn-sm"
-                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center; box-sizing: border-box; display: inline-block;">Jugar
-                Relato</a>
-            </article>
+            </div>
           </div>
-        </div>
-      </div>
     </section>
 
     <!-- Sección Crear un Juego / Story Builder Showcase -->
@@ -1909,15 +1977,13 @@
       <div class="team-grid">
         <!-- Axel Rolón -->
         <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-          <div class="team-card" tabindex="0"
-            aria-label="Tarjeta de Axel Rolón, Programador del Juego. Haz clic o presiona Enter para más información.">
+          <div class="team-card" tabindex="0" aria-label="Tarjeta de Axel Rolón, Programador del Juego.">
             <div class="team-avatar-frame">
               <img src="images/AxelFoto.jpg" alt="Axel Rolón, Programador de Relatos Ocultos" loading="lazy"
                 decoding="async" width="150" height="150">
             </div>
             <h3 class="team-name">Axel Rolón</h3>
             <h4 class="team-role">Programador del Juego</h4>
-            <p class="click-hint">(Haz clic para más info)</p>
             <div class="team-desc">
               Responsable de toda la lógica, mecánicas jugables e implementación funcional. Se asegura de que el motor
               de relatos interactivos responda perfectamente en todos los dispositivos y plataformas.
@@ -1927,15 +1993,13 @@
 
         <!-- Cayo Ávalos -->
         <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="400" data-aos-delay="200">
-          <div class="team-card" tabindex="0"
-            aria-label="Tarjeta de Cayo Ávalos, Diseñador de Gráficos. Haz clic o presiona Enter para más información.">
+          <div class="team-card" tabindex="0" aria-label="Tarjeta de Cayo Ávalos, Diseñador de Gráficos.">
             <div class="team-avatar-frame">
               <img src="images/CayoFoto.png" alt="Cayo Ávalos, Diseñador Gráfico de Relatos Ocultos" loading="lazy"
                 decoding="async" width="150" height="150">
             </div>
             <h3 class="team-name">Cayo Ávalos</h3>
             <h4 class="team-role">Diseñador de Gráficos</h4>
-            <p class="click-hint">(Haz clic para más info)</p>
             <div class="team-desc">
               Creador de la atmósfera visual del juego. Diseña los retratos históricos de los próceres, las portadas
               texturizadas de los relatos y todos los elementos estéticos que recrean el Paraguay de antaño.
@@ -1945,15 +2009,13 @@
 
         <!-- Miguel Giménez -->
         <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-          <div class="team-card" tabindex="0"
-            aria-label="Tarjeta de Miguel Giménez, Creador de la Página Web. Haz clic o presiona Enter para más información.">
+          <div class="team-card" tabindex="0" aria-label="Tarjeta de Miguel Giménez, Creador de la Página Web.">
             <div class="team-avatar-frame">
               <img src="images/MiguelFoto.png" alt="Miguel Giménez, Creador de la página web de Relatos Ocultos"
                 loading="lazy" decoding="async" width="150" height="150">
             </div>
             <h3 class="team-name">Miguel Giménez</h3>
             <h4 class="team-role">Creador de la Página Web</h4>
-            <p class="click-hint">(Haz clic para más info)</p>
             <div class="team-desc">
               Diseña y desarrolla este sitio web para conectar a la comunidad. Implementa el sistema responsivo,
               optimiza la carga de recursos y asegura una experiencia accesible y visualmente atractiva.
@@ -2215,32 +2277,6 @@
       }
     };
 
-    // =============================================
-    // Tarjetas del equipo (acordeón interactivo)
-    // =============================================
-    document.addEventListener('DOMContentLoaded', () => {
-      const teamCards = document.querySelectorAll('.team-card');
-
-      teamCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-          if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
-
-          const isActive = card.classList.contains('active');
-          teamCards.forEach(c => c.classList.remove('active'));
-
-          if (!isActive) {
-            card.classList.add('active');
-          }
-        });
-
-        card.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            card.click();
-          }
-        });
-      });
-    });
 
     // =============================================
     // Scroll suave ajustado para sidebar (offset = 0 en desktop)
