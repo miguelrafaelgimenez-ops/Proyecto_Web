@@ -17,12 +17,19 @@
     href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
-  <!-- AOS Animation Library CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <!-- Preload de imágenes críticas -->
+  <link rel="preload" href="images/parchment_bg.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="images/brown_paper_texture.webp" as="image" type="image/webp">
+
+  <!-- AOS Animation Library CSS (carga no bloqueante) -->
+  <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  </noscript>
 
   <style>
-    *,
-    *::before,
+    * *::before,
     *::after {
       margin: 0;
       padding: 0;
@@ -41,6 +48,10 @@
       --red-old: #bc2f1e;
       --white-torn: #ffffff;
       --shadow-color: rgba(30, 17, 7, 0.15);
+      /* Sidebar */
+      --sidebar-border: rgba(212, 154, 55, 0.3);
+      --sidebar-active: rgba(212, 154, 55, 0.12);
+      --sidebar-width: 220px;
     }
 
     html {
@@ -56,6 +67,8 @@
       color: var(--ink);
       overflow-x: hidden;
       line-height: 1.65;
+      padding-left: var(--sidebar-width);
+      /* Espacio para el sidebar */
     }
 
     /* Scanline paper texture overlay */
@@ -69,6 +82,8 @@
       background-size: 100% 4px, 4px 100%;
       pointer-events: none;
       z-index: 999;
+      will-change: transform;
+      contain: strict;
     }
 
     /* Accessibility Focus Style */
@@ -79,20 +94,31 @@
       outline-offset: 4px;
     }
 
-    /* NAVIGATION */
+    /* ============================================
+       SIDEBAR NAV — Menú vertical izquierdo
+       ============================================ */
     nav {
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      background: var(--sepia-dark);
-      border-bottom: 3px double var(--gold);
-      padding: 0.8rem 2rem;
+      bottom: 0;
+      right: auto;
+      width: var(--sidebar-width);
+      background:
+        linear-gradient(180deg, rgba(30, 17, 7, 0.97) 0%, rgba(20, 9, 2, 0.99) 100%),
+        url('images/parchment_bg.webp');
+      background-size: cover;
+      border-right: 2px solid var(--sidebar-border);
+      border-bottom: none;
+      padding: 2.5rem 0;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
       z-index: 1000;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .nav-logo {
@@ -100,12 +126,15 @@
       flex-direction: column;
       text-decoration: none;
       line-height: 1;
+      padding: 0 1.5rem 2rem;
+      border-bottom: 1px solid var(--sidebar-border);
+      margin-bottom: 1.5rem;
     }
 
     .logo-subtitle {
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       color: var(--parchment-dark);
       letter-spacing: 0.3em;
       text-transform: uppercase;
@@ -114,76 +143,79 @@
     .logo-title {
       font-family: 'Cinzel Decorative', serif;
       font-weight: 700;
-      font-size: 1.15rem;
+      font-size: 1rem;
       color: var(--gold-light);
       letter-spacing: 0.05em;
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     .nav-links {
       display: flex;
-      gap: 2.2rem;
+      flex-direction: column;
+      gap: 0;
       list-style: none;
-      align-items: center;
+      align-items: stretch;
+      padding: 0;
+    }
+
+    .nav-links li {
+      width: 100%;
     }
 
     .nav-links a {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: var(--parchment);
       text-decoration: none;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      transition: color 0.3s ease;
+      transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease, border-left-color 0.2s ease;
       position: relative;
-      padding: 0.25rem 0;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--sidebar-active);
+      color: var(--gold-light);
+      border-left-color: var(--gold);
+      padding-left: 1.8rem;
     }
 
     .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1.5px;
-      background: var(--gold-light);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.3s ease;
+      display: none;
     }
 
-    .nav-links a:hover {
-      color: var(--gold-light);
-    }
-
-    .nav-links a:hover::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    /* Mobile Nav Toggle */
+    /* Mobile Nav Toggle — oculto en desktop */
     .nav-toggle {
       display: none;
-      background: none;
-      border: none;
+      background: var(--sepia-dark);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 4px;
       cursor: pointer;
-      padding: 0.5rem;
+      padding: 0.55rem 0.6rem;
       z-index: 1001;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
     }
 
     .nav-toggle .bar {
       display: block;
-      width: 25px;
+      width: 22px;
       height: 2px;
       background-color: var(--parchment);
-      margin: 5px 0;
       transition: all 0.3s ease;
     }
 
     /* GENERAL STYLES */
     section {
-      padding: 7rem 2rem;
+      padding: 6rem 2.5rem;
       position: relative;
       z-index: 1;
     }
@@ -225,13 +257,13 @@
 
     /* HERO SECTION */
     .hero {
-      min-height: 110vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       text-align: center;
-      padding: 7.5rem 2rem 5rem;
+      padding: 6rem 2rem;
       position: relative;
       overflow: hidden;
       background-image:
@@ -326,13 +358,6 @@
       border-top: 1px double rgba(235, 208, 155, 0.3);
       padding-top: 0.75rem;
       display: inline-block;
-    }
-
-    .hero-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
     }
 
     /* BUTTONS: Game-style Tactile 3D Buttons */
@@ -635,7 +660,7 @@
       background: var(--sepia-dark);
       background-image:
         radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%),
-        url('images/parchment_bg.webp');
+        url('images/background1.png');
       background-size: cover;
       color: var(--parchment);
     }
@@ -664,59 +689,32 @@
       padding: 1.5rem 0;
     }
 
-    /* Fading edge to signal horizontal scroll */
-    .stories-container::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      width: 80px;
-      background: linear-gradient(90deg, transparent, rgba(30, 17, 7, 0.8));
-      pointer-events: none;
-      z-index: 5;
-      transition: opacity 0.4s ease;
-    }
-
-    .stories-container.scrolled::after {
-      opacity: 0;
-    }
-
-    .stories-track {
+    #historias .stories-track {
       display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 2rem;
       padding: 1rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-      scrollbar-color: var(--gold) var(--sepia-dark);
+      overflow-x: visible;
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE y Edge */
     }
 
-    .stories-track::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    .stories-track::-webkit-scrollbar-track {
-      background: rgba(252, 250, 242, 0.05);
-      border-radius: 4px;
-    }
-
-    .stories-track::-webkit-scrollbar-thumb {
-      background: var(--gold);
-      border-radius: 4px;
-    }
-
-    .stories-track::-webkit-scrollbar-thumb:hover {
-      background: var(--gold-light);
+    #historias .stories-track::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Safari y Opera */
     }
 
     .story-card-wrapper {
-      flex: 0 0 330px;
-      scroll-snap-align: start;
+      width: 100%;
+      max-width: 350px;
       filter: drop-shadow(0px 10px 16px rgba(0, 0, 0, 0.35));
       transition: transform 0.3s ease;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
     .story-card-wrapper:hover {
@@ -727,12 +725,30 @@
       background: var(--white-torn);
       color: var(--ink);
       clip-path: url(#torn-card);
-      padding: 1.5rem 1.5rem 2.5rem;
-      height: 100%;
+      padding: 1.5rem 1.5rem 3.5rem;
       display: flex;
       flex-direction: column;
+      flex-grow: 1;
       border: 1px solid rgba(0, 0, 0, 0.15);
       position: relative;
+    }
+
+    .story-card .btn {
+      margin-top: auto;
+    }
+
+    @media (min-width: 1024px) {
+      #historias .stories-track {
+        flex-direction: row;
+        justify-content: center;
+        gap: 2.5rem;
+        overflow-x: visible;
+      }
+
+      .story-card-wrapper {
+        flex: 1 1 330px;
+        max-width: 350px;
+      }
     }
 
     /* Red level badge */
@@ -810,10 +826,35 @@
     /* CREAR UN JUEGO / STORY BUILDER */
     .builder {
       background: var(--parchment-dark);
-      background-image: url('images/parchment_bg.webp');
+      background-image:
+        radial-gradient(circle at center, rgba(30, 17, 7, 0.2) 0%, rgba(30, 17, 7, 0.45) 100%),
+        url('images/parchment_bg.webp');
       background-size: cover;
       border-top: 4px double var(--sepia);
       border-bottom: 4px double var(--sepia);
+    }
+
+    .about-paper-card {
+      background-color: var(--parchment);
+      background-image: linear-gradient(rgba(252, 250, 242, 0.65), rgba(252, 250, 242, 0.65)), url('images/parchment_bg_for_papercard.jpg');
+      background-size: cover;
+      padding: 3rem 4rem;
+      border: 1px solid rgba(139, 104, 62, 0.2);
+      box-shadow: 0 10px 30px rgba(30, 17, 7, 0.18);
+      max-width: 820px;
+      margin: 0 auto 3.5rem;
+      position: relative;
+      clip-path: url(#torn-card);
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .about-paper-card {
+        padding: 2rem 1.5rem;
+        clip-path: none;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+      }
     }
 
     .journal-wrapper {
@@ -1101,8 +1142,8 @@
 
     /* Vintage Stamp Frame for Avatars */
     .team-avatar-frame {
-      width: 90px;
-      height: 90px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
       background: var(--sepia-dark);
       border: 4px double var(--gold);
@@ -1192,7 +1233,7 @@
       background: var(--sepia-dark);
       background-image:
         radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.5) 100%),
-        url('images/parchment_bg.webp');
+        url('images/backgrounddescarga.png');
       background-size: cover;
       padding: 6rem 2rem;
       text-align: center;
@@ -1209,7 +1250,7 @@
 
     .download-text {
       font-style: italic;
-      color: var(--parchment-dark);
+      color: var(--parchment);
       max-width: 580px;
       margin: 1rem auto 2.5rem;
       font-size: 1.15rem;
@@ -1323,53 +1364,47 @@
     }
 
     @media (max-width: 768px) {
+      body {
+        padding-left: 0;
+        /* Sin sidebar en móvil */
+      }
+
       section {
         padding: 5rem 1.5rem;
       }
 
+      /* Sidebar en móvil: oculto por defecto, desliza desde la izquierda */
       nav {
-        padding: 0.8rem 1.5rem;
-      }
-
-      /* Sliding mobile menu panel from the right */
-      .nav-links {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 280px;
-        background: var(--sepia-dark);
-        border-left: 2px solid var(--gold);
-        padding: 5rem 2rem 2rem;
-        gap: 2rem;
-        transform: translateX(100%);
+        width: 260px;
+        transform: translateX(-100%);
         transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.4);
-        z-index: 999;
+        border-right: 2px solid var(--gold);
+        border-bottom: none;
+        box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
       }
 
-      .nav-links.active {
+      nav.active {
         transform: translateX(0);
       }
 
+      /* Links del sidebar en móvil: texto un poco más grande */
       .nav-links a {
-        font-size: 1rem;
-        border-bottom: 1px dashed rgba(252, 250, 242, 0.15);
-        padding-bottom: 0.5rem;
-        width: 100%;
-        display: block;
+        font-size: 0.8rem;
+        padding: 1rem 1.5rem;
       }
 
+      /* Botón hamburger fijo en esquina superior izquierda */
       .nav-toggle {
-        display: block;
-        /* Show hamburger button */
+        display: flex;
+        position: fixed;
+        top: 0.85rem;
+        left: 0.85rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
       }
 
-      /* Toggle icon animation */
+      /* Toggle icon animation (X al abrir) */
       .nav-toggle.open .bar:nth-child(1) {
-        transform: rotate(-45deg) translate(-5px, 5px);
+        transform: rotate(-45deg) translate(-4px, 5px);
       }
 
       .nav-toggle.open .bar:nth-child(2) {
@@ -1377,12 +1412,12 @@
       }
 
       .nav-toggle.open .bar:nth-child(3) {
-        transform: rotate(45deg) translate(-5px, -6px);
+        transform: rotate(45deg) translate(-4px, -5px);
       }
 
       .hero {
         min-height: auto;
-        padding-top: 8rem;
+        padding-top: 5rem;
         padding-bottom: 3rem;
       }
 
@@ -1390,7 +1425,7 @@
         padding: 2rem 1.5rem;
       }
 
-      /* Stack collage vertically or slide down on mobile */
+      /* Stack collage verticalmente en móvil */
       .hero-collage {
         height: auto;
         flex-direction: column;
@@ -1421,6 +1456,57 @@
 
       .collage-scrap {
         display: none;
+      }
+    }
+
+    /* ============================================
+       SIDEBAR — Clases adicionales
+       ============================================ */
+    .sidebar-ornament {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--sidebar-border);
+      padding: 1.5rem 1.5rem;
+      letter-spacing: 0.2em;
+      margin-top: auto;
+    }
+
+    .nav-icon {
+      font-size: 1rem;
+      opacity: 0.7;
+      flex-shrink: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-links a:hover .nav-icon,
+    .nav-links a.active .nav-icon {
+      opacity: 1;
+    }
+
+    /* Overlay semitransparente para cerrar el menú móvil */
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 998;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    .nav-overlay.active {
+      display: block;
+    }
+
+    /* Fix Safari iOS: background-attachment fixed no funciona en iOS */
+    @supports (-webkit-touch-callout: none) {
+
+      body,
+      .hero,
+      .stories,
+      .builder,
+      .download {
+        background-attachment: scroll;
       }
     }
   </style>
@@ -1460,25 +1546,46 @@
   </svg>
 
   <!-- Navegación -->
-  <nav>
-    <a href="#" class="nav-logo" aria-label="Volver al Inicio">
+  <nav id="sidebar" aria-label="Menú de navegación principal">
+    <a href="#inicio" class="nav-logo" aria-label="Volver al Inicio - Relatos Ocultos">
       <span class="logo-subtitle">Proyecto de</span>
       <span class="logo-title">HISTORIA</span>
     </a>
 
-    <ul class="nav-links">
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#historias">Historias</a></li>
-      <li><a href="#creador">Creador</a></li>
-      <li><a href="#equipo">Equipo</a></li>
-      <li><a href="#descarga">Descargar</a></li>
+    <ul class="nav-links" role="list">
+      <li>
+        <a href="#inicio" id="nav-inicio" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">⌂</span>
+          Inicio
+        </a>
+      </li>
+      <li>
+        <a href="#historias" id="nav-historias">
+          <span class="nav-icon" aria-hidden="true" style="font-family: wingdings"></span>
+          Historias
+        </a>
+      </li>
+      <li>
+        <a href="#nuestroobjetivo" id="nav-nuestroobjetivo">
+          <span class="nav-icon" aria-hidden="true">✒️</span>
+          Nuestro Objetivo
+        </a>
+      </li>
+      <li>
+        <a href="#equipo" id="nav-equipo">
+          <span class="nav-icon" aria-hidden="true">⚔</span>
+          Equipo
+        </a>
+      </li>
+      <li>
+        <a href="#descarga" id="nav-descarga">
+          <span class="nav-icon" aria-hidden="true">↓</span>
+          Descargar
+        </a>
+      </li>
     </ul>
 
-    <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
+    <div class="sidebar-ornament" aria-hidden="true">❦</div>
   </nav>
 
   <!-- Hero Section -->
@@ -1496,11 +1603,6 @@
             Paraguay</p>
         </div>
       </div>
-
-      <div class="hero-buttons" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
-        <a href="#historias" class="btn btn-primary">Explorar Relatos</a>
-        <a href="#creador" class="btn btn-secondary">Crear un Juego</a>
-      </div>
     </div>
 
     <!-- Dynamic Torn-Edge Collage of Paraguayan landmarks -->
@@ -1509,170 +1611,33 @@
       <div class="collage-scrap scrap-1" aria-hidden="true"></div>
       <div class="collage-scrap scrap-2" aria-hidden="true"></div>
 
-      <!-- San Cosme y San Damián (Left) -->
+      <!-- Camino a la Fiesta (Left) -->
       <div class="shadow-wrapper collage-item-wrapper item-left" data-aos="fade-right" data-aos-duration="1000"
         data-aos-delay="700">
         <div class="photo-frame torn-photo-left">
-          <div class="landmark-illustration" aria-label="Ruinas Jesuitas de San Cosme y San Damián" role="img">
-            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <filter id="sepia-left">
-                  <feColorMatrix type="saturate" values="0.15" />
-                  <feComponentTransfer>
-                    <feFuncR type="linear" slope="1.1" intercept="0.05" />
-                    <feFuncG type="linear" slope="0.95" intercept="0.02" />
-                    <feFuncB type="linear" slope="0.75" />
-                  </feComponentTransfer>
-                </filter>
-                <radialGradient id="sky-l" cx="50%" cy="20%" r="80%">
-                  <stop offset="0%" stop-color="#d4b896" />
-                  <stop offset="100%" stop-color="#8b6040" />
-                </radialGradient>
-              </defs>
-              <rect width="280" height="180" fill="url(#sky-l)" filter="url(#sepia-left)" />
-              <!-- Ground -->
-              <rect x="0" y="130" width="280" height="50" fill="#6b4423" opacity="0.7" />
-              <!-- Arch ruins left -->
-              <rect x="20" y="60" width="18" height="80" fill="#8b5e3c" rx="2" />
-              <path d="M20 60 Q29 44 38 60" fill="#7a4f2e" stroke="#5c3820" stroke-width="1" />
-              <!-- Arch ruins center -->
-              <rect x="55" y="40" width="22" height="100" fill="#9b6e4a" rx="2" />
-              <rect x="90" y="40" width="22" height="100" fill="#8b5e3c" rx="2" />
-              <path d="M55 40 Q66 18 112 40" fill="none" stroke="#7a4f2e" stroke-width="3" />
-              <rect x="55" y="35" width="57" height="8" fill="#7a4f2e" rx="1" />
-              <!-- Pillar right -->
-              <rect x="140" y="50" width="18" height="90" fill="#a07050" rx="2" />
-              <rect x="170" y="65" width="15" height="75" fill="#8b5e3c" rx="2" opacity="0.8" />
-              <!-- Sundial base -->
-              <ellipse cx="195" cy="125" rx="18" ry="6" fill="#6b4020" opacity="0.9" />
-              <rect x="192" y="100" width="6" height="25" fill="#8b6040" />
-              <line x1="195" y1="100" x2="215" y2="108" stroke="#c8a070" stroke-width="1.5" />
-              <!-- Vegetation -->
-              <ellipse cx="30" cy="125" rx="15" ry="12" fill="#556b2f" opacity="0.5" />
-              <ellipse cx="120" cy="128" rx="20" ry="10" fill="#4a5e28" opacity="0.4" />
-              <ellipse cx="240" cy="124" rx="25" ry="12" fill="#556b2f" opacity="0.45" />
-              <!-- Grain overlay -->
-              <rect width="280" height="180" fill="url(#sky-l)" opacity="0.12" />
-            </svg>
+          <div class="landmark-illustration" aria-label="Camino a la Fiesta. CHACO PARAGUAYO" role="img">
+            <img src="images/NL1.png" alt="Camino a la Fiesta" />
           </div>
-          <div class="photo-caption">San Cosme y San Damián</div>
         </div>
       </div>
 
-      <!-- Palacio de los López (Center) -->
+      <!-- Regreso al Hogar (Center) -->
       <div class="shadow-wrapper collage-item-wrapper item-center" data-aos="fade-up" data-aos-duration="1000"
         data-aos-delay="500">
         <div class="photo-frame torn-photo-center">
-          <div class="landmark-illustration" aria-label="Palacio de los López, Asunción" role="img">
-            <svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <filter id="sepia-c">
-                  <feColorMatrix type="saturate" values="0.1" />
-                  <feComponentTransfer>
-                    <feFuncR type="linear" slope="1.08" intercept="0.04" />
-                    <feFuncG type="linear" slope="0.92" intercept="0.01" />
-                    <feFuncB type="linear" slope="0.7" />
-                  </feComponentTransfer>
-                </filter>
-                <linearGradient id="sky-c" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#c8a878" />
-                  <stop offset="100%" stop-color="#8b6040" />
-                </linearGradient>
-              </defs>
-              <rect width="320" height="210" fill="url(#sky-c)" filter="url(#sepia-c)" />
-              <!-- Ground -->
-              <rect x="0" y="160" width="320" height="50" fill="#5c3820" opacity="0.65" />
-              <!-- Main building body -->
-              <rect x="40" y="90" width="240" height="80" fill="#c8a870" rx="1" />
-              <!-- Neoclassical columns -->
-              <rect x="55" y="85" width="12" height="85" fill="#e0c090" rx="2" />
-              <rect x="80" y="85" width="12" height="85" fill="#d4b47a" rx="2" />
-              <rect x="105" y="85" width="12" height="85" fill="#e0c090" rx="2" />
-              <rect x="200" y="85" width="12" height="85" fill="#e0c090" rx="2" />
-              <rect x="225" y="85" width="12" height="85" fill="#d4b47a" rx="2" />
-              <rect x="250" y="85" width="12" height="85" fill="#e0c090" rx="2" />
-              <!-- Entablature -->
-              <rect x="40" y="78" width="240" height="12" fill="#b89050" rx="1" />
-              <!-- Pediment / Triangle top -->
-              <polygon points="160,30 50,78 270,78" fill="#c8a060" stroke="#a07840" stroke-width="1.5" />
-              <!-- Central door -->
-              <rect x="145" y="130" width="30" height="40" fill="#3a2010" rx="2" />
-              <path d="M145 130 Q160 118 175 130" fill="#3a2010" />
-              <!-- Windows -->
-              <rect x="65" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-              <rect x="110" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-              <rect x="195" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-              <rect x="240" y="100" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-              <!-- Flag -->
-              <line x1="160" y1="10" x2="160" y2="32" stroke="#8b6040" stroke-width="1.5" />
-              <rect x="160" y="10" width="20" height="12" fill="#bc2f1e" opacity="0.8" />
-              <!-- Vignette overlay -->
-              <radialGradient id="vig" cx="50%" cy="50%" r="70%">
-                <stop offset="0%" stop-color="transparent" />
-                <stop offset="100%" stop-color="rgba(30,15,5,0.45)" />
-              </radialGradient>
-              <rect width="320" height="210" fill="url(#vig)" />
-            </svg>
+          <div class="landmark-illustration" aria-label="Regreso al Hogar, ALTO PARANÁ" role="img">
+            <img src="images/NL2.jpg" alt="Regreso al Hogar" />
           </div>
-          <div class="photo-caption">Palacio de los López</div>
         </div>
       </div>
 
-      <!-- Panteón de los Héroes (Right) -->
+      <!-- El Almacenero (Right) -->
       <div class="shadow-wrapper collage-item-wrapper item-right-photo" data-aos="fade-left" data-aos-duration="1000"
         data-aos-delay="800">
         <div class="photo-frame torn-photo-right">
-          <div class="landmark-illustration" aria-label="Panteón Nacional de los Héroes, Asunción" role="img">
-            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <filter id="sepia-r">
-                  <feColorMatrix type="saturate" values="0.12" />
-                  <feComponentTransfer>
-                    <feFuncR type="linear" slope="1.1" intercept="0.05" />
-                    <feFuncG type="linear" slope="0.93" intercept="0.01" />
-                    <feFuncB type="linear" slope="0.72" />
-                  </feComponentTransfer>
-                </filter>
-                <radialGradient id="sky-r" cx="50%" cy="0%" r="100%">
-                  <stop offset="0%" stop-color="#d0a870" />
-                  <stop offset="100%" stop-color="#7a5030" />
-                </radialGradient>
-              </defs>
-              <rect width="280" height="180" fill="url(#sky-r)" filter="url(#sepia-r)" />
-              <!-- Ground -->
-              <rect x="0" y="145" width="280" height="35" fill="#5c3820" opacity="0.7" />
-              <!-- Dome building body -->
-              <rect x="55" y="105" width="170" height="50" fill="#c0944a" rx="1" />
-              <!-- Dome -->
-              <ellipse cx="140" cy="95" rx="55" ry="20" fill="#b08040" />
-              <ellipse cx="140" cy="82" rx="42" ry="18" fill="#c09850" />
-              <ellipse cx="140" cy="70" rx="28" ry="14" fill="#d4aa60" />
-              <ellipse cx="140" cy="60" rx="14" ry="8" fill="#c09040" />
-              <!-- Lantern top -->
-              <rect x="133" y="40" width="14" height="22" fill="#d4aa60" rx="2" />
-              <ellipse cx="140" cy="38" rx="10" ry="5" fill="#c09040" />
-              <!-- Ionic columns -->
-              <rect x="65" y="95" width="10" height="60" fill="#dfc090" rx="1" />
-              <rect x="90" y="95" width="10" height="60" fill="#d0ae78" rx="1" />
-              <rect x="180" y="95" width="10" height="60" fill="#dfc090" rx="1" />
-              <rect x="205" y="95" width="10" height="60" fill="#d0ae78" rx="1" />
-              <!-- Entablature -->
-              <rect x="55" y="90" width="170" height="10" fill="#a87838" rx="1" />
-              <!-- Central door arch -->
-              <rect x="125" y="120" width="30" height="35" fill="#3a2010" rx="2" />
-              <path d="M125 120 Q140 108 155 120" fill="#3a2010" />
-              <!-- Side windows -->
-              <rect x="70" y="108" width="14" height="18" fill="#3a2010" rx="1" opacity="0.8" />
-              <rect x="196" y="108" width="14" height="18" fill="#3a2010" rx="1" opacity="0.8" />
-              <!-- Vignette -->
-              <radialGradient id="vigr" cx="50%" cy="50%" r="70%">
-                <stop offset="0%" stop-color="transparent" />
-                <stop offset="100%" stop-color="rgba(25,12,4,0.5)" />
-              </radialGradient>
-              <rect width="280" height="180" fill="url(#vigr)" />
-            </svg>
+          <div class="landmark-illustration" aria-label="El Almacenero, UN PEQUEÑO PUEBLO" role="img">
+            <img src="images/NL3.png" alt="El Almacenero" />
           </div>
-          <div class="photo-caption">Panteón de los Héroes</div>
         </div>
       </div>
     </div>
@@ -1682,10 +1647,10 @@
     <!-- Sección Descripción / Acerca del Proyecto -->
     <section id="descripcion" class="about">
       <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
-        <h2 class="section-title">Una Búsqueda en el Pasado</h2>
+        <h2 class="section-title">Acerca del Proyecto</h2>
         <div class="divider" aria-hidden="true"></div>
         <p class="about-text">
-          "Relatos Ocultos: HISTORIA de Paraguay" no es solo un videojuego; es un portal interactivo para descubrir los
+          "Relatos Ocultos" no es solo un videojuego; es un portal interactivo para descubrir los
           misterios y héroes olvidados de nuestra patria. Sumérgete en recreaciones fieles de eventos que formaron
           nuestra identidad.
         </p>
@@ -1694,25 +1659,26 @@
           <!-- Feature 1 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
             <span class="feature-icon" aria-hidden="true">📖</span>
-            <h3 class="feature-title">Riqueza Histórica</h3>
-            <p class="feature-desc">Basado en crónicas históricas reales, actas oficiales y correspondencia del Paraguay
-              de los siglos XVIII y XIX.</p>
+            <h3 class="feature-title">Relatos</h3>
+            <p class="feature-desc">Conoce tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel
+              presenta una historia diferente que invita a descubrir parte de nuestro patrimonio histórico y cultural.
+            </p>
           </div>
 
           <!-- Feature 2 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-            <span class="feature-icon" aria-hidden="true">🧭</span>
-            <h3 class="feature-title">Narrativa Interactiva</h3>
-            <p class="feature-desc">Cada decisión tomada influye en el desenlace del relato. Controla el curso de los
-              eventos con tus elecciones morales.</p>
+            <span class="feature-icon" aria-hidden="true">🎮</span>
+            <h3 class="feature-title">Experiencia Interactiva</h3>
+            <p class="feature-desc">Explora escenarios en 3D, conversa con personajes, supera obstáculos y
+              descubre la historia a través del entorno, pequeños diálogos y la exploración.</p>
           </div>
 
           <!-- Feature 3 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-            <span class="feature-icon" aria-hidden="true">✒️</span>
-            <h3 class="feature-title">Crea tus Historias</h3>
-            <p class="feature-desc">Utiliza nuestro motor integrado para redactar tus propios pasajes interactivos y
-              compartirlos con la comunidad.</p>
+            <span class="feature-icon" aria-hidden="true">🌎</span>
+            <h3 class="feature-title">Cultura y Memoria</h3>
+            <p class="feature-desc">Al finalizar cada nivel podrás ampliar la información desde esta página web, donde
+              encontrarás el contexto y la historia detrás de cada relato presentado en el juego.</p>
           </div>
         </div>
       </div>
@@ -1720,10 +1686,17 @@
 
     <!-- Sección Historias Destacadas -->
     <section id="historias" class="stories">
-      <h2 class="section-title" data-aos="fade-up">Historias Ocultas</h2>
-      <div class="ornament" aria-hidden="true">❦ ❦ ❦</div>
-      <p class="stories-subtitle" data-aos="fade-up" data-aos-delay="100">Pasajes jugables que te transportarán a
-        momentos clave de nuestra tierra.</p>
+      <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
+        <div class="about-paper-card">
+          <h2 style="color: #000000" class="section-title">RELATOS</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="stories-subtitle"
+            style="max-width: 700px; color: #000000; margin: 1.5rem auto 0; font-weight: 600;">
+            Descubre tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel presenta una experiencia
+            diferente que invita a conocer una parte de nuestra historia y cultura.
+          </p>
+        </div>
+      </div>
 
       <div class="stories-container">
         <div class="stories-track">
@@ -1732,39 +1705,20 @@
             <article class="story-card">
               <span class="story-badge">Nivel 1</span>
               <div class="story-image-wrap">
-                <div class="landmark-illustration" aria-label="Ruinas de la Misión de San Cosme y San Damián"
-                  role="img">
-                  <svg viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                    <rect width="330" height="180" fill="#c8a060" />
-                    <rect x="0" y="130" width="330" height="50" fill="#6b4020" opacity="0.7" />
-                    <rect x="25" y="55" width="20" height="85" fill="#8b5e3c" rx="1" />
-                    <path d="M25 55 Q35 35 45 55" fill="#7a4f2e" />
-                    <rect x="60" y="38" width="24" height="102" fill="#9b6e4a" rx="1" />
-                    <rect x="98" y="38" width="24" height="102" fill="#8b5e3c" rx="1" />
-                    <path d="M60 38 Q72 12 122 38" fill="none" stroke="#6b4020" stroke-width="3" />
-                    <rect x="60" y="32" width="62" height="9" fill="#7a4f2e" rx="1" />
-                    <rect x="155" y="50" width="19" height="90" fill="#a07050" rx="1" />
-                    <rect x="185" y="65" width="16" height="75" fill="#8b5e3c" rx="1" opacity="0.8" />
-                    <ellipse cx="225" cy="125" rx="20" ry="7" fill="#6b4020" opacity="0.9" />
-                    <rect x="222" y="98" width="6" height="27" fill="#8b6040" />
-                    <line x1="225" y1="98" x2="248" y2="108" stroke="#c8a070" stroke-width="2" />
-                    <ellipse cx="35" cy="126" rx="16" ry="11" fill="#556b2f" opacity="0.5" />
-                    <ellipse cx="135" cy="128" rx="22" ry="11" fill="#4a5e28" opacity="0.45" />
-                    <ellipse cx="285" cy="124" rx="28" ry="13" fill="#556b2f" opacity="0.4" />
-                    <radialGradient id="vig1" cx="50%" cy="50%" r="70%">
-                      <stop offset="0%" stop-color="transparent" />
-                      <stop offset="100%" stop-color="rgba(20,8,0,0.4)" />
-                    </radialGradient>
-                    <rect width="330" height="180" fill="url(#vig1)" />
-                  </svg>
+                <div class="landmark-illustration" aria-label="CHACO PARAGUAYO" role="img">
+                  <img src="images/Camino_a_la_Fiesta.png" alt="Camino a la Fiesta" />
                 </div>
               </div>
-              <span class="story-location">San Cosme y San Damián</span>
-              <h3 class="story-title">La Misión de las Estrellas</h3>
-              <p class="story-desc">El padre Buenaventura Suárez construye un telescopio de cuarzo y escribe el primer
-                calendario astronómico del Cono Sur en 1706.</p>
+              <span class="story-location">CHACO PARAGUAYO</span>
+              <h3 class="story-title">Camino a la Fiesta</h3>
+              <p class="story-desc">Acompaña a Delfina Servín en su recorrido hacia una fiesta donde se encuentra
+                Mateo
+                Gamarra. Mientras avanzas por los caminos del Chaco, conocerás el entorno, sus habitantes y la
+                tensión
+                que rodea esta historia..</p>
               <a href="#descarga" class="btn btn-secondary btn-sm"
-                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
+                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center; box-sizing: border-box; display: inline-block;">Jugar
+                Relato</a>
             </article>
           </div>
 
@@ -1773,45 +1727,18 @@
             <article class="story-card">
               <span class="story-badge">Nivel 2</span>
               <div class="story-image-wrap">
-                <div class="landmark-illustration" aria-label="Palacio de los López, Asunción" role="img">
-                  <svg viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                    <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#c8a878" />
-                      <stop offset="100%" stop-color="#8b6040" />
-                    </linearGradient>
-                    <rect width="330" height="180" fill="url(#sky2)" />
-                    <rect x="0" y="148" width="330" height="32" fill="#5c3820" opacity="0.65" />
-                    <rect x="45" y="88" width="240" height="72" fill="#c8a870" rx="1" />
-                    <rect x="58" y="82" width="13" height="78" fill="#e0c090" rx="1" />
-                    <rect x="85" y="82" width="13" height="78" fill="#d4b47a" rx="1" />
-                    <rect x="112" y="82" width="13" height="78" fill="#e0c090" rx="1" />
-                    <rect x="205" y="82" width="13" height="78" fill="#e0c090" rx="1" />
-                    <rect x="232" y="82" width="13" height="78" fill="#d4b47a" rx="1" />
-                    <rect x="259" y="82" width="13" height="78" fill="#e0c090" rx="1" />
-                    <rect x="45" y="75" width="240" height="13" fill="#b09050" rx="1" />
-                    <polygon points="165,28 48,75 282,75" fill="#c0a060" stroke="#a07840" stroke-width="1.5" />
-                    <rect x="150" y="125" width="30" height="38" fill="#3a2010" rx="2" />
-                    <path d="M150 125 Q165 112 180 125" fill="#3a2010" />
-                    <rect x="68" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-                    <rect x="114" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-                    <rect x="200" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-                    <rect x="245" y="98" width="18" height="22" fill="#3a2010" rx="1" opacity="0.8" />
-                    <line x1="165" y1="8" x2="165" y2="30" stroke="#8b6040" stroke-width="2" />
-                    <rect x="165" y="8" width="22" height="13" fill="#bc2f1e" opacity="0.8" />
-                    <radialGradient id="vig2" cx="50%" cy="50%" r="70%">
-                      <stop offset="0%" stop-color="transparent" />
-                      <stop offset="100%" stop-color="rgba(20,8,0,0.45)" />
-                    </radialGradient>
-                    <rect width="330" height="180" fill="url(#vig2)" />
-                  </svg>
+                <div class="landmark-illustration" aria-label="Regreso al Hogar, ALTO PARANÁ" role="img">
+                  <img src="images/Regreso_al_Hogar.jpg" alt="Regreso al Hogar" />
                 </div>
               </div>
-              <span class="story-location">Asunción</span>
-              <h3 class="story-title">El Secreto del Palacio</h3>
-              <p class="story-desc">Aventúrate en los oscuros pasillos y túneles del palacio gubernamental durante los
-                caóticos días finales de la Guerra de la Triple Alianza.</p>
+              <span class="story-location">ALTO PARANÁ</span>
+              <h3 class="story-title">Regreso al Hogar</h3>
+              <p class="story-desc">Controla a Dionisio, un trabajador engañado por falsas promesas laborales.
+                Escapa de
+                los yerbales y supera distintos obstáculos para volver junto a tu familia.</p>
               <a href="#descarga" class="btn btn-secondary btn-sm"
-                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
+                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center; box-sizing: border-box; display: inline-block;">Jugar
+                Relato</a>
             </article>
           </div>
 
@@ -1820,44 +1747,19 @@
             <article class="story-card">
               <span class="story-badge">Nivel 3</span>
               <div class="story-image-wrap">
-                <div class="landmark-illustration" aria-label="Panteón Nacional de los Héroes, Asunción" role="img">
-                  <svg viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                    <radialGradient id="sky3" cx="50%" cy="0%" r="100%">
-                      <stop offset="0%" stop-color="#d0a870" />
-                      <stop offset="100%" stop-color="#7a5030" />
-                    </radialGradient>
-                    <rect width="330" height="180" fill="url(#sky3)" />
-                    <rect x="0" y="148" width="330" height="32" fill="#5c3820" opacity="0.7" />
-                    <rect x="65" y="108" width="200" height="50" fill="#c0944a" rx="1" />
-                    <ellipse cx="165" cy="97" rx="62" ry="22" fill="#b08040" />
-                    <ellipse cx="165" cy="84" rx="48" ry="19" fill="#c09850" />
-                    <ellipse cx="165" cy="70" rx="32" ry="16" fill="#d4aa60" />
-                    <ellipse cx="165" cy="58" rx="16" ry="9" fill="#c09040" />
-                    <rect x="157" y="36" width="16" height="24" fill="#d4aa60" rx="2" />
-                    <ellipse cx="165" cy="34" rx="12" ry="6" fill="#c09040" />
-                    <rect x="75" y="98" width="11" height="62" fill="#dfc090" rx="1" />
-                    <rect x="101" y="98" width="11" height="62" fill="#d0ae78" rx="1" />
-                    <rect x="218" y="98" width="11" height="62" fill="#dfc090" rx="1" />
-                    <rect x="244" y="98" width="11" height="62" fill="#d0ae78" rx="1" />
-                    <rect x="65" y="93" width="200" height="11" fill="#a07838" rx="1" />
-                    <rect x="148" y="120" width="34" height="38" fill="#3a2010" rx="2" />
-                    <path d="M148 120 Q165 106 182 120" fill="#3a2010" />
-                    <rect x="82" y="110" width="15" height="19" fill="#3a2010" rx="1" opacity="0.8" />
-                    <rect x="233" y="110" width="15" height="19" fill="#3a2010" rx="1" opacity="0.8" />
-                    <radialGradient id="vig3" cx="50%" cy="50%" r="70%">
-                      <stop offset="0%" stop-color="transparent" />
-                      <stop offset="100%" stop-color="rgba(20,8,0,0.5)" />
-                    </radialGradient>
-                    <rect width="330" height="180" fill="url(#vig3)" />
-                  </svg>
+                <div class="landmark-illustration" aria-label="El Almacenero, UN PEQUEÑO PUEBLO" role="img">
+                  <img src="images/El_Almacenero.png" alt="El Almacenero" />
                 </div>
               </div>
-              <span class="story-location">Casa de la Independencia</span>
-              <h3 class="story-title">La Noche de los Próceres</h3>
-              <p class="story-desc">Acompaña a Pedro Juan Caballero y Vicente Ignacio Iturbe en la tensa medianoche de
-                mayo de 1811 para derrocar al Gobernador Velasco.</p>
+              <span class="story-location">UN PEQUEÑO PUEBLO</span>
+              <h3 class="story-title">El Almacenero</h3>
+              <p class="story-desc">Ponte en el lugar del almacenero del pueblo y descubre, mediante las compras
+                fiadas
+                y las conversaciones cotidianas, la historia de una familia que atraviesa una tragedia silenciosa.
+              </p>
               <a href="#descarga" class="btn btn-secondary btn-sm"
-                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center;">Jugar Relato</a>
+                style="padding: 0.6rem 1.5rem; font-size: 0.7rem; width: 100%; text-align: center; box-sizing: border-box; display: inline-block;">Jugar
+                Relato</a>
             </article>
           </div>
         </div>
@@ -1865,53 +1767,152 @@
     </section>
 
     <!-- Sección Crear un Juego / Story Builder Showcase -->
-    <section id="creador" class="builder">
+    <section id="nuestroobjetivo" class="builder">
       <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
-        <h2 class="section-title">Nuestro Objetivo</h2>
-        <div class="divider" aria-hidden="true"></div>
-        <p class="about-text" style="max-width: 720px; margin: 0 auto 3rem;">
-          Queremos que seas parte del desarrollo. Relatos Ocultos cuenta con un completo editor de escenarios que te
-          permite redactar tramas, decisiones e investigaciones históricas.
-        </p>
+        <div class="about-paper-card">
+          <h2 class="section-title">Nuestro Objetivo</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="about-text" style="max-width: 700px; margin: 1.5rem auto 0; font-weight: 600;">
+            Queremos que seas parte del desarrollo. Relatos Ocultos cuenta con un completo editor de escenarios que te
+            permite redactar tramas, decisiones e investigaciones históricas.
+          </p>
+        </div>
       </div>
 
       <div class="journal-wrapper" data-aos="zoom-in" data-aos-duration="1000">
         <div class="journal">
-          <div class="preview-options">
-            <button class="mock-option opt-a selected" onclick="selectOption('A')"
-              aria-label="Opción A: Marchar en silencio hacia el cuartel con los conspiradores">
-              <span class="option-bullet">A</span>
-              <span>Marchar en silencio con los conspiradores.</span>
-            </button>
-            <button class="mock-option opt-b" onclick="selectOption('B')"
-              aria-label="Opción B: Enviar un emisario a convencer a las guardias coloniales">
-              <span class="option-bullet">B</span>
-              <span>Enviar un emisario a negociar con las guardias.</span>
-            </button>
-            <button class="mock-option opt-c" onclick="selectOption('C')"
-              aria-label="Opción C: Esperar al amanecer para dar el golpe">
-              <span class="option-bullet">C</span>
-              <span>Esperar al amanecer para actuar.</span>
-            </button>
+          <!-- Lado Izquierdo: Información dinámica -->
+          <div class="journal-left">
+            <h3 class="builder-title">¿Cómo se vive la historia?</h3>
+            <div class="divider" aria-hidden="true" style="margin: 0.8rem 0 1.2rem; width: 100px;"></div>
+
+            <div id="dynamic-level-content" style="transition: opacity 0.25s ease; opacity: 1;">
+              <p class="builder-desc"
+                style="font-weight: 700; color: var(--red-old); margin-bottom: 0.25rem; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;"
+                id="dynamic-level-number">Nivel 1</p>
+              <h4
+                style="font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 700; color: var(--sepia-dark); margin: 0 0 1rem;"
+                id="dynamic-level-title">Camino a la Fiesta</h4>
+
+              <p class="builder-desc" style="margin-bottom: 1rem; font-weight: 600;">Durante este nivel podrás:</p>
+              <ul class="builder-bullets" id="dynamic-level-bullets">
+                <li>Conocer el paisaje del Chaco paraguayo.</li>
+                <li>Descubrir cómo era la vida cotidiana de la época.</li>
+                <li>Entender el contexto del relato.</li>
+                <li>Explorar el escenario mientras avanza la historia.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Lado Derecho: Selector de niveles -->
+          <div class="journal-right"
+            style="display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem;">
+            <div class="preview-header">
+              <span>Vista previa de los niveles</span>
+              <span>Relatos Ocultos</span>
+            </div>
+
+            <!-- Visor de imagen grande del nivel seleccionado -->
+            <div class="level-viewport"
+              style="border: 2px solid var(--sepia-dark); background: #faf4e5; padding: 0.75rem 0.75rem 1.5rem; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transform: rotate(-0.5deg); transition: transform 0.3s ease;">
+              <div id="level-image-container"
+                style="width: 100%; height: 170px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); background: #eee; clip-path: url(#torn-photo-1); transition: opacity 0.25s ease;">
+                <!-- SVG Level 1 -->
+                <svg id="svg-level-1" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 100%; height: 100%; object-fit: cover;">
+                  <rect width="330" height="180" fill="#e0cfa5" />
+                  <circle cx="165" cy="110" r="45" fill="#8c6a42" opacity="0.3" />
+                  <line x1="165" y1="150" x2="165" y2="90" stroke="#1e1107" stroke-width="3" />
+                  <line x1="165" y1="110" x2="140" y2="100" stroke="#1e1107" stroke-width="2.5" />
+                  <line x1="165" y1="100" x2="195" stroke="#1e1107" stroke-width="2.5" />
+                  <circle cx="240" cy="50" r="15" fill="#d49a37" />
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107"
+                    font-weight="700">Chaco Paraguayo</text>
+                </svg>
+                <!-- SVG Level 2 -->
+                <svg id="svg-level-2" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                  <rect width="330" height="180" fill="#ced9bc" />
+                  <path d="M60 150 L90 80 L120 150 Z" fill="#4a5e28" opacity="0.6" />
+                  <path d="M120 160 L160 70 L200 160 Z" fill="#3a4f18" opacity="0.75" />
+                  <path d="M190 150 L220 90 L250 150 Z" fill="#4a5e28" opacity="0.5" />
+                  <line x1="90" y1="150" x2="90" y2="130" stroke="#1e1107" stroke-width="2" />
+                  <line x1="160" y1="160" x2="160" y2="120" stroke="#1e1107" stroke-width="3" />
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107"
+                    font-weight="700">Yerbales de Alto Paraná</text>
+                </svg>
+                <!-- SVG Level 3 -->
+                <svg id="svg-level-3" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                  <rect width="330" height="180" fill="#d2c4b9" />
+                  <rect x="100" y="60" width="130" height="90" fill="none" stroke="#1e1107" stroke-width="3" />
+                  <line x1="100" y1="90" x2="230" y2="90" stroke="#1e1107" stroke-width="2" />
+                  <line x1="100" y1="120" x2="230" y2="120" stroke="#1e1107" stroke-width="2" />
+                  <circle cx="120" cy="75" r="5" fill="#bc2f1e" />
+                  <circle cx="160" cy="75" r="5" fill="#bc2f1e" />
+                  <rect x="190" y="100" width="25" height="15" fill="#d49a37" opacity="0.8" />
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107" font-weight="700">El
+                    Almacenero</text>
+                </svg>
+              </div>
+              <p class="photo-caption" id="level-caption"
+                style="margin-top: 0.5rem; text-align: center; font-size: 0.85rem; font-style: italic;">Camino a la
+                Fiesta</p>
+            </div>
+
+            <!-- Lista de niveles seleccionables -->
+            <div class="level-selector" style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
+              <!-- Nivel 1 -->
+              <button class="mock-option level-btn selected" onclick="showLevel(1)"
+                style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-1">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="option-bullet">1</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">Camino a la
+                    Fiesta</span>
+                </div>
+                <span class="status-indicator"
+                  style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 1;">Activo</span>
+              </button>
+
+              <!-- Nivel 2 -->
+              <button class="mock-option level-btn" onclick="showLevel(2)"
+                style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-2">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="option-bullet">2</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">Regreso al
+                    Hogar</span>
+                </div>
+                <span class="status-indicator"
+                  style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 0;">Activo</span>
+              </button>
+
+              <!-- Nivel 3 -->
+              <button class="mock-option level-btn" onclick="showLevel(3)"
+                style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-3">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="option-bullet">3</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">El Almacenero</span>
+                </div>
+                <span class="status-indicator"
+                  style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 0;">Activo</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </section>
 
     <!-- Sección Equipo -->
     <section id="equipo" class="team">
       <h2 class="section-title" data-aos="fade-up">El Equipo Desarrollador</h2>
-      <div class="ornament" aria-hidden="true">❦ ❦ ❦</div>
-
       <div class="team-grid">
         <!-- Axel Rolón -->
         <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
           <div class="team-card" tabindex="0"
             aria-label="Tarjeta de Axel Rolón, Programador del Juego. Haz clic o presiona Enter para más información.">
             <div class="team-avatar-frame">
-              <img src="https://ui-avatars.com/api/?name=Axel+Rolon&background=83271c&color=f7eed7&size=150"
-                alt="Axel Rolón, Programador de Relatos Ocultos">
+              <img src="images/AxelFoto.jpg" alt="Axel Rolón, Programador de Relatos Ocultos" loading="lazy"
+                decoding="async" width="150" height="150">
             </div>
             <h3 class="team-name">Axel Rolón</h3>
             <h4 class="team-role">Programador del Juego</h4>
@@ -1924,12 +1925,12 @@
         </div>
 
         <!-- Cayo Ávalos -->
-        <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+        <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="400" data-aos-delay="200">
           <div class="team-card" tabindex="0"
             aria-label="Tarjeta de Cayo Ávalos, Diseñador de Gráficos. Haz clic o presiona Enter para más información.">
             <div class="team-avatar-frame">
-              <img src="https://ui-avatars.com/api/?name=Cayo+Avalos&background=3a2211&color=f7eed7&size=150"
-                alt="Cayo Ávalos, Diseñador Gráfico de Relatos Ocultos">
+              <img src="images/CayoFoto.png" alt="Cayo Ávalos, Diseñador Gráfico de Relatos Ocultos" loading="lazy"
+                decoding="async" width="150" height="150">
             </div>
             <h3 class="team-name">Cayo Ávalos</h3>
             <h4 class="team-role">Diseñador de Gráficos</h4>
@@ -1946,8 +1947,8 @@
           <div class="team-card" tabindex="0"
             aria-label="Tarjeta de Miguel Giménez, Creador de la Página Web. Haz clic o presiona Enter para más información.">
             <div class="team-avatar-frame">
-              <img src="https://ui-avatars.com/api/?name=Miguel+Gimenez&background=8b683e&color=f7eed7&size=150"
-                alt="Miguel Giménez, Creador de la página web de Relatos Ocultos">
+              <img src="images/MiguelFoto.png" alt="Miguel Giménez, Creador de la página web de Relatos Ocultos"
+                loading="lazy" decoding="async" width="150" height="150">
             </div>
             <h3 class="team-name">Miguel Giménez</h3>
             <h4 class="team-role">Creador de la Página Web</h4>
@@ -1964,36 +1965,35 @@
     <!-- Sección Descarga -->
     <section id="descarga" class="download">
       <h2 class="section-title" data-aos="fade-up">Comienza tu Relato</h2>
-      <div class="ornament" aria-hidden="true">❦ ❦ ❦</div>
       <p class="download-text" data-aos="fade-up" data-aos-delay="100">
-        Descarga el juego gratis y experimenta los relatos interactivos desde tu PC o teléfono inteligente Android.
+        Descarga el juego gratis y experimenta los relatos interactivos desde tu PC.
       </p>
-
-      <div class="platforms" data-aos="fade-up" data-aos-delay="200">
-        <span class="plat-badge">Windows PC</span>
-        <span class="plat-badge">Android App</span>
-        <span class="plat-badge">Web Versión</span>
-      </div>
 
       <div class="btn-download-container" data-aos="fade-up" data-aos-delay="300">
         <a class="btn btn-primary" onclick="alert('Iniciando descarga para Windows PC...')">Descargar para PC</a>
-        <a class="btn btn-secondary" onclick="alert('Iniciando descarga de APK para Android...')">Descargar para
-          Android</a>
-      </div>
     </section>
   </main>
 
   <!-- Footer -->
   <footer>
     <div class="footer-logo">Relatos Ocultos</div>
-    <p class="footer-text">Explorando y recreando la historia del Paraguay.</p>
+    <p class="footer-text">Explorando y recreando relatos del Paraguay.</p>
 
     <div class="contacto-info">
-      <p>© 2026 DevGroup & Relatos Ocultos. Todos los derechos reservados.</p>
-      <p>¿Tienes dudas o comentarios? Escríbenos a <a
-          href="mailto:contacto@relatosocultos.com.py">contacto@relatosocultos.com.py</a></p>
+      <p>© 2026 Relatos Ocultos. Todos los derechos reservados.</p>
     </div>
   </footer>
+
+  <!-- Overlay para móvil -->
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
+  <!-- Botón hamburger para móvil -->
+  <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false"
+    aria-controls="sidebar">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
 
   <!-- Scripts -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -2006,72 +2006,225 @@
       easing: 'ease-out-quad'
     });
 
-    // Lógica para el menú responsivo móvil
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    // =============================================
+    // Sidebar: toggle móvil
+    // =============================================
+    const sidebar = document.getElementById('sidebar');
+    const navToggle = document.getElementById('nav-toggle');
+    const navOverlay = document.getElementById('nav-overlay');
 
-    navToggle.addEventListener('click', () => {
-      const isOpen = navToggle.classList.contains('open');
-      navToggle.classList.toggle('open');
-      navLinks.classList.toggle('active');
-      navToggle.setAttribute('aria-expanded', !isOpen);
+    function openSidebar() {
+      if (sidebar) sidebar.classList.add('active');
+      if (navOverlay) {
+        navOverlay.classList.add('active');
+        navOverlay.setAttribute('aria-hidden', 'false');
+      }
+      if (navToggle) {
+        navToggle.classList.add('open');
+        navToggle.setAttribute('aria-expanded', 'true');
+      }
+      document.body.style.overflow = 'hidden'; // Bloquear scroll del body
+    }
+
+    function closeSidebar() {
+      if (sidebar) sidebar.classList.remove('active');
+      if (navOverlay) {
+        navOverlay.classList.remove('active');
+        navOverlay.setAttribute('aria-hidden', 'true');
+      }
+      if (navToggle) {
+        navToggle.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+      document.body.style.overflow = '';
+    }
+
+    if (navToggle) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = sidebar && sidebar.classList.contains('active');
+        isOpen ? closeSidebar() : openSidebar();
+      });
+    }
+
+    if (navOverlay) {
+      navOverlay.addEventListener('click', closeSidebar);
+    }
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+        closeSidebar();
+        if (navToggle) navToggle.focus();
+      }
     });
 
-    // Cerrar menú móvil al hacer clic en un enlace
+    // Cerrar al hacer clic en un link (móvil)
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', () => {
-        navToggle.classList.remove('open');
-        navLinks.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', false);
+        if (window.innerWidth <= 768) closeSidebar();
       });
     });
 
-    // Lógica interactiva para el Simulador de Escenas de "Crear un Juego"
-    const dialogText = document.getElementById('dialog-text');
-    const dialogChar = document.getElementById('dialog-char');
-    const dialogRole = document.getElementById('dialog-role');
-    const dialogAvatar = document.getElementById('dialog-avatar');
+    // =============================================
+    // Sidebar: marcar sección activa con IntersectionObserver
+    // =============================================
+    const sections = document.querySelectorAll('section[id], header[id]');
+    const navItemMap = {
+      'inicio': 'nav-inicio',
+      'descripcion': 'nav-inicio',   // La sección about no tiene nav propio → asigna a Inicio
+      'historias': 'nav-historias',
+      'nuestroobjetivo': 'nav-nuestroobjetivo',
+      'equipo': 'nav-equipo',
+      'descarga': 'nav-descarga',
+    };
 
-    window.selectOption = function (option) {
-      const buttons = document.querySelectorAll('.mock-option');
-      buttons.forEach(btn => btn.classList.remove('selected'));
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px', // Activa cuando la sección está en el 20%-40% del viewport
+      threshold: 0
+    };
 
-      if (option === 'A') {
-        document.querySelector('.opt-a').classList.add('selected');
-        dialogChar.innerText = "Juana de Lara";
-        dialogRole.innerText = "Prócer de la Independencia";
-        dialogAvatar.innerText = "JL";
-        dialogAvatar.style.background = "var(--red-old)";
-        dialogText.innerHTML = '"¡El Gobernador Velasco ha aceptado entregar el cuartel sin derramar sangre! Pedro Juan y Vicente ya están firmando la capitulación. ¡Paraguay es libre!"';
-      } else if (option === 'B') {
-        document.querySelector('.opt-b').classList.add('selected');
-        dialogChar.innerText = "Teniente Coronel";
-        dialogRole.innerText = "Guardia del Gobernador";
-        dialogAvatar.innerText = "TG";
-        dialogAvatar.style.background = "#5c432d";
-        dialogText.innerHTML = '"¿Quién va allí? ¡Identifíquese! Las guardias en la plaza central están en alerta máxima y no permitirán ningún movimiento sospechoso."';
-      } else if (option === 'C') {
-        document.querySelector('.opt-c').classList.add('selected');
-        dialogChar.innerText = "Vicente I. Iturbe";
-        dialogRole.innerText = "Prócer de la Independencia";
-        dialogAvatar.innerText = "VI";
-        dialogAvatar.style.background = "var(--sepia)";
-        dialogText.innerHTML = '"El sol está saliendo y el cuartel de la plaza central ha recibido refuerzos de caballería. Hemos perdido la ventaja táctica. Debemos retirarnos."';
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Quitar 'active' de todos
+          document.querySelectorAll('.nav-links a').forEach(a => {
+            a.classList.remove('active');
+            a.removeAttribute('aria-current');
+          });
+          const navId = navItemMap[entry.target.id];
+          if (navId) {
+            const activeLink = document.getElementById(navId);
+            if (activeLink) {
+              activeLink.classList.add('active');
+              activeLink.setAttribute('aria-current', 'page');
+            }
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => {
+      if (sectionObserver) sectionObserver.observe(section);
+    });
+
+    // =============================================
+    // Lógica interactiva para el Explorador de Niveles
+    // =============================================
+    const levelData = {
+      1: {
+        number: "Nivel 1",
+        title: "Camino a la Fiesta",
+        caption: "Camino a la Fiesta",
+        bullets: [
+          "Conocer el paisaje del Chaco paraguayo y su vegetación.",
+          "Descubrir cómo era la vida cotidiana y las costumbres de la época.",
+          "Comprender la tensión social y el contexto del relato de Mateo Gamarra.",
+          "Explorar el escenario tridimensional interactivo mientras avanza la historia.",
+          "Aprender sobre los acontecimientos reales que inspiraron esta popular leyenda."
+        ]
+      },
+      2: {
+        number: "Nivel 2",
+        title: "Regreso al Hogar",
+        caption: "Regreso al Hogar",
+        bullets: [
+          "Aprender sobre el régimen de explotación laboral de los yerbales en el siglo XIX.",
+          "Conocer los peligros y la geografía de las selvas del Alto Paraná.",
+          "Descubrir los obstáculos y dificultades que Dionisio debe superar para escapar.",
+          "Comprender la importancia del apoyo familiar en situaciones adversas.",
+          "Explorar el denso monte e interactuar con elementos del entorno."
+        ]
+      },
+      3: {
+        number: "Nivel 3",
+        title: "El Almacenero",
+        caption: "El Almacenero",
+        bullets: [
+          "Aprender sobre la vida y dinámicas sociales de un pequeño pueblo paraguayo.",
+          "Conocer a los diversos vecinos y clientes cotidianos que acuden al almacén.",
+          "Descubrir la historia de la familia a través de las cuentas fiadas.",
+          "Comprender el impacto de una tragedia silenciosa en una comunidad pequeña.",
+          "Explorar la tienda y examinar detalles cotidianos que revelan secretos."
+        ]
       }
     };
 
-    // Lógica para expandir/colapsar las tarjetas del equipo con soporte de teclado y accesibilidad
+    window.showLevel = function (levelNum) {
+      const data = levelData[levelNum];
+      if (!data) return;
+
+      // Elementos de la página izquierda
+      const containerLeft = document.getElementById('dynamic-level-content');
+      const numEl = document.getElementById('dynamic-level-number');
+      const titleEl = document.getElementById('dynamic-level-title');
+      const bulletsEl = document.getElementById('dynamic-level-bullets');
+
+      // Elementos de la página derecha (imagen y botones)
+      const containerRightImage = document.getElementById('level-image-container');
+      const captionEl = document.getElementById('level-caption');
+
+      // Transición suave: fade out
+      if (containerLeft) containerLeft.style.opacity = 0;
+      if (containerRightImage) containerRightImage.style.opacity = 0;
+
+      setTimeout(() => {
+        // Actualizar textos de la izquierda
+        if (numEl) numEl.innerText = data.number;
+        if (titleEl) titleEl.innerText = data.title;
+
+        if (bulletsEl) {
+          bulletsEl.innerHTML = '';
+          data.bullets.forEach(bullet => {
+            const li = document.createElement('li');
+            li.innerText = bullet;
+            bulletsEl.appendChild(li);
+          });
+        }
+
+        // Actualizar imágenes/SVGs en la derecha
+        for (let i = 1; i <= 3; i++) {
+          const svg = document.getElementById(`svg-level-${i}`);
+          if (svg) {
+            svg.style.display = (i === levelNum) ? 'block' : 'none';
+          }
+        }
+
+        // Actualizar pie de foto
+        if (captionEl) captionEl.innerText = data.caption;
+
+        // Fade in
+        if (containerLeft) containerLeft.style.opacity = 1;
+        if (containerRightImage) containerRightImage.style.opacity = 1;
+      }, 200);
+
+      // Actualizar estado de selección de los botones
+      for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById(`btn-level-${i}`);
+        if (btn) {
+          const indicator = btn.querySelector('.status-indicator');
+          if (i === levelNum) {
+            btn.classList.add('selected');
+            if (indicator) indicator.style.opacity = 1;
+          } else {
+            btn.classList.remove('selected');
+            if (indicator) indicator.style.opacity = 0;
+          }
+        }
+      }
+    };
+
+    // =============================================
+    // Tarjetas del equipo (acordeón interactivo)
+    // =============================================
     document.addEventListener('DOMContentLoaded', () => {
       const teamCards = document.querySelectorAll('.team-card');
 
       teamCards.forEach(card => {
         card.addEventListener('click', (e) => {
-          // Si el clic fue en un elemento interactivo interior, evitar conflicto
           if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
 
           const isActive = card.classList.contains('active');
-
-          // Cerrar todas las tarjetas primero para limpieza visual
           teamCards.forEach(c => c.classList.remove('active'));
 
           if (!isActive) {
@@ -2079,7 +2232,6 @@
           }
         });
 
-        // Soporte de accesibilidad para teclado (Enter o Espacio)
         card.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -2089,7 +2241,9 @@
       });
     });
 
-    // Scroll suave mejorado que tiene en cuenta el navbar fijo
+    // =============================================
+    // Scroll suave ajustado para sidebar (offset = 0 en desktop)
+    // =============================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
@@ -2099,8 +2253,8 @@
         const targetElement = document.querySelector(targetId);
 
         if (targetElement) {
-          const navHeight = document.querySelector('nav').offsetHeight;
-          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navHeight;
+          const offset = window.innerWidth <= 768 ? 20 : 0;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - offset;
 
           window.scrollTo({
             top: targetPosition,
@@ -2110,7 +2264,9 @@
       });
     });
 
-    // Detectar scroll para quitar el degradado de indicación de carrusel
+    // =============================================
+    // Fading indicador de carrusel al scroll
+    // =============================================
     const storiesTrack = document.querySelector('.stories-track');
     const storiesContainer = document.querySelector('.stories-container');
     if (storiesTrack && storiesContainer) {
@@ -2123,7 +2279,6 @@
       });
     }
   </script>
-
 </body>
 
 </html>
