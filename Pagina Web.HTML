@@ -271,6 +271,7 @@
         radial-gradient(circle at center, transparent 30%, rgba(30, 17, 7, 0.4) 100%),
         url('images/parchment_bg.webp');
       background-size: cover;
+      background-position: center;
     }
 
     /* Collage Newspaper Scraps Underlay */
@@ -416,9 +417,9 @@
     .hero-collage {
       position: relative;
       width: 100%;
-      max-width: 1100px;
+      max-width: 1200px;
       margin-top: auto;
-      height: 320px;
+      height: 380px;
       display: flex;
       justify-content: center;
       align-items: flex-end;
@@ -456,7 +457,7 @@
 
     .collage-item-wrapper {
       position: absolute;
-      width: 280px;
+      width: 320px;
       z-index: 2;
       transition: z-index 0.2s;
     }
@@ -505,22 +506,22 @@
     }
 
     .item-left {
-      left: 8%;
-      bottom: 10px;
+      left: 4%;
+      bottom: 20px;
       animation: levitate-left 6s ease-in-out infinite;
     }
 
     .item-center {
       left: 50%;
-      bottom: 25px;
-      width: 320px;
+      bottom: 35px;
+      width: 360px;
       z-index: 3;
       animation: levitate-center 5s ease-in-out infinite;
     }
 
     .item-right-photo {
-      right: 8%;
-      bottom: 15px;
+      right: 4%;
+      bottom: 25px;
       animation: levitate-right 7s ease-in-out infinite;
     }
 
@@ -535,8 +536,8 @@
       padding: 0.8rem 0.8rem 3rem 0.8rem;
       border: 1px solid rgba(30, 17, 7, 0.15);
       box-shadow: inset 15px 15px 15px rgba(0, 0, 0, 0.05);
-      width: 150%;
-      height: 280px;
+      width: 100%;
+      height: auto;
     }
 
     .torn-photo-left {
@@ -554,7 +555,7 @@
     .photo-frame img,
     .landmark-illustration {
       width: 100%;
-      height: 280px;
+      height: 240px;
       object-fit: cover;
       display: block;
       transition: filter 0.4s ease, transform 0.4s ease;
@@ -664,6 +665,7 @@
         radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%),
         url('images/background1.png');
       background-size: cover;
+      background-position: center;
       color: var(--parchment);
     }
 
@@ -880,6 +882,7 @@
         radial-gradient(circle at center, rgba(30, 17, 7, 0.2) 0%, rgba(30, 17, 7, 0.45) 100%),
         url('images/parchment_bg.webp');
       background-size: cover;
+      background-position: center;
       border-top: 4px double var(--sepia);
       border-bottom: 4px double var(--sepia);
     }
@@ -1382,11 +1385,13 @@
         width: 190px;
       }
 
-      .photo-frame img {
+      .photo-frame img,
+      .landmark-illustration {
         height: 120px;
       }
 
-      .item-center .photo-frame img {
+      .item-center .photo-frame img,
+      .item-center .landmark-illustration {
         height: 140px;
       }
     }
@@ -1474,11 +1479,8 @@
         animation: none !important;
       }
 
-      .photo-frame img {
-        height: 180px;
-      }
-
-      .item-center .photo-frame img {
+      .photo-frame img,
+      .landmark-illustration {
         height: 180px;
       }
 
@@ -1823,7 +1825,8 @@
                 </div>
                 <span class="story-location">ESTEROS</span>
                 <h3 class="story-title">El Karãu</h3>
-                <p class="story-desc">Karãu era un joven apuesto, buen bailarín y cantor, que vivía cuidando a su madre enferma. Una noche salió a buscarle un remedio, pero se dejó llevar por el baile.</p>
+                <p class="story-desc">Karãu era un joven apuesto, buen bailarín y cantor, que vivía cuidando a su madre
+                  enferma. Una noche salió a buscarle un remedio, pero se dejó llevar por el baile.</p>
                 <div class="story-actions">
                   <a href="relato.html?id=3" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
                   <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
@@ -1914,11 +1917,13 @@
                   style="width: 100%; height: 100%; object-fit: cover; display: none;">
                   <rect width="330" height="180" fill="#c3cbb8" />
                   <!-- Bird sketch representation in SVG lines -->
-                  <path d="M120 120 C130 90, 160 80, 180 90 C200 100, 210 120, 200 140 C190 150, 150 160, 120 120 Z" fill="none" stroke="#1c120c" stroke-width="2.5" />
+                  <path d="M120 120 C130 90, 160 80, 180 90 C200 100, 210 120, 200 140 C190 150, 150 160, 120 120 Z"
+                    fill="none" stroke="#1c120c" stroke-width="2.5" />
                   <line x1="180" y1="90" x2="210" y2="85" stroke="#1c120c" stroke-width="2" />
                   <polyline points="150 145 140 165 145 165" stroke="#1c120c" stroke-width="2" fill="none" />
                   <polyline points="170 145 165 165 170 165" stroke="#1c120c" stroke-width="2" fill="none" />
-                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1c120c" font-weight="700">El Karãu</text>
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1c120c" font-weight="700">El
+                    Karãu</text>
                 </svg>
               </div>
               <p class="photo-caption" id="level-caption"
