@@ -61,8 +61,7 @@
 
     body {
       font-family: 'Cormorant Garamond', serif;
-      background-color: var(--parchment-dark);
-      background-image: url('images/parchment_bg.webp');
+      background-color: var(--sepia-dark);
       background-size: cover;
       background-attachment: fixed;
       color: var(--ink);
@@ -533,10 +532,11 @@
     /* Photo Frame Polaroid-style with Torn Edges */
     .photo-frame {
       background: var(--white-torn);
-      padding: 0.8rem 0.8rem 2.2rem 0.8rem;
+      padding: 0.8rem 0.8rem 3rem 0.8rem;
       border: 1px solid rgba(30, 17, 7, 0.15);
-      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
-      width: 100%;
+      box-shadow: inset 15px 15px 15px rgba(0, 0, 0, 0.05);
+      width: 150%;
+      height: 280px;
     }
 
     .torn-photo-left {
@@ -554,7 +554,7 @@
     .photo-frame img,
     .landmark-illustration {
       width: 100%;
-      height: 180px;
+      height: 280px;
       object-fit: cover;
       display: block;
       transition: filter 0.4s ease, transform 0.4s ease;
@@ -571,7 +571,7 @@
 
     .item-center .photo-frame img,
     .item-center .landmark-illustration {
-      height: 210px;
+      width: 100%
     }
 
     .photo-frame:hover img,
@@ -687,7 +687,6 @@
       position: relative;
       max-width: 1100px;
       margin: 0 auto;
-      overflow: hidden;
       padding: 1.5rem 0;
     }
 
@@ -727,7 +726,7 @@
       background: var(--white-torn);
       color: var(--ink);
       clip-path: url(#torn-card);
-      padding: 1.5rem 1.5rem 2.2rem;
+      padding: 2.5rem 2.5rem 2.5rem;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -820,8 +819,8 @@
     }
 
     .story-image-wrap {
-      width: 100%;
-      height: 210px;
+      width: 240px;
+      height: 200px;
       overflow: hidden;
       margin-bottom: 1.5rem;
       border: 1px solid rgba(0, 0, 0, 0.05);
@@ -1683,12 +1682,12 @@
         </div>
       </div>
 
-      <!-- El Almacenero (Right) -->
+      <!-- El Karãu (Right) -->
       <div class="shadow-wrapper collage-item-wrapper item-right-photo" data-aos="fade-left" data-aos-duration="1000"
         data-aos-delay="800">
         <div class="photo-frame torn-photo-right">
-          <div class="landmark-illustration" aria-label="El Almacenero, UN PEQUEÑO PUEBLO" role="img">
-            <img src="images/NL3.png" alt="El Almacenero" />
+          <div class="landmark-illustration" aria-label="El Karãu, ESTEROS" role="img">
+            <img src="images/NL3.png" alt="El Karãu" />
           </div>
         </div>
       </div>
@@ -1770,69 +1769,69 @@
             style="max-width: 700px; color: #000000; margin: 1.5rem auto 0; font-weight: 600;">
             Descubre tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel presenta una experiencia
             diferente que invita a conocer una parte de nuestra historia y cultura.
-          <div class="stories-container">
-            <div class="stories-track">
-              <!-- Story 1 -->
-              <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
-                <article class="story-card">
-                  <span class="story-badge">Nivel 1</span>
-                  <div class="story-image-wrap">
-                    <div class="landmark-illustration" aria-label="CHACO PARAGUAYO" role="img">
-                      <img src="images/Camino_a_la_Fiesta.png" alt="Camino a la Fiesta" />
-                    </div>
+        </div>
+        <div class="stories-container">
+          <div class="stories-track">
+            <!-- Story 1 -->
+            <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+              <article class="story-card">
+                <span class="story-badge">Nivel 1</span>
+                <div class="story-image-wrap">
+                  <div class="landmark-illustration" aria-label="CHACO PARAGUAYO" role="img">
+                    <img src="images/Camino_a_la_Fiesta.png" alt="Camino a la Fiesta" />
                   </div>
-                  <span class="story-location">CHACO PARAGUAYO</span>
-                  <h3 class="story-title">Camino a la Fiesta</h3>
-                  <p class="story-desc">Acompaña a Delfina Servín en su recorrido y descubre los secretos que rodean a
-                    esta popular leyenda paraguaya.</p>
-                  <div class="story-actions">
-                    <a href="relato.html?id=1" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
-                    <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
-                  </div>
-                </article>
-              </div>
+                </div>
+                <span class="story-location">CHACO PARAGUAYO</span>
+                <h3 class="story-title">Camino a la Fiesta</h3>
+                <p class="story-desc">Acompaña a Delfina Servín en su recorrido y descubre los secretos que rodean a
+                  esta popular leyenda paraguaya.</p>
+                <div class="story-actions">
+                  <a href="relato.html?id=1" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                  <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
+                </div>
+              </article>
+            </div>
 
-              <!-- Story 2 -->
-              <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                <article class="story-card">
-                  <span class="story-badge">Nivel 2</span>
-                  <div class="story-image-wrap">
-                    <div class="landmark-illustration" aria-label="Regreso al Hogar, ALTO PARANÁ" role="img">
-                      <img src="images/Regreso_al_Hogar.jpg" alt="Regreso al Hogar" />
-                    </div>
+            <!-- Story 2 -->
+            <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+              <article class="story-card">
+                <span class="story-badge">Nivel 2</span>
+                <div class="story-image-wrap">
+                  <div class="landmark-illustration" aria-label="Regreso al Hogar, ALTO PARANÁ" role="img">
+                    <img src="images/Regreso_al_Hogar.jpg" alt="Regreso al Hogar" />
                   </div>
-                  <span class="story-location">ALTO PARANÁ</span>
-                  <h3 class="story-title">Regreso al Hogar</h3>
-                  <p class="story-desc">Escapa de los yerbales del Alto Paraná y experimenta la dura realidad de la
-                    explotación laboral del siglo XIX.</p>
-                  <div class="story-actions">
-                    <a href="relato.html?id=2" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
-                    <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
-                  </div>
-                </article>
-              </div>
+                </div>
+                <span class="story-location">ALTO PARANÁ</span>
+                <h3 class="story-title">Regreso al Hogar</h3>
+                <p class="story-desc">Escapa de los yerbales del Alto Paraná y experimenta la dura realidad de la
+                  explotación laboral del siglo XIX.</p>
+                <div class="story-actions">
+                  <a href="relato.html?id=2" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                  <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
+                </div>
+              </article>
+            </div>
 
-              <!-- Story 3 -->
-              <div class="story-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-                <article class="story-card">
-                  <span class="story-badge">Nivel 3</span>
-                  <div class="story-image-wrap">
-                    <div class="landmark-illustration" aria-label="El Almacenero, UN PEQUEÑO PUEBLO" role="img">
-                      <img src="images/NL3.png" alt="El Almacenero" />
-                    </div>
+            <!-- Story 3 -->
+            <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+              <article class="story-card">
+                <span class="story-badge">Nivel 3</span>
+                <div class="story-image-wrap">
+                  <div class="landmark-illustration" aria-label="El Karãu, ESTEROS" role="img">
+                    <img src="images/NL3.png" alt="El Karãu" />
                   </div>
-                  <span class="story-location">UN PEQUEÑO PUEBLO</span>
-                  <h3 class="story-title">El Almacenero</h3>
-                  <p class="story-desc">Descubre a través de las conversaciones cotidianas y compras fiadas la
-                    silenciosa tragedia de una familia rural.</p>
-                  <div class="story-actions">
-                    <a href="relato.html?id=3" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
-                    <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
-                  </div>
-                </article>
-              </div>
+                </div>
+                <span class="story-location">ESTEROS</span>
+                <h3 class="story-title">El Karãu</h3>
+                <p class="story-desc">Karãu era un joven apuesto, buen bailarín y cantor, que vivía cuidando a su madre enferma. Una noche salió a buscarle un remedio, pero se dejó llevar por el baile.</p>
+                <div class="story-actions">
+                  <a href="relato.html?id=3" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                  <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
+                </div>
+              </article>
             </div>
           </div>
+
     </section>
 
     <!-- Sección Crear un Juego / Story Builder Showcase -->
@@ -1913,15 +1912,13 @@
                 <!-- SVG Level 3 -->
                 <svg id="svg-level-3" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg"
                   style="width: 100%; height: 100%; object-fit: cover; display: none;">
-                  <rect width="330" height="180" fill="#d2c4b9" />
-                  <rect x="100" y="60" width="130" height="90" fill="none" stroke="#1e1107" stroke-width="3" />
-                  <line x1="100" y1="90" x2="230" y2="90" stroke="#1e1107" stroke-width="2" />
-                  <line x1="100" y1="120" x2="230" y2="120" stroke="#1e1107" stroke-width="2" />
-                  <circle cx="120" cy="75" r="5" fill="#bc2f1e" />
-                  <circle cx="160" cy="75" r="5" fill="#bc2f1e" />
-                  <rect x="190" y="100" width="25" height="15" fill="#d49a37" opacity="0.8" />
-                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107" font-weight="700">El
-                    Almacenero</text>
+                  <rect width="330" height="180" fill="#c3cbb8" />
+                  <!-- Bird sketch representation in SVG lines -->
+                  <path d="M120 120 C130 90, 160 80, 180 90 C200 100, 210 120, 200 140 C190 150, 150 160, 120 120 Z" fill="none" stroke="#1c120c" stroke-width="2.5" />
+                  <line x1="180" y1="90" x2="210" y2="85" stroke="#1c120c" stroke-width="2" />
+                  <polyline points="150 145 140 165 145 165" stroke="#1c120c" stroke-width="2" fill="none" />
+                  <polyline points="170 145 165 165 170 165" stroke="#1c120c" stroke-width="2" fill="none" />
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1c120c" font-weight="700">El Karãu</text>
                 </svg>
               </div>
               <p class="photo-caption" id="level-caption"
@@ -1960,7 +1957,7 @@
                 style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-3">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                   <span class="option-bullet">3</span>
-                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">El Almacenero</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">El Karãu</span>
                 </div>
                 <span class="status-indicator"
                   style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 0;">Activo</span>
@@ -2201,14 +2198,13 @@
       },
       3: {
         number: "Nivel 3",
-        title: "El Almacenero",
-        caption: "El Almacenero",
+        title: "El Karãu",
+        caption: "El Karãu",
         bullets: [
-          "Aprender sobre la vida y dinámicas sociales de un pequeño pueblo paraguayo.",
-          "Conocer a los diversos vecinos y clientes cotidianos que acuden al almacén.",
-          "Descubrir la historia de la familia a través de las cuentas fiadas.",
-          "Comprender el impacto de una tragedia silenciosa en una comunidad pequeña.",
-          "Explorar la tienda y examinar detalles cotidianos que revelan secretos."
+          "El camino que transcurre Karãu",
+          "El elemento del propósito inicial de Karãu",
+          "Lo poco que resultó ser importante para el Karãu la vida de su madre",
+          "El castigo inferido por Dios"
         ]
       }
     };
