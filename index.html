@@ -1,0 +1,2320 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatos Ocultos</title>
+  <meta name="description"
+    content="Descubre los misterios, héroes y leyendas de Paraguay en este videojuego interactivo de relatos históricos.">
+
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts: Cinzel (headers), Cormorant Garamond (body serif), Montserrat (interface sans-serif) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Preload de imágenes críticas -->
+  <link rel="preload" href="images/parchment_bg.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="images/brown_paper_texture.webp" as="image" type="image/webp">
+
+  <!-- AOS Animation Library CSS (carga no bloqueante) -->
+  <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  </noscript>
+
+
+  <style>
+    * *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --ink: #1c120c;
+      --parchment: #faf6eb;
+      --parchment-dark: #ebdcb9;
+      --parchment-darker: #755537;
+      --sepia: #755537;
+      --sepia-dark: #1c120c;
+      --gold: #c59b27;
+      --gold-light: #ebd09b;
+      --red-old: #9e2a1b;
+      --white-torn: #faf6eb;
+      --shadow-color: rgba(28, 18, 12, 0.15);
+      /* Sidebar */
+      --sidebar-border: rgba(197, 155, 39, 0.3);
+      --sidebar-active: rgba(197, 155, 39, 0.12);
+      --sidebar-width: 220px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background-color: var(--sepia-dark);
+      background-size: cover;
+      background-attachment: fixed;
+      color: var(--ink);
+      overflow-x: hidden;
+      font-size: 1.15rem;
+      line-height: 1.75;
+      padding-left: var(--sidebar-width);
+      /* Espacio para el sidebar */
+    }
+
+    /* Scanline paper texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(30, 17, 7, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 17, 7, 0.015) 1px, transparent 1px);
+      background-size: 100% 4px, 4px 100%;
+      pointer-events: none;
+      z-index: 999;
+      will-change: transform;
+      contain: strict;
+    }
+
+    /* Accessibility Focus Style */
+    a:focus-visible,
+    button:focus-visible,
+    div[tabindex="0"]:focus-visible {
+      outline: 3px double var(--gold);
+      outline-offset: 4px;
+    }
+
+    /* ============================================
+       SIDEBAR NAV — Menú vertical izquierdo
+       ============================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: auto;
+      width: var(--sidebar-width);
+      background:
+        linear-gradient(180deg, rgba(30, 17, 7, 0.97) 0%, rgba(20, 9, 2, 0.99) 100%),
+        url('images/parchment_bg.webp');
+      background-size: cover;
+      border-right: 2px solid var(--sidebar-border);
+      border-bottom: none;
+      padding: 2.5rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      z-index: 1000;
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .nav-logo {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      line-height: 1;
+      padding: 0 1.5rem 2rem;
+      border-bottom: 1px solid var(--sidebar-border);
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.55rem;
+      color: var(--parchment-dark);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    .logo-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--gold-light);
+      letter-spacing: 0.05em;
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      list-style: none;
+      align-items: stretch;
+      padding: 0;
+    }
+
+    .nav-links li {
+      width: 100%;
+    }
+
+    .nav-links a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--parchment);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease, border-left-color 0.2s ease;
+      position: relative;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--sidebar-active);
+      color: var(--gold-light);
+      border-left-color: var(--gold);
+      padding-left: 1.8rem;
+    }
+
+    .nav-links a::after {
+      display: none;
+    }
+
+    /* Mobile Nav Toggle — oculto en desktop */
+    .nav-toggle {
+      display: none;
+      background: var(--sepia-dark);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 0.55rem 0.6rem;
+      z-index: 1001;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .nav-toggle .bar {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background-color: var(--parchment);
+      transition: all 0.3s ease;
+    }
+
+    /* GENERAL STYLES */
+    section {
+      padding: 6rem 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ornament {
+      text-align: center;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin: 0.5rem 0 1.5rem;
+      letter-spacing: 0.3em;
+    }
+
+    .section-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.6rem, 4.5vw, 2.3rem);
+      color: var(--sepia-dark);
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--parchment-darker);
+      border-bottom: 1px solid var(--parchment-darker);
+      height: 5px;
+      background: var(--gold);
+      opacity: 0.5;
+      margin: 1.2rem auto;
+      width: 180px;
+    }
+
+    /* SHADOW WRAPPER TRICK FOR CLIPPED ELEMENTS */
+    .shadow-wrapper {
+      filter: drop-shadow(0px 8px 16px var(--shadow-color));
+      display: inline-block;
+      width: 100%;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem;
+      position: relative;
+      overflow: hidden;
+      background-image:
+        radial-gradient(circle at center, transparent 30%, rgba(30, 17, 7, 0.4) 100%),
+        url('images/parchment_bg.webp');
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Collage Newspaper Scraps Underlay */
+    .scrap-paper {
+      position: absolute;
+      opacity: 0.15;
+      pointer-events: none;
+      filter: sepia(0.5);
+    }
+
+    .scrap-newspaper {
+      width: 350px;
+      height: 350px;
+      background: repeating-linear-gradient(rgba(0, 0, 0, 0.8) 0px, rgba(0, 0, 0, 0.8) 1px, transparent 1px, transparent 12px);
+      left: -100px;
+      top: 15%;
+      transform: rotate(-15deg);
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      clip-path: polygon(10% 5%, 90% 12%, 85% 90%, 5% 85%);
+    }
+
+    .scrap-notebook {
+      width: 300px;
+      height: 400px;
+      background-color: transparent;
+      border-left: 2px solid var(--red-old);
+      border-bottom: 1px solid var(--sepia);
+      background-image: linear-gradient(rgba(0, 100, 200, 0.15) 1px, transparent 1px);
+      background-size: 100% 24px;
+      right: -80px;
+      top: 25%;
+      transform: rotate(18deg);
+      clip-path: polygon(5% 10%, 95% 4%, 88% 95%, 12% 90%);
+    }
+
+    .hero-content {
+      max-width: 800px;
+      z-index: 5;
+      margin-bottom: 2rem;
+    }
+
+    .title-shadow {
+      filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.4));
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* Torn Brown Craft Paper Card matching image_0.png */
+    .hero-title-card {
+      background-color: #5c432d;
+      background-image: url('images/brown_paper_texture.webp');
+      background-size: cover;
+      padding: 3rem 4rem;
+      clip-path: url(#torn-horizontal);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.85rem, 2.5vw, 1.25rem);
+      color: var(--parchment-dark);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(2.4rem, 7vw, 4.8rem);
+      font-weight: 900;
+      color: var(--parchment);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-gametitle {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: clamp(0.75rem, 2vw, 1rem);
+      color: var(--gold-light);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border-top: 1px double rgba(235, 208, 155, 0.3);
+      padding-top: 0.75rem;
+      display: inline-block;
+    }
+
+    /* BUTTONS: Game-style Tactile 3D Buttons */
+    .btn {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 1rem 2.4rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid var(--sepia-dark);
+      border-radius: 4px;
+      transition: transform 0.1s ease, background 0.2s ease, box-shadow 0.1s ease;
+      position: relative;
+    }
+
+    .btn-primary {
+      color: var(--parchment);
+      background: var(--red-old);
+      box-shadow: 0 5px 0 var(--sepia-dark);
+    }
+
+    .btn-primary:hover {
+      background: #a32214;
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 var(--sepia-dark);
+    }
+
+    .btn-primary:active {
+      transform: translateY(5px);
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      color: var(--sepia-dark);
+      background: var(--parchment);
+      box-shadow: 0 5px 0 var(--sepia-dark);
+    }
+
+    .btn-secondary:hover {
+      background: var(--white-torn);
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 var(--sepia-dark);
+    }
+
+    .btn-secondary:active {
+      transform: translateY(5px);
+      box-shadow: none;
+    }
+
+    /* COLLAGE AT BOTTOM OF HERO with levitation animations */
+    .hero-collage {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin-top: auto;
+      height: 380px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding-bottom: 1rem;
+    }
+
+    /* Newspaper scrap decorations in collage background */
+    .collage-scrap {
+      position: absolute;
+      background-color: var(--parchment-darker);
+      opacity: 0.4;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      z-index: 1;
+    }
+
+    .collage-scrap.scrap-1 {
+      width: 250px;
+      height: 80px;
+      bottom: 20px;
+      left: 15%;
+      transform: rotate(-8deg);
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.1) 9px);
+      clip-path: polygon(2% 5%, 98% 15%, 95% 95%, 0% 90%);
+    }
+
+    .collage-scrap.scrap-2 {
+      width: 280px;
+      height: 70px;
+      bottom: 30px;
+      right: 15%;
+      transform: rotate(5deg);
+      background-color: var(--parchment);
+      clip-path: polygon(5% 10%, 95% 2%, 100% 88%, 0% 95%);
+    }
+
+    .collage-item-wrapper {
+      position: absolute;
+      width: 320px;
+      z-index: 2;
+      transition: z-index 0.2s;
+    }
+
+    /* Levitating micro-animations for collage items */
+    @keyframes levitate-left {
+      0% {
+        transform: rotate(-6deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(-5deg) translateY(-8px);
+      }
+
+      100% {
+        transform: rotate(-6deg) translateY(0);
+      }
+    }
+
+    @keyframes levitate-center {
+      0% {
+        transform: translateX(-50%) rotate(1deg) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) rotate(2deg) translateY(-10px);
+      }
+
+      100% {
+        transform: translateX(-50%) rotate(1deg) translateY(0);
+      }
+    }
+
+    @keyframes levitate-right {
+      0% {
+        transform: rotate(5deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(4deg) translateY(-8px);
+      }
+
+      100% {
+        transform: rotate(5deg) translateY(0);
+      }
+    }
+
+    .item-left {
+      left: 4%;
+      bottom: 20px;
+      animation: levitate-left 6s ease-in-out infinite;
+    }
+
+    .item-center {
+      left: 50%;
+      bottom: 35px;
+      width: 360px;
+      z-index: 3;
+      animation: levitate-center 5s ease-in-out infinite;
+    }
+
+    .item-right-photo {
+      right: 4%;
+      bottom: 25px;
+      animation: levitate-right 7s ease-in-out infinite;
+    }
+
+    .collage-item-wrapper:hover {
+      animation-play-state: paused;
+      z-index: 10;
+    }
+
+    /* Photo Frame Polaroid-style with Torn Edges */
+    .photo-frame {
+      background: var(--white-torn);
+      padding: 0.8rem 0.8rem 3rem 0.8rem;
+      border: 1px solid rgba(30, 17, 7, 0.15);
+      box-shadow: inset 15px 15px 15px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      height: auto;
+    }
+
+    .torn-photo-left {
+      clip-path: url(#torn-photo-1);
+    }
+
+    .torn-photo-center {
+      clip-path: url(#torn-photo-2);
+    }
+
+    .torn-photo-right {
+      clip-path: url(#torn-photo-3);
+    }
+
+    .photo-frame img,
+    .landmark-illustration {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+      transition: filter 0.4s ease, transform 0.4s ease;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .landmark-illustration svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .item-center .photo-frame img,
+    .item-center .landmark-illustration {
+      width: 100%
+    }
+
+    .photo-frame:hover img,
+    .photo-frame:hover .landmark-illustration svg {
+      transform: scale(1.03);
+    }
+
+    .photo-caption {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 0.8rem;
+      color: var(--sepia-dark);
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ABOUT / DESCRIPCION SECTION */
+    .about {
+      background: var(--parchment);
+      border-top: 4px double var(--sepia);
+      border-bottom: 4px double var(--sepia);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05), 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .about-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-text {
+      font-size: 1.25rem;
+      line-height: 1.85;
+      color: var(--sepia-dark);
+      margin: 2rem 0;
+      font-weight: 500;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .feature-card {
+      background: var(--parchment-dark);
+      border: 1px solid var(--parchment-darker);
+      border-top: 4px solid var(--gold);
+      padding: 2.2rem 1.8rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(26, 16, 8, 0.1);
+    }
+
+    .feature-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      display: block;
+      color: var(--red-old);
+    }
+
+    .feature-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--sepia-dark);
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .feature-desc {
+      font-size: 0.95rem;
+      color: var(--sepia-dark);
+      line-height: 1.6;
+    }
+
+    /* HISTORIAS OCULTAS SECTION: Scroll Carrousel Deck for youth */
+    .stories {
+      background: var(--sepia-dark);
+      background-image:
+        radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%),
+        url('images/background1.png');
+      background-size: cover;
+      background-position: center;
+      color: var(--parchment);
+    }
+
+    .stories .section-title {
+      color: var(--parchment);
+    }
+
+    .stories .ornament {
+      color: var(--gold-light);
+    }
+
+    .stories-subtitle {
+      font-style: italic;
+      color: var(--parchment-dark);
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+
+    .stories-container {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 0;
+    }
+
+    #historias .stories-track {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      padding: 1rem;
+      overflow-x: visible;
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE y Edge */
+    }
+
+    #historias .stories-track::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Safari y Opera */
+    }
+
+    .story-card-wrapper {
+      width: 100%;
+      max-width: 350px;
+      filter: drop-shadow(0px 10px 16px rgba(0, 0, 0, 0.35));
+      transition: transform 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .story-card-wrapper:hover {
+      transform: scale(1.03) translateY(-4px);
+    }
+
+    .story-card {
+      background: var(--white-torn);
+      color: var(--ink);
+      clip-path: url(#torn-card);
+      padding: 2.5rem 2.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .story-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: auto;
+      align-items: center;
+      width: 100%;
+    }
+
+    .story-btn-read {
+      width: 100%;
+      text-align: center;
+      padding: 0.7rem 1rem !important;
+      font-size: 0.75rem !important;
+    }
+
+    .story-link-play {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--sepia);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color 0.2s ease;
+      border-bottom: 1px dashed var(--sepia);
+      padding-bottom: 2px;
+      margin-top: 0.25rem;
+    }
+
+    .story-link-play:hover {
+      color: var(--red-old);
+      border-bottom-color: var(--red-old);
+    }
+
+    .feature-icon-svg {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 1.2rem;
+      display: block;
+      color: var(--red-old);
+    }
+
+    .nav-svg-icon {
+      width: 1.1rem;
+      height: 1.1rem;
+      stroke: currentColor;
+      flex-shrink: 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    @media (min-width: 1024px) {
+      #historias .stories-track {
+        flex-direction: row;
+        justify-content: center;
+        gap: 2.5rem;
+        overflow-x: visible;
+      }
+
+      .story-card-wrapper {
+        flex: 1 1 330px;
+        max-width: 350px;
+      }
+    }
+
+    /* Red level badge */
+    .story-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--red-old);
+      color: var(--parchment);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.35rem 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      clip-path: polygon(2% 8%, 98% 2%, 95% 92%, 5% 95%);
+    }
+
+    .story-image-wrap {
+      width: 240px;
+      height: 200px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      clip-path: url(#torn-photo-1);
+      background: var(--parchment-dark);
+    }
+
+    .story-image-wrap img,
+    .story-image-wrap .landmark-illustration {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+
+    .story-image-wrap .landmark-illustration svg {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.4s ease;
+    }
+
+    .story-card:hover .story-image-wrap .landmark-illustration svg {
+      transform: scale(1.04);
+    }
+
+    .story-location {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--sepia);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .story-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--sepia-dark);
+      margin-bottom: 0.8rem;
+    }
+
+    .story-desc {
+      font-size: 0.95rem;
+      color: var(--sepia-dark);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+      font-style: italic;
+    }
+
+    /* CREAR UN JUEGO / STORY BUILDER */
+    .builder {
+      background: var(--parchment-dark);
+      background-image:
+        radial-gradient(circle at center, rgba(30, 17, 7, 0.2) 0%, rgba(30, 17, 7, 0.45) 100%),
+        url('images/parchment_bg.webp');
+      background-size: cover;
+      background-position: center;
+      border-top: 4px double var(--sepia);
+      border-bottom: 4px double var(--sepia);
+    }
+
+    .about-paper-card {
+      background-color: var(--parchment);
+      background-image: linear-gradient(rgba(252, 250, 242, 0.65), rgba(252, 250, 242, 0.65)), url('images/parchment_bg_for_papercard.jpg');
+      background-size: cover;
+      padding: 3rem 4rem;
+      border: 1px solid rgba(139, 104, 62, 0.2);
+      box-shadow: 0 10px 30px rgba(30, 17, 7, 0.18);
+      max-width: 820px;
+      margin: 0 auto 3.5rem;
+      position: relative;
+      clip-path: url(#torn-card);
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .about-paper-card {
+        padding: 2rem 1.5rem;
+        clip-path: none;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+      }
+    }
+
+    .journal-wrapper {
+      max-width: 1000px;
+      margin: 4rem auto 0;
+      filter: drop-shadow(0px 12px 24px rgba(26, 16, 8, 0.25));
+    }
+
+    /* Double-page open journal layout */
+    .journal {
+      background: var(--white-torn);
+      border: 3px double var(--sepia);
+      border-radius: 4px;
+      padding: 3rem;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      background-image: radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.06) 100%);
+    }
+
+    /* Book center spine shadow binding */
+    .journal::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 40px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.18) 50%, rgba(0, 0, 0, 0.08) 100%);
+      border-left: 1px dashed rgba(58, 34, 17, 0.15);
+      border-right: 1px dashed rgba(58, 34, 17, 0.15);
+      pointer-events: none;
+    }
+
+    .journal-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Visual Novel styled mockup */
+    .journal-right {
+      background: #faf4e5;
+      border: 2px solid var(--sepia-dark);
+      padding: 1.8rem;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-radius: 4px;
+    }
+
+    .journal-right::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 15px;
+      width: 1px;
+      background: rgba(255, 0, 0, 0.15);
+    }
+
+    .builder-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.5rem;
+      color: var(--sepia-dark);
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid var(--gold-light);
+      padding-bottom: 0.5rem;
+    }
+
+    .builder-desc {
+      font-size: 1.05rem;
+      color: var(--sepia-dark);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .builder-bullets {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .builder-bullets li {
+      position: relative;
+      padding-left: 1.8rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+      color: var(--sepia-dark);
+      font-weight: 500;
+    }
+
+    .builder-bullets li::before {
+      content: '❦';
+      position: absolute;
+      left: 0;
+      top: 1px;
+      font-size: 0.9rem;
+      color: var(--red-old);
+    }
+
+    /* RPG dialogue preview styling */
+    .preview-header {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--red-old);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .preview-body {
+      background: var(--white-torn);
+      border: 2px solid var(--sepia-dark);
+      border-radius: 4px;
+      padding: 1.2rem;
+      min-height: 165px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .avatar-sketch {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--red-old);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: var(--parchment);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      border: 2px solid var(--white-torn);
+    }
+
+    .speech-bubble {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bubble-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--sepia-dark);
+      margin-bottom: 2px;
+    }
+
+    .bubble-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.75rem;
+      color: var(--sepia);
+      margin-bottom: 0.5rem;
+    }
+
+    .bubble-text {
+      font-size: 0.95rem;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    .preview-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .mock-option {
+      background: var(--white-torn);
+      border: 1px solid var(--parchment-darker);
+      border-left: 4px solid var(--gold);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--sepia-dark);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      outline: none;
+      border-radius: 2px;
+    }
+
+    .mock-option:hover {
+      background: var(--sepia-dark);
+      color: var(--parchment);
+      border-left-color: var(--red-old);
+    }
+
+    .mock-option.selected {
+      background: var(--sepia-dark);
+      color: var(--parchment);
+      border-left-color: var(--red-old);
+    }
+
+    .option-bullet {
+      background: var(--gold);
+      color: #fff;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .mock-option.selected .option-bullet,
+    .mock-option:hover .option-bullet {
+      background: var(--red-old);
+      color: var(--parchment);
+    }
+
+    /* TEAM / EQUIPO SECTION */
+    .team {
+      background: var(--parchment);
+      border-bottom: 4px double var(--sepia);
+    }
+
+    .team-grid {
+      max-width: 950px;
+      margin: 4rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .team-card-shadow {
+      filter: drop-shadow(0 6px 12px var(--shadow-color));
+      transition: transform 0.3s ease;
+    }
+
+    .team-card {
+      background: var(--white-torn);
+      border: 3px double var(--parchment-darker);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+      outline: none;
+    }
+
+    .team-card-shadow:hover {
+      transform: translateY(-4px);
+    }
+
+    .team-card:hover,
+    .team-card:focus-within {
+      border-color: var(--gold);
+    }
+
+    .team-card.active {
+      transform: scale(1.02) rotate(-1deg);
+      border-color: var(--gold);
+    }
+
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 1px dashed rgba(139, 104, 62, 0.25);
+      pointer-events: none;
+    }
+
+    /* Vintage Stamp Frame for Avatars */
+    .team-avatar-frame {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: var(--sepia-dark);
+      border: 4px double var(--gold);
+      margin: 0 auto 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.8rem;
+      color: var(--gold-light);
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .team-avatar-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(1) contrast(1.1) brightness(0.9);
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    .team-card:hover .team-avatar-frame img {
+      filter: sepia(0.3) contrast(1) brightness(0.95);
+      transform: scale(1.05);
+    }
+
+    .team-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--sepia-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .team-role {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--red-old);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .click-hint {
+      display: none;
+    }
+
+    /* Fixed professional display for team description */
+    .team-desc {
+      padding: 1rem 0.5rem 0;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--sepia-dark);
+      border-top: 1px dashed var(--parchment-darker);
+      text-align: left;
+      font-style: italic;
+    }
+
+    /* DOWNLOAD SECTION */
+    .download {
+      background: var(--sepia-dark);
+      background-image:
+        radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.5) 100%),
+        url('images/backgrounddescarga.png');
+      background-size: cover;
+      padding: 6rem 2rem;
+      text-align: center;
+      border-top: 4px double var(--gold);
+    }
+
+    .download .section-title {
+      color: var(--parchment);
+    }
+
+    .download .ornament {
+      color: var(--gold-light);
+    }
+
+    .download-text {
+      font-style: italic;
+      color: var(--parchment);
+      max-width: 580px;
+      margin: 1rem auto 2.5rem;
+      font-size: 1.15rem;
+      line-height: 1.8;
+    }
+
+    .platforms {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .plat-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--gold-light);
+      border: 1px solid var(--gold);
+      padding: 0.5rem 1.4rem;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .btn-download-container {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #180d05;
+      padding: 4rem 2rem 2.5rem;
+      border-top: 3px double var(--gold);
+      text-align: center;
+      color: var(--parchment-darker);
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-text {
+      font-size: 0.85rem;
+      color: var(--sepia);
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    .contacto-info {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(235, 208, 155, 0.1);
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--parchment-dark);
+    }
+
+    .contacto-info a {
+      color: var(--gold-light);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .contacto-info a:hover {
+      color: var(--white-torn);
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVE MEDIA QUERIES */
+    @media (max-width: 900px) {
+      .journal {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding: 2.2rem;
+      }
+
+      .journal::after {
+        display: none;
+      }
+
+      .journal-right::before {
+        display: none;
+      }
+
+      .hero-collage {
+        height: 240px;
+      }
+
+      .collage-item-wrapper {
+        width: 190px;
+      }
+
+      .photo-frame img,
+      .landmark-illustration {
+        height: 120px;
+      }
+
+      .item-center .photo-frame img,
+      .item-center .landmark-illustration {
+        height: 140px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-left: 0;
+        /* Sin sidebar en móvil */
+      }
+
+      section {
+        padding: 5rem 1.5rem;
+      }
+
+      /* Sidebar en móvil: oculto por defecto, desliza desde la izquierda */
+      nav {
+        width: 260px;
+        transform: translateX(-100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border-right: 2px solid var(--gold);
+        border-bottom: none;
+        box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
+      }
+
+      nav.active {
+        transform: translateX(0);
+      }
+
+      /* Links del sidebar en móvil: texto un poco más grande */
+      .nav-links a {
+        font-size: 0.8rem;
+        padding: 1rem 1.5rem;
+      }
+
+      /* Botón hamburger fijo en esquina superior izquierda */
+      .nav-toggle {
+        display: flex;
+        position: fixed;
+        top: 0.85rem;
+        left: 0.85rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      }
+
+      /* Toggle icon animation (X al abrir) */
+      .nav-toggle.open .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-4px, 5px);
+      }
+
+      .nav-toggle.open .bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      .nav-toggle.open .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-4px, -5px);
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 5rem;
+        padding-bottom: 3rem;
+      }
+
+      .hero-title-card {
+        padding: 2rem 1.5rem;
+      }
+
+      /* Stack collage verticalmente en móvil */
+      .hero-collage {
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 3rem;
+        padding-bottom: 0;
+      }
+
+      .collage-item-wrapper {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        transform: none !important;
+        width: 100%;
+        max-width: 320px;
+        animation: none !important;
+      }
+
+      .photo-frame img,
+      .landmark-illustration {
+        height: 180px;
+      }
+
+      .collage-scrap {
+        display: none;
+      }
+    }
+
+    /* ============================================
+       SIDEBAR — Clases adicionales
+       ============================================ */
+    .sidebar-ornament {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--sidebar-border);
+      padding: 1.5rem 1.5rem;
+      letter-spacing: 0.2em;
+      margin-top: auto;
+    }
+
+    .nav-icon {
+      font-size: 1rem;
+      opacity: 0.7;
+      flex-shrink: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-links a:hover .nav-icon,
+    .nav-links a.active .nav-icon {
+      opacity: 1;
+    }
+
+    /* Overlay semitransparente para cerrar el menú móvil */
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 998;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    .nav-overlay.active {
+      display: block;
+    }
+
+    /* Fix Safari iOS: background-attachment fixed no funciona en iOS */
+    @supports (-webkit-touch-callout: none) {
+
+      body,
+      .hero,
+      .stories,
+      .builder,
+      .download {
+        background-attachment: scroll;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Dynamic SVG Clip Paths (100% vector, responsive, 0ms network request) -->
+  <svg width="0" height="0" style="position: absolute;">
+    <defs>
+      <!-- Ripped border horizontal (top & bottom) -->
+      <clipPath id="torn-horizontal" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0.08 L0.03,0.06 L0.07,0.1 L0.1,0.07 L0.13,0.09 L0.17,0.05 L0.2,0.08 L0.24,0.06 L0.28,0.11 L0.31,0.07 L0.35,0.09 L0.38,0.05 L0.42,0.08 L0.45,0.06 L0.49,0.1 L0.52,0.07 L0.56,0.09 L0.59,0.05 L0.63,0.08 L0.66,0.06 L0.7,0.1 L0.73,0.07 L0.77,0.09 L0.8,0.05 L0.84,0.08 L0.87,0.06 L0.91,0.1 L0.94,0.07 L0.98,0.09 L1,0.05 L1,0.92 L0.97,0.94 L0.93,0.9 L0.9,0.93 L0.87,0.91 L0.83,0.95 L0.8,0.92 L0.76,0.94 L0.72,0.89 L0.69,0.93 L0.65,0.91 L0.62,0.95 L0.58,0.92 L0.55,0.94 L0.51,0.9 L0.48,0.93 L0.44,0.91 L0.41,0.95 L0.37,0.92 L0.34,0.94 L0.3,0.9 L0.27,0.93 L0.23,0.91 L0.2,0.95 L0.16,0.92 L0.13,0.94 L0.09,0.9 L0.06,0.93 L0.02,0.91 L0,0.95 Z" />
+      </clipPath>
+      <!-- Story Card all-around torn clip path -->
+      <clipPath id="torn-card" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0.05,0.03 L0.15,0.02 L0.25,0.04 L0.35,0.01 L0.45,0.03 L0.55,0.01 L0.65,0.04 L0.75,0.02 L0.85,0.03 L0.95,0.01 L0.97,0.05 L0.98,0.15 L0.96,0.25 L0.99,0.35 L0.97,0.45 L0.98,0.55 L0.96,0.65 L0.99,0.75 L0.97,0.85 L0.98,0.95 L0.95,0.97 L0.85,0.98 L0.75,0.96 L0.65,0.99 L0.55,0.97 L0.45,0.98 L0.35,0.96 L0.25,0.99 L0.15,0.97 L0.05,0.98 L0.02,0.95 L0.01,0.85 L0.03,0.75 L0.01,0.65 L0.02,0.55 L0.01,0.45 L0.03,0.35 L0.01,0.25 L0.03,0.15 L0.02,0.05 Z" />
+      </clipPath>
+      <!-- Torn photos clipping variation 1 -->
+      <clipPath id="torn-photo-1" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0 L1,0 L1,0.91 L0.96,0.93 L0.91,0.89 L0.87,0.92 L0.83,0.9 L0.79,0.93 L0.75,0.9 L0.71,0.94 L0.66,0.91 L0.62,0.95 L0.57,0.91 L0.52,0.94 L0.48,0.9 L0.43,0.93 L0.38,0.91 L0.34,0.95 L0.29,0.91 L0.24,0.94 L0.19,0.9 L0.15,0.93 L0.11,0.91 L0.07,0.95 L0,0.9 Z" />
+      </clipPath>
+      <!-- Torn photos clipping variation 2 -->
+      <clipPath id="torn-photo-2" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0 L1,0 L1,0.93 L0.97,0.91 L0.94,0.95 L0.9,0.92 L0.86,0.94 L0.82,0.9 L0.78,0.93 L0.74,0.91 L0.7,0.95 L0.65,0.92 L0.61,0.94 L0.57,0.9 L0.53,0.93 L0.49,0.91 L0.45,0.95 L0.41,0.92 L0.37,0.94 L0.33,0.9 L0.29,0.93 L0.25,0.91 L0.21,0.95 L0.17,0.92 L0.13,0.94 L0.09,0.9 L0.05,0.93 L0,0.91 Z" />
+      </clipPath>
+      <!-- Torn photos clipping variation 3 -->
+      <clipPath id="torn-photo-3" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0 L1,0 L1,0.9 L0.95,0.93 L0.91,0.9 L0.87,0.93 L0.83,0.91 L0.79,0.95 L0.75,0.92 L0.71,0.94 L0.67,0.9 L0.63,0.93 L0.59,0.91 L0.55,0.95 L0.51,0.92 L0.47,0.94 L0.43,0.9 L0.39,0.93 L0.35,0.91 L0.31,0.95 L0.27,0.92 L0.23,0.94 L0.19,0.9 L0.15,0.93 L0.11,0.91 L0.07,0.95 L0,0.92 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+
+  <!-- Navegación -->
+  <nav id="sidebar" aria-label="Menú de navegación principal">
+    <a href="#inicio" class="nav-logo" aria-label="Volver al Inicio - Relatos Ocultos">
+      <span style="text-align: center" class="logo-title">Relatos Ocultos</span>
+      <span style="text-align: center" class="logo-subtitle">Historias no contadas</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li>
+        <a href="#inicio" id="nav-inicio" aria-current="page">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          Inicio
+        </a>
+      </li>
+      <li>
+        <a href="#historias" id="nav-historias">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z" />
+          </svg>
+          Historias
+        </a>
+      </li>
+      <li>
+        <a href="#nuestroobjetivo" id="nav-nuestroobjetivo">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.2 3.8a4.15 4.15 0 0 0-5.8 0L3 15.2V21h5.8L20.2 9.6a4.15 4.15 0 0 0 0-5.8z" />
+            <line x1="12" y1="8" x2="16" y2="12" />
+          </svg>
+          Nuestro Objetivo
+        </a>
+      </li>
+      <li>
+        <a href="#equipo" id="nav-equipo">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          Equipo
+        </a>
+      </li>
+      <li>
+        <a href="#descarga" id="nav-descarga">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Descargar
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-ornament" aria-hidden="true">❦</div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header id="inicio" class="hero">
+    <!-- Faded background scraps -->
+    <div class="scrap-paper scrap-newspaper" aria-hidden="true"></div>
+    <div class="scrap-paper scrap-notebook" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <div class="shadow-wrapper title-shadow">
+        <div class="hero-title-card">
+          <h1 class="hero-title" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">Relatos Ocultos</h1>
+          <p class="hero-gametitle" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">Historias no
+            contadas</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dynamic Torn-Edge Collage of Paraguayan landmarks -->
+    <div class="hero-collage">
+      <!-- Scrap papers underlay -->
+      <div class="collage-scrap scrap-1" aria-hidden="true"></div>
+      <div class="collage-scrap scrap-2" aria-hidden="true"></div>
+
+      <!-- Camino a la Fiesta (Left) -->
+      <div class="shadow-wrapper collage-item-wrapper item-left" data-aos="fade-right" data-aos-duration="1000"
+        data-aos-delay="700">
+        <div class="photo-frame torn-photo-left">
+          <div class="landmark-illustration" aria-label="Camino a la Fiesta. CHACO PARAGUAYO" role="img">
+            <img src="images/NL1.png" alt="Camino a la Fiesta" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Regreso al Hogar (Center) -->
+      <div class="shadow-wrapper collage-item-wrapper item-center" data-aos="fade-up" data-aos-duration="1000"
+        data-aos-delay="500">
+        <div class="photo-frame torn-photo-center">
+          <div class="landmark-illustration" aria-label="Regreso al Hogar, ALTO PARANÁ" role="img">
+            <img src="images/NL2.jpg" alt="Regreso al Hogar" />
+          </div>
+        </div>
+      </div>
+
+      <!-- El Karãu (Right) -->
+      <div class="shadow-wrapper collage-item-wrapper item-right-photo" data-aos="fade-left" data-aos-duration="1000"
+        data-aos-delay="800">
+        <div class="photo-frame torn-photo-right">
+          <div class="landmark-illustration" aria-label="El Karãu, ESTEROS" role="img">
+            <img src="images/NL3.png" alt="El Karãu" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Sección Descripción / Acerca del Proyecto -->
+    <section id="descripcion" class="about">
+      <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
+        <h2 class="section-title">Acerca del Proyecto</h2>
+        <div class="divider" aria-hidden="true"></div>
+        <p class="about-text">
+          "Relatos Ocultos" no es solo un videojuego; es un portal interactivo para descubrir los
+          misterios y héroes olvidados de nuestra patria. Sumérgete en recreaciones fieles de eventos que formaron
+          nuestra identidad.
+        </p>
+
+        <div class="features-grid">
+          <!-- Feature 1 -->
+          <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+            <svg class="feature-icon-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M32 54c-6-4-14-5-22-5H4V11h6c7 0 16 2 22 6c6-4 15-6 22-6h6v38H54c-8 0-16 1-22 5Z" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+              <path d="M32 17v37M12 20h12M12 28h12M12 36h10M40 20h12M40 28h12M42 36h10" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" />
+              <path d="M50 48c-6 0-13 1-18 4V17c5-3 12-4 18-4h6v35h-6Z" fill="var(--parchment-dark)" opacity="0.3" />
+            </svg>
+            <h3 class="feature-title">Relatos</h3>
+            <p class="feature-desc">Conoce tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel
+              presenta una historia diferente que invita a descubrir parte de nuestro patrimonio histórico y cultural.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+            <svg class="feature-icon-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="32" cy="36" r="22" fill="none" stroke="currentColor" stroke-width="2" />
+              <circle cx="32" cy="36" r="2" fill="currentColor" />
+              <path d="M32 4v10M32 8a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="2" />
+              <path d="M32 20l4 12.5L32 36l-4-3.5L32 20z" fill="var(--gold)" stroke="currentColor" stroke-width="1.5" />
+              <path d="M32 52l-4-12.5L32 36l4 3.5L32 52z" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <path d="M32 14v4M10 36h4M50 36h4M32 54v4" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" />
+              <path d="M21 25l3 3M43 25l-3 3M21 47l3-3M43 47l-3-3" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" />
+            </svg>
+            <h3 class="feature-title">Experiencia Interactiva</h3>
+            <p class="feature-desc">Explora escenarios en 3D, conversa con personajes, supera obstáculos y
+              descubre la historia a través del entorno, pequeños diálogos y la exploración.</p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+            <svg class="feature-icon-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 10c0 0 8-4 20-4s20 4 20 4v40c0 0-8-4-20-4s-20 4-20 4V10Z" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linejoin="round" />
+              <path d="M32 6v44M22 8c0 0 5 10 5 21s-5 21-5 21M42 8c0 0-5 10-5 21s5 21 5 21" stroke="currentColor"
+                stroke-width="1.5" />
+              <path d="M12 22c10-2 30-2 40 0M12 38c10-2 30-2 40 0" stroke="currentColor" stroke-width="1.5" />
+              <path d="M16 16c4 2 8 0 10-2M38 14c4 2 8 0 10-2M18 46c4 2 8 0 10-2M38 44c4 2 8 0 10-2"
+                stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+            </svg>
+            <h3 class="feature-title">Cultura y Memoria</h3>
+            <p class="feature-desc">Al finalizar cada nivel podrás ampliar la información desde esta página web, donde
+              encontrarás el contexto y la historia detrás de cada relato presentado en el juego.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Sección Historias Destacadas -->
+    <section id="historias" class="stories">
+      <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
+        <div class="about-paper-card">
+          <h2 style="color: #000000" class="section-title">RELATOS</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="stories-subtitle"
+            style="max-width: 700px; color: #000000; margin: 1.5rem auto 0; font-weight: 600;">
+            Descubre tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel presenta una experiencia
+            diferente que invita a conocer una parte de nuestra historia y cultura.
+        </div>
+        <div class="stories-container">
+          <div class="stories-track">
+            <!-- Story 1 -->
+            <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+              <article class="story-card">
+                <span class="story-badge">Nivel 1</span>
+                <div class="story-image-wrap">
+                  <div class="landmark-illustration" aria-label="CHACO PARAGUAYO" role="img">
+                    <img src="images/Camino_a_la_Fiesta.png" alt="Camino a la Fiesta" />
+                  </div>
+                </div>
+                <span class="story-location">CHACO PARAGUAYO</span>
+                <h3 class="story-title">Camino a la Fiesta</h3>
+                <p class="story-desc">Acompaña a Delfina Servín en su recorrido y descubre los secretos que rodean a
+                  esta popular leyenda paraguaya.</p>
+                <div class="story-actions">
+                  <a href="Relatos.html?id=1" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                  <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
+                </div>
+              </article>
+            </div>
+
+            <!-- Story 2 -->
+            <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+              <article class="story-card">
+                <span class="story-badge">Nivel 2</span>
+                <div class="story-image-wrap">
+                  <div class="landmark-illustration" aria-label="Regreso al Hogar, ALTO PARANÁ" role="img">
+                    <img src="images/Regreso_al_Hogar.jpg" alt="Regreso al Hogar" />
+                  </div>
+                </div>
+                <span class="story-location">ALTO PARANÁ</span>
+                <h3 class="story-title">Regreso al Hogar</h3>
+                <p class="story-desc">Escapa de los yerbales del Alto Paraná y experimenta la dura realidad de la
+                  explotación laboral del siglo XIX.</p>
+                <div class="story-actions">
+                  <a href="Relatos.html?id=2" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                  <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
+                </div>
+              </article>
+            </div>
+
+            <!-- Story 3 -->
+            <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+              <article class="story-card">
+                <span class="story-badge">Nivel 3</span>
+                <div class="story-image-wrap">
+                  <div class="landmark-illustration" aria-label="El Karãu, ESTEROS" role="img">
+                    <img src="images/NL3.png" alt="El Karãu" />
+                  </div>
+                </div>
+                <span class="story-location">ESTEROS</span>
+                <h3 class="story-title">El Karãu</h3>
+                <p class="story-desc">Karãu era un joven apuesto, buen bailarín y cantor, que vivía cuidando a su madre
+                  enferma. Una noche salió a buscarle un remedio, pero se dejó llevar por el baile.</p>
+                <div class="story-actions">
+                  <a href="Relatos.html?id=3" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                  <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
+                </div>
+              </article>
+            </div>
+          </div>
+
+    </section>
+
+    <!-- Sección Crear un Juego / Story Builder Showcase -->
+    <section id="nuestroobjetivo" class="builder">
+      <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
+        <div class="about-paper-card">
+          <h2 class="section-title">Nuestro Objetivo</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="about-text" style="max-width: 700px; margin: 1.5rem auto 0; font-weight: 600;">
+            Queremos que seas parte del desarrollo. Relatos Ocultos cuenta con un completo editor de escenarios que te
+            permite redactar tramas, decisiones e investigaciones históricas.
+          </p>
+        </div>
+      </div>
+
+      <div class="journal-wrapper" data-aos="zoom-in" data-aos-duration="1000">
+        <div class="journal">
+          <!-- Lado Izquierdo: Información dinámica -->
+          <div class="journal-left">
+            <h3 class="builder-title">¿Cómo se vive la historia?</h3>
+            <div class="divider" aria-hidden="true" style="margin: 0.8rem 0 1.2rem; width: 100px;"></div>
+
+            <div id="dynamic-level-content" style="transition: opacity 0.25s ease; opacity: 1;">
+              <p class="builder-desc"
+                style="font-weight: 700; color: var(--red-old); margin-bottom: 0.25rem; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;"
+                id="dynamic-level-number">Nivel 1</p>
+              <h4
+                style="font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 700; color: var(--sepia-dark); margin: 0 0 1rem;"
+                id="dynamic-level-title">Camino a la Fiesta</h4>
+
+              <p class="builder-desc" style="margin-bottom: 1rem; font-weight: 600;">Durante este nivel podrás:</p>
+              <ul class="builder-bullets" id="dynamic-level-bullets">
+                <li>Conocer el paisaje del Chaco paraguayo.</li>
+                <li>Descubrir cómo era la vida cotidiana de la época.</li>
+                <li>Entender el contexto del relato.</li>
+                <li>Explorar el escenario mientras avanza la historia.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Lado Derecho: Selector de niveles -->
+          <div class="journal-right"
+            style="display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem;">
+            <div class="preview-header">
+              <span>Vista previa de los niveles</span>
+              <span>Relatos Ocultos</span>
+            </div>
+
+            <!-- Visor de imagen grande del nivel seleccionado -->
+            <div class="level-viewport"
+              style="border: 2px solid var(--sepia-dark); background: #faf4e5; padding: 0.75rem 0.75rem 1.5rem; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transform: rotate(-0.5deg); transition: transform 0.3s ease;">
+              <div id="level-image-container"
+                style="width: 100%; height: 170px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); background: #eee; clip-path: url(#torn-photo-1); transition: opacity 0.25s ease;">
+                <!-- SVG Level 1 -->
+                <svg id="svg-level-1" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 100%; height: 100%; object-fit: cover;">
+                  <rect width="330" height="180" fill="#e0cfa5" />
+                  <circle cx="165" cy="110" r="45" fill="#8c6a42" opacity="0.3" />
+                  <line x1="165" y1="150" x2="165" y2="90" stroke="#1e1107" stroke-width="3" />
+                  <line x1="165" y1="110" x2="140" y2="100" stroke="#1e1107" stroke-width="2.5" />
+                  <line x1="165" y1="100" x2="195" stroke="#1e1107" stroke-width="2.5" />
+                  <circle cx="240" cy="50" r="15" fill="#d49a37" />
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107"
+                    font-weight="700">Chaco Paraguayo</text>
+                </svg>
+                <!-- SVG Level 2 -->
+                <svg id="svg-level-2" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                  <rect width="330" height="180" fill="#ced9bc" />
+                  <path d="M60 150 L90 80 L120 150 Z" fill="#4a5e28" opacity="0.6" />
+                  <path d="M120 160 L160 70 L200 160 Z" fill="#3a4f18" opacity="0.75" />
+                  <path d="M190 150 L220 90 L250 150 Z" fill="#4a5e28" opacity="0.5" />
+                  <line x1="90" y1="150" x2="90" y2="130" stroke="#1e1107" stroke-width="2" />
+                  <line x1="160" y1="160" x2="160" y2="120" stroke="#1e1107" stroke-width="3" />
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107"
+                    font-weight="700">Yerbales de Alto Paraná</text>
+                </svg>
+                <!-- SVG Level 3 -->
+                <svg id="svg-level-3" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                  <rect width="330" height="180" fill="#c3cbb8" />
+                  <!-- Bird sketch representation in SVG lines -->
+                  <path d="M120 120 C130 90, 160 80, 180 90 C200 100, 210 120, 200 140 C190 150, 150 160, 120 120 Z"
+                    fill="none" stroke="#1c120c" stroke-width="2.5" />
+                  <line x1="180" y1="90" x2="210" y2="85" stroke="#1c120c" stroke-width="2" />
+                  <polyline points="150 145 140 165 145 165" stroke="#1c120c" stroke-width="2" fill="none" />
+                  <polyline points="170 145 165 165 170 165" stroke="#1c120c" stroke-width="2" fill="none" />
+                  <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1c120c" font-weight="700">El
+                    Karãu</text>
+                </svg>
+              </div>
+              <p class="photo-caption" id="level-caption"
+                style="margin-top: 0.5rem; text-align: center; font-size: 0.85rem; font-style: italic;">Camino a la
+                Fiesta</p>
+            </div>
+
+            <!-- Lista de niveles seleccionables -->
+            <div class="level-selector" style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
+              <!-- Nivel 1 -->
+              <button class="mock-option level-btn selected" onclick="showLevel(1)"
+                style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-1">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="option-bullet">1</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">Camino a la
+                    Fiesta</span>
+                </div>
+                <span class="status-indicator"
+                  style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 1;">Activo</span>
+              </button>
+
+              <!-- Nivel 2 -->
+              <button class="mock-option level-btn" onclick="showLevel(2)"
+                style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-2">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="option-bullet">2</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">Regreso al
+                    Hogar</span>
+                </div>
+                <span class="status-indicator"
+                  style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 0;">Activo</span>
+              </button>
+
+              <!-- Nivel 3 -->
+              <button class="mock-option level-btn" onclick="showLevel(3)"
+                style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-3">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="option-bullet">3</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">El Karãu</span>
+                </div>
+                <span class="status-indicator"
+                  style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 0;">Activo</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Equipo -->
+    <section id="equipo" class="team">
+      <h2 class="section-title" data-aos="fade-up">El Equipo Desarrollador</h2>
+      <div class="team-grid">
+        <!-- Axel Rolón -->
+        <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+          <div class="team-card" tabindex="0" aria-label="Tarjeta de Axel Rolón, Programador del Juego.">
+            <div class="team-avatar-frame">
+              <img src="images/AxelFoto.jpg" alt="Axel Rolón, Programador de Relatos Ocultos" loading="lazy"
+                decoding="async" width="150" height="150">
+            </div>
+            <h3 class="team-name">Axel Rolón</h3>
+            <h4 class="team-role">Programador del Juego</h4>
+            <div class="team-desc">
+              Responsable de toda la lógica, mecánicas jugables e implementación funcional. Se asegura de que el motor
+              de relatos interactivos responda perfectamente en todos los dispositivos y plataformas.
+            </div>
+          </div>
+        </div>
+
+        <!-- Cayo Ávalos -->
+        <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="400" data-aos-delay="200">
+          <div class="team-card" tabindex="0" aria-label="Tarjeta de Cayo Ávalos, Diseñador de Gráficos.">
+            <div class="team-avatar-frame">
+              <img src="images/CayoFoto.png" alt="Cayo Ávalos, Diseñador Gráfico de Relatos Ocultos" loading="lazy"
+                decoding="async" width="150" height="150">
+            </div>
+            <h3 class="team-name">Cayo Ávalos</h3>
+            <h4 class="team-role">Diseñador de Gráficos</h4>
+            <div class="team-desc">
+              Creador de la atmósfera visual del juego. Diseña los retratos de los personajes, las portadas
+              texturizadas de los relatos y todos los elementos estéticos que recrean el Paraguay de antaño.
+            </div>
+          </div>
+        </div>
+
+        <!-- Miguel Giménez -->
+        <div class="team-card-shadow" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+          <div class="team-card" tabindex="0" aria-label="Tarjeta de Miguel Giménez, Creador de la Página Web.">
+            <div class="team-avatar-frame">
+              <img src="images/MiguelFoto.png" alt="Miguel Giménez, Creador de la página web de Relatos Ocultos"
+                loading="lazy" decoding="async" width="150" height="150">
+            </div>
+            <h3 class="team-name">Miguel Giménez</h3>
+            <h4 class="team-role">Creador de la Página Web</h4>
+            <div class="team-desc">
+              Diseña y desarrolla este sitio web para conectar a la comunidad. Implementa el sistema responsivo,
+              optimiza la carga de recursos y asegura una experiencia accesible y visualmente atractiva.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Descarga -->
+    <section id="descarga" class="download">
+      <h2 class="section-title" data-aos="fade-up">Comienza tu Relato</h2>
+      <p class="download-text" data-aos="fade-up" data-aos-delay="100">
+        Descarga el juego gratis y experimenta los relatos interactivos desde tu PC.
+      </p>
+
+      <div class="btn-download-container" data-aos="fade-up" data-aos-delay="300">
+        <a class="btn btn-primary" onclick="alert('Iniciando descarga para Windows PC...')">Descargar para PC</a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">Relatos Ocultos</div>
+    <p class="footer-text">Explorando y recreando relatos del Paraguay.</p>
+
+    <div class="contacto-info">
+      <p>© 2026 Relatos Ocultos. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Overlay para móvil -->
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
+  <!-- Botón hamburger para móvil -->
+  <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false"
+    aria-controls="sidebar">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Inicializar biblioteca de animaciones AOS
+    AOS.init({
+      once: true,
+      offset: 60,
+      duration: 800,
+      easing: 'ease-out-quad'
+    });
+
+    // =============================================
+    // Sidebar: toggle móvil
+    // =============================================
+    const sidebar = document.getElementById('sidebar');
+    const navToggle = document.getElementById('nav-toggle');
+    const navOverlay = document.getElementById('nav-overlay');
+
+    function openSidebar() {
+      if (sidebar) sidebar.classList.add('active');
+      if (navOverlay) {
+        navOverlay.classList.add('active');
+        navOverlay.setAttribute('aria-hidden', 'false');
+      }
+      if (navToggle) {
+        navToggle.classList.add('open');
+        navToggle.setAttribute('aria-expanded', 'true');
+      }
+      document.body.style.overflow = 'hidden'; // Bloquear scroll del body
+    }
+
+    function closeSidebar() {
+      if (sidebar) sidebar.classList.remove('active');
+      if (navOverlay) {
+        navOverlay.classList.remove('active');
+        navOverlay.setAttribute('aria-hidden', 'true');
+      }
+      if (navToggle) {
+        navToggle.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+      document.body.style.overflow = '';
+    }
+
+    if (navToggle) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = sidebar && sidebar.classList.contains('active');
+        isOpen ? closeSidebar() : openSidebar();
+      });
+    }
+
+    if (navOverlay) {
+      navOverlay.addEventListener('click', closeSidebar);
+    }
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
+        closeSidebar();
+        if (navToggle) navToggle.focus();
+      }
+    });
+
+    // Cerrar al hacer clic en un link (móvil)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) closeSidebar();
+      });
+    });
+
+    // =============================================
+    // Sidebar: marcar sección activa con IntersectionObserver
+    // =============================================
+    const sections = document.querySelectorAll('section[id], header[id]');
+    const navItemMap = {
+      'inicio': 'nav-inicio',
+      'descripcion': 'nav-inicio',   // La sección about no tiene nav propio → asigna a Inicio
+      'historias': 'nav-historias',
+      'nuestroobjetivo': 'nav-nuestroobjetivo',
+      'equipo': 'nav-equipo',
+      'descarga': 'nav-descarga',
+    };
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px', // Activa cuando la sección está en el 20%-40% del viewport
+      threshold: 0
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Quitar 'active' de todos
+          document.querySelectorAll('.nav-links a').forEach(a => {
+            a.classList.remove('active');
+            a.removeAttribute('aria-current');
+          });
+          const navId = navItemMap[entry.target.id];
+          if (navId) {
+            const activeLink = document.getElementById(navId);
+            if (activeLink) {
+              activeLink.classList.add('active');
+              activeLink.setAttribute('aria-current', 'page');
+            }
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => {
+      if (sectionObserver) sectionObserver.observe(section);
+    });
+
+    // =============================================
+    // Lógica interactiva para el Explorador de Niveles
+    // =============================================
+    const levelData = {
+      1: {
+        number: "Nivel 1",
+        title: "Camino a la Fiesta",
+        caption: "Camino a la Fiesta",
+        bullets: [
+          "Conocer el paisaje del Chaco paraguayo y su vegetación.",
+          "Descubrir cómo era la vida cotidiana y las costumbres de la época.",
+          "Comprender la tensión social y el contexto del relato de Mateo Gamarra.",
+          "Explorar el escenario tridimensional interactivo mientras avanza la historia.",
+          "Aprender sobre los acontecimientos reales que inspiraron esta popular leyenda."
+        ]
+      },
+      2: {
+        number: "Nivel 2",
+        title: "Regreso al Hogar",
+        caption: "Regreso al Hogar",
+        bullets: [
+          "Aprender sobre el régimen de explotación laboral de los yerbales en el siglo XIX.",
+          "Conocer los peligros y la geografía de las selvas del Alto Paraná.",
+          "Descubrir los obstáculos y dificultades que Dionisio debe superar para escapar.",
+          "Comprender la importancia del apoyo familiar en situaciones adversas.",
+          "Explorar el denso monte e interactuar con elementos del entorno."
+        ]
+      },
+      3: {
+        number: "Nivel 3",
+        title: "El Karãu",
+        caption: "El Karãu",
+        bullets: [
+          "El camino que transcurre Karãu",
+          "El elemento del propósito inicial de Karãu",
+          "Lo poco que resultó ser importante para el Karãu la vida de su madre",
+          "El castigo inferido por Dios"
+        ]
+      }
+    };
+
+    window.showLevel = function (levelNum) {
+      const data = levelData[levelNum];
+      if (!data) return;
+
+      // Elementos de la página izquierda
+      const containerLeft = document.getElementById('dynamic-level-content');
+      const numEl = document.getElementById('dynamic-level-number');
+      const titleEl = document.getElementById('dynamic-level-title');
+      const bulletsEl = document.getElementById('dynamic-level-bullets');
+
+      // Elementos de la página derecha (imagen y botones)
+      const containerRightImage = document.getElementById('level-image-container');
+      const captionEl = document.getElementById('level-caption');
+
+      // Transición suave: fade out
+      if (containerLeft) containerLeft.style.opacity = 0;
+      if (containerRightImage) containerRightImage.style.opacity = 0;
+
+      setTimeout(() => {
+        // Actualizar textos de la izquierda
+        if (numEl) numEl.innerText = data.number;
+        if (titleEl) titleEl.innerText = data.title;
+
+        if (bulletsEl) {
+          bulletsEl.innerHTML = '';
+          data.bullets.forEach(bullet => {
+            const li = document.createElement('li');
+            li.innerText = bullet;
+            bulletsEl.appendChild(li);
+          });
+        }
+
+        // Actualizar imágenes/SVGs en la derecha
+        for (let i = 1; i <= 3; i++) {
+          const svg = document.getElementById(`svg-level-${i}`);
+          if (svg) {
+            svg.style.display = (i === levelNum) ? 'block' : 'none';
+          }
+        }
+
+        // Actualizar pie de foto
+        if (captionEl) captionEl.innerText = data.caption;
+
+        // Fade in
+        if (containerLeft) containerLeft.style.opacity = 1;
+        if (containerRightImage) containerRightImage.style.opacity = 1;
+      }, 200);
+
+      // Actualizar estado de selección de los botones
+      for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById(`btn-level-${i}`);
+        if (btn) {
+          const indicator = btn.querySelector('.status-indicator');
+          if (i === levelNum) {
+            btn.classList.add('selected');
+            if (indicator) indicator.style.opacity = 1;
+          } else {
+            btn.classList.remove('selected');
+            if (indicator) indicator.style.opacity = 0;
+          }
+        }
+      }
+    };
+
+
+    // =============================================
+    // Scroll suave ajustado para sidebar (offset = 0 en desktop)
+    // =============================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+
+        e.preventDefault();
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+          const offset = window.innerWidth <= 768 ? 20 : 0;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - offset;
+
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // =============================================
+    // Fading indicador de carrusel al scroll
+    // =============================================
+    const storiesTrack = document.querySelector('.stories-track');
+    const storiesContainer = document.querySelector('.stories-container');
+    if (storiesTrack && storiesContainer) {
+      storiesTrack.addEventListener('scroll', () => {
+        if (storiesTrack.scrollLeft + storiesTrack.clientWidth >= storiesTrack.scrollWidth - 10) {
+          storiesContainer.classList.add('scrolled');
+        } else {
+          storiesContainer.classList.remove('scrolled');
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
