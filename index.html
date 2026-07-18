@@ -8,20 +8,20 @@
   <meta name="description"
     content="Descubre los misterios, héroes y leyendas de Paraguay en este videojuego interactivo de relatos históricos.">
 
-  <!-- Preconnect to Google Fonts -->
+  <!-- Preconectar a Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Google Fonts: Cinzel (headers), Cormorant Garamond (body serif), Montserrat (interface sans-serif) -->
+  <!-- Google Fonts: Cinzel (encabezados), Lora (cuerpo de texto con serifa legible), Montserrat (interfaz sin serifa) -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
   <!-- Preload de imágenes críticas -->
   <link rel="preload" href="images/parchment_bg.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="preload" href="images/brown_paper_texture.webp" as="image" type="image/webp">
 
-  <!-- AOS Animation Library CSS (carga no bloqueante) -->
+  <!-- CSS de la Biblioteca de Animaciones AOS (carga no bloqueante) -->
   <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style"
     onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
@@ -39,7 +39,7 @@
 
     :root {
       --ink: #1c120c;
-      --parchment: #faf6eb;
+      --parchment: #fdfbf7;
       --parchment-dark: #ebdcb9;
       --parchment-darker: #755537;
       --sepia: #755537;
@@ -47,9 +47,9 @@
       --gold: #c59b27;
       --gold-light: #ebd09b;
       --red-old: #9e2a1b;
-      --white-torn: #faf6eb;
+      --white-torn: #fdfbf7;
       --shadow-color: rgba(28, 18, 12, 0.15);
-      /* Sidebar */
+      /* Barra lateral */
       --sidebar-border: rgba(197, 155, 39, 0.3);
       --sidebar-active: rgba(197, 155, 39, 0.12);
       --sidebar-width: 220px;
@@ -60,7 +60,7 @@
     }
 
     body {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Lora', serif;
       background-color: var(--sepia-dark);
       background-size: cover;
       background-attachment: fixed;
@@ -69,10 +69,10 @@
       font-size: 1.15rem;
       line-height: 1.75;
       padding-left: var(--sidebar-width);
-      /* Espacio para el sidebar */
+      /* Espacio para la barra lateral */
     }
 
-    /* Scanline paper texture overlay */
+    /* Capa superpuesta de textura de papel con líneas de barrido */
     body::before {
       content: '';
       position: fixed;
@@ -87,7 +87,7 @@
       contain: strict;
     }
 
-    /* Accessibility Focus Style */
+    /* Estilo de enfoque de accesibilidad */
     a:focus-visible,
     button:focus-visible,
     div[tabindex="0"]:focus-visible {
@@ -96,7 +96,7 @@
     }
 
     /* ============================================
-       SIDEBAR NAV — Menú vertical izquierdo
+       NAVEGACIÓN DE LA BARRA LATERAL — Menú vertical izquierdo
        ============================================ */
     nav {
       position: fixed;
@@ -135,7 +135,7 @@
     .logo-subtitle {
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
-      font-size: 0.55rem;
+      font-size: 0.75rem;
       color: var(--parchment-dark);
       letter-spacing: 0.3em;
       text-transform: uppercase;
@@ -144,7 +144,7 @@
     .logo-title {
       font-family: 'Cinzel Decorative', serif;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 1.2rem;
       color: var(--gold-light);
       letter-spacing: 0.05em;
       margin-top: 3px;
@@ -165,7 +165,7 @@
 
     .nav-links a {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--parchment);
       text-decoration: none;
@@ -192,7 +192,7 @@
       display: none;
     }
 
-    /* Mobile Nav Toggle — oculto en desktop */
+    /* Alternador de navegación móvil — oculto en escritorio */
     .nav-toggle {
       display: none;
       background: var(--sepia-dark);
@@ -214,9 +214,9 @@
       transition: all 0.3s ease;
     }
 
-    /* GENERAL STYLES */
+    /* ESTILOS GENERALES */
     section {
-      padding: 6rem 2.5rem;
+      padding: 8.5rem 2.5rem;
       position: relative;
       z-index: 1;
     }
@@ -225,17 +225,17 @@
       text-align: center;
       font-size: 1.5rem;
       color: var(--gold);
-      margin: 0.5rem 0 1.5rem;
-      letter-spacing: 0.3em;
+      margin: 0.5rem 0 1.8rem;
+      letter-spacing: 0.35em;
     }
 
     .section-title {
       font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(1.6rem, 4.5vw, 2.3rem);
+      font-size: clamp(2.1rem, 5.5vw, 2.85rem);
       color: var(--sepia-dark);
       text-align: center;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
     }
 
     .divider {
@@ -245,18 +245,18 @@
       height: 5px;
       background: var(--gold);
       opacity: 0.5;
-      margin: 1.2rem auto;
+      margin: 1.2rem auto 2.4rem;
       width: 180px;
     }
 
-    /* SHADOW WRAPPER TRICK FOR CLIPPED ELEMENTS */
+    /* TRUCO DE ENVOLTURA DE SOMBRA PARA ELEMENTOS RECORTADOS */
     .shadow-wrapper {
       filter: drop-shadow(0px 8px 16px var(--shadow-color));
       display: inline-block;
       width: 100%;
     }
 
-    /* HERO SECTION */
+    /* SECCIÓN HERO */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -274,7 +274,7 @@
       background-position: center;
     }
 
-    /* Collage Newspaper Scraps Underlay */
+    /* Base de recortes de periódico del collage */
     .scrap-paper {
       position: absolute;
       opacity: 0.15;
@@ -308,9 +308,9 @@
     }
 
     .hero-content {
-      max-width: 800px;
+      max-width: 850px;
       z-index: 5;
-      margin-bottom: 2rem;
+      margin-bottom: 1.25rem;
     }
 
     .title-shadow {
@@ -319,7 +319,7 @@
       margin: 0 auto 2.5rem;
     }
 
-    /* Torn Brown Craft Paper Card matching image_0.png */
+    /* Tarjeta de papel kraft marrón rasgado coincidente con image_0.png */
     .hero-title-card {
       background-color: #5c432d;
       background-image: url('images/brown_paper_texture.webp');
@@ -332,7 +332,7 @@
     .hero-subtitle {
       font-family: 'Montserrat', sans-serif;
       font-weight: 400;
-      font-size: clamp(0.85rem, 2.5vw, 1.25rem);
+      font-size: clamp(1.25rem, 2.5vw, 1.5rem);
       color: var(--parchment-dark);
       letter-spacing: 0.35em;
       text-transform: uppercase;
@@ -341,7 +341,7 @@
 
     .hero-title {
       font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(2.4rem, 7vw, 4.8rem);
+      font-size: clamp(2.8rem, 7vw, 4.5rem);
       font-weight: 900;
       color: var(--parchment);
       line-height: 1.1;
@@ -353,7 +353,7 @@
     .hero-gametitle {
       font-family: 'Cinzel', serif;
       font-weight: 600;
-      font-size: clamp(0.75rem, 2vw, 1rem);
+      font-size: clamp(1.0625rem, 2vw, 1.25rem);
       color: var(--gold-light);
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -362,15 +362,15 @@
       display: inline-block;
     }
 
-    /* BUTTONS: Game-style Tactile 3D Buttons */
+    /* BOTONES: Botones 3D táctiles al estilo del juego */
     .btn {
       display: inline-block;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.8rem;
+      font-size: 1.0625rem;
       font-weight: 800;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      padding: 1rem 2.4rem;
+      padding: 0.9rem 2.2rem;
       text-decoration: none;
       cursor: pointer;
       border: 2px solid var(--sepia-dark);
@@ -413,7 +413,7 @@
       box-shadow: none;
     }
 
-    /* COLLAGE AT BOTTOM OF HERO with levitation animations */
+    /* COLLAGE AL FINAL DEL HERO con animaciones de levitación */
     .hero-collage {
       position: relative;
       width: 100%;
@@ -426,7 +426,7 @@
       padding-bottom: 1rem;
     }
 
-    /* Newspaper scrap decorations in collage background */
+    /* Decoraciones de recortes de periódico en el fondo del collage */
     .collage-scrap {
       position: absolute;
       background-color: var(--parchment-darker);
@@ -462,7 +462,7 @@
       transition: z-index 0.2s;
     }
 
-    /* Levitating micro-animations for collage items */
+    /* Microanimaciones de levitación para elementos del collage */
     @keyframes levitate-left {
       0% {
         transform: rotate(-6deg) translateY(0);
@@ -530,7 +530,7 @@
       z-index: 10;
     }
 
-    /* Photo Frame Polaroid-style with Torn Edges */
+    /* Marco de fotos estilo Polaroid con bordes rasgados */
     .photo-frame {
       background: var(--white-torn);
       padding: 0.8rem 0.8rem 3rem 0.8rem;
@@ -591,7 +591,7 @@
       letter-spacing: 0.02em;
     }
 
-    /* ABOUT / DESCRIPCION SECTION */
+    /* SECCIÓN ACERCA DE / DESCRIPCIÓN */
     .about {
       background: var(--parchment);
       border-top: 4px double var(--sepia);
@@ -600,17 +600,18 @@
     }
 
     .about-inner {
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
       text-align: center;
     }
 
     .about-text {
-      font-size: 1.25rem;
-      line-height: 1.85;
+      font-size: 1.1875rem;
+      line-height: 1.75;
       color: var(--sepia-dark);
-      margin: 2rem 0;
+      margin: 2rem auto;
       font-weight: 500;
+      max-width: 75ch;
     }
 
     .features-grid {
@@ -624,10 +625,14 @@
       background: var(--parchment-dark);
       border: 1px solid var(--parchment-darker);
       border-top: 4px solid var(--gold);
-      padding: 2.2rem 1.8rem;
+      padding: 3rem 2.2rem;
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
     }
 
     .feature-card:hover {
@@ -637,28 +642,29 @@
 
     .feature-icon {
       font-size: 2.2rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.3rem;
       display: block;
       color: var(--red-old);
     }
 
     .feature-title {
       font-family: 'Cinzel', serif;
-      font-size: 0.95rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       color: var(--sepia-dark);
-      margin-bottom: 0.8rem;
+      margin-bottom: 1.1rem;
       text-transform: uppercase;
     }
 
     .feature-desc {
-      font-size: 0.95rem;
+      font-size: 1.0625rem;
       color: var(--sepia-dark);
-      line-height: 1.6;
+      line-height: 1.75;
+      max-width: 75ch;
     }
 
-    /* HISTORIAS OCULTAS SECTION: Scroll Carrousel Deck for youth */
+    /* SECCIÓN HISTORIAS OCULTAS: Baraja de carrusel de desplazamiento para jóvenes */
     .stories {
       background: var(--sepia-dark);
       background-image:
@@ -682,12 +688,12 @@
       color: var(--parchment-dark);
       text-align: center;
       margin-bottom: 3rem;
-      font-size: 1.1rem;
+      font-size: 1.375rem;
     }
 
     .stories-container {
       position: relative;
-      max-width: 1100px;
+      max-width: 1160px;
       margin: 0 auto;
       padding: 1.5rem 0;
     }
@@ -728,7 +734,7 @@
       background: var(--white-torn);
       color: var(--ink);
       clip-path: url(#torn-card);
-      padding: 2.5rem 2.5rem 2.5rem;
+      padding: 3.5rem 2.8rem 3rem;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -748,13 +754,14 @@
     .story-btn-read {
       width: 100%;
       text-align: center;
-      padding: 0.7rem 1rem !important;
-      font-size: 0.75rem !important;
+      padding: 0.75rem 1.4rem !important;
+      font-size: 1.0625rem !important;
+      border: 2.5px solid var(--sepia-dark) !important;
     }
 
     .story-link-play {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.7rem;
+      font-size: 1.0rem;
       font-weight: 700;
       color: var(--sepia);
       text-decoration: none;
@@ -774,7 +781,7 @@
     .feature-icon-svg {
       width: 56px;
       height: 56px;
-      margin: 0 auto 1.2rem;
+      margin: 0 auto 1.6rem;
       display: block;
       color: var(--red-old);
     }
@@ -850,32 +857,33 @@
 
     .story-location {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.7rem;
+      font-size: 1.0625rem;
       font-weight: 600;
       color: var(--sepia);
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.8rem;
     }
 
     .story-title {
       font-family: 'Cinzel', serif;
-      font-size: 1.15rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--sepia-dark);
-      margin-bottom: 0.8rem;
+      margin-bottom: 1.5rem;
     }
 
     .story-desc {
-      font-size: 0.95rem;
+      font-size: 1.0625rem;
       color: var(--sepia-dark);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
+      line-height: 1.75;
+      margin-bottom: 2.1rem;
       flex-grow: 1;
       font-style: italic;
+      max-width: 75ch;
     }
 
-    /* CREAR UN JUEGO / STORY BUILDER */
+    /* CREAR UN JUEGO / CONSTRUCTOR DE HISTORIAS */
     .builder {
       background: var(--parchment-dark);
       background-image:
@@ -889,16 +897,22 @@
 
     .about-paper-card {
       background-color: var(--parchment);
-      background-image: linear-gradient(rgba(252, 250, 242, 0.65), rgba(252, 250, 242, 0.65)), url('images/parchment_bg_for_papercard.jpg');
+      background-image: linear-gradient(rgba(252, 250, 242, 0.8), rgba(252, 250, 242, 0.8)), url('images/parchment_bg_for_papercard.jpg');
       background-size: cover;
-      padding: 3rem 4rem;
+      padding: 3.5rem 4rem;
       border: 1px solid rgba(139, 104, 62, 0.2);
       box-shadow: 0 10px 30px rgba(30, 17, 7, 0.18);
-      max-width: 820px;
+      max-width: 900px;
       margin: 0 auto 3.5rem;
       position: relative;
       clip-path: url(#torn-card);
       text-align: center;
+    }
+
+    .builder .about-paper-card .about-text {
+      margin-top: 2.2rem !important;
+      font-size: 1.45rem;
+      line-height: 1.9;
     }
 
     @media (max-width: 768px) {
@@ -911,17 +925,17 @@
     }
 
     .journal-wrapper {
-      max-width: 1000px;
-      margin: 4rem auto 0;
+      max-width: 1100px;
+      margin: 4.5rem auto 0;
       filter: drop-shadow(0px 12px 24px rgba(26, 16, 8, 0.25));
     }
 
-    /* Double-page open journal layout */
+    /* Diseño de diario abierto de doble página */
     .journal {
       background: var(--white-torn);
       border: 3px double var(--sepia);
       border-radius: 4px;
-      padding: 3rem;
+      padding: 3.5rem;
       position: relative;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -929,7 +943,7 @@
       background-image: radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.06) 100%);
     }
 
-    /* Book center spine shadow binding */
+    /* Encuadernación con sombra del lomo central del libro */
     .journal::after {
       content: '';
       position: absolute;
@@ -950,7 +964,7 @@
       justify-content: center;
     }
 
-    /* Visual Novel styled mockup */
+    /* Maqueta con estilo de novela visual */
     .journal-right {
       background: #faf4e5;
       border: 2px solid var(--sepia-dark);
@@ -974,7 +988,7 @@
 
     .builder-title {
       font-family: 'Cinzel Decorative', serif;
-      font-size: 1.5rem;
+      font-size: 1.65rem;
       color: var(--sepia-dark);
       margin-bottom: 1.2rem;
       border-bottom: 2px solid var(--gold-light);
@@ -982,22 +996,23 @@
     }
 
     .builder-desc {
-      font-size: 1.05rem;
+      font-size: 1.125rem;
       color: var(--sepia-dark);
-      margin-bottom: 1.5rem;
-      line-height: 1.7;
+      margin-bottom: 1.65rem;
+      line-height: 1.75;
+      max-width: 75ch;
     }
 
     .builder-bullets {
       list-style: none;
-      margin-bottom: 2rem;
+      margin-bottom: 2.2rem;
     }
 
     .builder-bullets li {
       position: relative;
       padding-left: 1.8rem;
-      margin-bottom: 0.8rem;
-      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+      font-size: 1.0625rem;
       color: var(--sepia-dark);
       font-weight: 500;
     }
@@ -1011,17 +1026,17 @@
       color: var(--red-old);
     }
 
-    /* RPG dialogue preview styling */
+    /* Estilo de vista previa de diálogo RPG */
     .preview-header {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.7rem;
+      font-size: 1.0625rem;
       font-weight: 800;
       letter-spacing: 0.12em;
       color: var(--red-old);
       text-transform: uppercase;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      padding-bottom: 0.4rem;
+      padding-bottom: 0.5rem;
       display: flex;
       justify-content: space-between;
     }
@@ -1030,17 +1045,17 @@
       background: var(--white-torn);
       border: 2px solid var(--sepia-dark);
       border-radius: 4px;
-      padding: 1.2rem;
+      padding: 1.4rem;
       min-height: 165px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.8rem;
       display: flex;
-      gap: 1rem;
+      gap: 1.25rem;
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .avatar-sketch {
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: var(--red-old);
       display: flex;
@@ -1049,7 +1064,7 @@
       font-family: 'Cinzel', serif;
       font-weight: 700;
       color: var(--parchment);
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       flex-shrink: 0;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
       border: 2px solid var(--white-torn);
@@ -1062,47 +1077,47 @@
 
     .bubble-name {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.75rem;
+      font-size: 1.125rem;
       font-weight: 800;
       color: var(--sepia-dark);
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .bubble-role {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-size: 0.75rem;
+      font-size: 1.0rem;
       color: var(--sepia);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.65rem;
     }
 
     .bubble-text {
-      font-size: 0.95rem;
+      font-size: 1.0625rem;
       color: var(--ink);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .preview-options {
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.8rem;
     }
 
     .mock-option {
       background: var(--white-torn);
       border: 1px solid var(--parchment-darker);
       border-left: 4px solid var(--gold);
-      padding: 0.75rem 1rem;
+      padding: 0.9rem 1.2rem;
       text-align: left;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
+      font-size: 1.125rem;
       font-weight: 700;
       color: var(--sepia-dark);
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.75rem;
       outline: none;
       border-radius: 2px;
     }
@@ -1122,14 +1137,14 @@
     .option-bullet {
       background: var(--gold);
       color: #fff;
-      width: 18px;
-      height: 18px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.7rem;
+      font-size: 0.95rem;
       font-weight: 800;
     }
 
@@ -1139,18 +1154,39 @@
       color: var(--parchment);
     }
 
-    /* TEAM / EQUIPO SECTION */
+    /* Reglas de sobreescritura de tamaños para textos dinámicos e inline */
+    .level-selector button span[style*="font-size"] {
+      font-size: 1.125rem !important;
+    }
+
+    #dynamic-level-number {
+      font-size: 1.0rem !important;
+    }
+
+    #dynamic-level-title {
+      font-size: 1.55rem !important;
+    }
+
+    #level-caption {
+      font-size: 1.05rem !important;
+    }
+
+    .status-indicator {
+      font-size: 0.85rem !important;
+    }
+
+    /* SECCIÓN EQUIPO */
     .team {
       background: var(--parchment);
       border-bottom: 4px double var(--sepia);
     }
 
     .team-grid {
-      max-width: 950px;
-      margin: 4rem auto 0;
+      max-width: 1020px;
+      margin: 4.5rem auto 0;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2.5rem;
+      gap: 3rem;
     }
 
     .team-card-shadow {
@@ -1194,14 +1230,14 @@
       pointer-events: none;
     }
 
-    /* Vintage Stamp Frame for Avatars */
+    /* Marco de sello vintage para avatares */
     .team-avatar-frame {
       width: 200px;
       height: 200px;
       border-radius: 50%;
       background: var(--sepia-dark);
       border: 4px double var(--gold);
-      margin: 0 auto 1.2rem;
+      margin: 0 auto 1.6rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1227,39 +1263,40 @@
 
     .team-name {
       font-family: 'Cinzel', serif;
-      font-size: 1.15rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--sepia-dark);
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.35rem;
     }
 
     .team-role {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 0.75rem;
+      font-size: 1.25rem;
       color: var(--red-old);
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
 
     .click-hint {
       display: none;
     }
 
-    /* Fixed professional display for team description */
+    /* Visualización profesional fija para la descripción del equipo */
     .team-desc {
-      padding: 1rem 0.5rem 0;
-      margin-top: 1rem;
-      font-size: 0.95rem;
-      line-height: 1.6;
+      padding: 1.5rem 0.5rem 0;
+      margin-top: 1.35rem;
+      font-size: 1.0625rem;
+      line-height: 1.75;
       color: var(--sepia-dark);
       border-top: 1px dashed var(--parchment-darker);
       text-align: left;
       font-style: italic;
+      max-width: 75ch;
     }
 
-    /* DOWNLOAD SECTION */
+    /* SECCIÓN DE DESCARGA */
     .download {
       background: var(--sepia-dark);
       background-image:
@@ -1283,8 +1320,8 @@
       font-style: italic;
       color: var(--parchment);
       max-width: 580px;
-      margin: 1rem auto 2.5rem;
-      font-size: 1.15rem;
+      margin: 1rem auto 3.2rem;
+      font-size: 1.3rem;
       line-height: 1.8;
     }
 
@@ -1315,7 +1352,7 @@
       flex-wrap: wrap;
     }
 
-    /* FOOTER */
+    /* PIE DE PÁGINA */
     footer {
       background: #180d05;
       padding: 4rem 2rem 2.5rem;
@@ -1328,15 +1365,15 @@
 
     .footer-logo {
       font-family: 'Cinzel Decorative', serif;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--gold-light);
       margin-bottom: 0.8rem;
     }
 
     .footer-text {
-      font-size: 0.85rem;
-      color: var(--sepia);
+      font-size: 1.0625rem;
+      color: #d5c2a5;
       font-style: italic;
       margin-bottom: 2rem;
     }
@@ -1344,7 +1381,7 @@
     .contacto-info {
       padding-top: 2rem;
       border-top: 1px solid rgba(235, 208, 155, 0.1);
-      font-size: 0.9rem;
+      font-size: 1.0625rem;
       font-style: italic;
       color: var(--parchment-dark);
     }
@@ -1361,7 +1398,7 @@
       text-decoration: underline;
     }
 
-    /* RESPONSIVE MEDIA QUERIES */
+    /* CONSULTAS DE MEDIOS RESPONSIVAS */
     @media (max-width: 900px) {
       .journal {
         grid-template-columns: 1fr;
@@ -1399,14 +1436,14 @@
     @media (max-width: 768px) {
       body {
         padding-left: 0;
-        /* Sin sidebar en móvil */
+        /* Sin barra lateral en móvil */
       }
 
       section {
         padding: 5rem 1.5rem;
       }
 
-      /* Sidebar en móvil: oculto por defecto, desliza desde la izquierda */
+      /* Barra lateral en móvil: oculto por defecto, desliza desde la izquierda */
       nav {
         width: 260px;
         transform: translateX(-100%);
@@ -1420,7 +1457,7 @@
         transform: translateX(0);
       }
 
-      /* Links del sidebar en móvil: texto un poco más grande */
+      /* Links de la barra lateral en móvil: texto un poco más grande */
       .nav-links a {
         font-size: 0.8rem;
         padding: 1rem 1.5rem;
@@ -1435,7 +1472,7 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
       }
 
-      /* Toggle icon animation (X al abrir) */
+      /* Animación del icono alternador (X al abrir) */
       .nav-toggle.open .bar:nth-child(1) {
         transform: rotate(-45deg) translate(-4px, 5px);
       }
@@ -1458,13 +1495,13 @@
         padding: 2rem 1.5rem;
       }
 
-      /* Stack collage verticalmente en móvil */
+      /* Apilar collage verticalmente en móvil */
       .hero-collage {
         height: auto;
         flex-direction: column;
         align-items: center;
         gap: 1.5rem;
-        margin-top: 3rem;
+        margin-top: 2rem;
         padding-bottom: 0;
       }
 
@@ -1490,7 +1527,7 @@
     }
 
     /* ============================================
-       SIDEBAR — Clases adicionales
+       BARRA LATERAL — Clases adicionales
        ============================================ */
     .sidebar-ornament {
       text-align: center;
@@ -1513,7 +1550,7 @@
       opacity: 1;
     }
 
-    /* Overlay semitransparente para cerrar el menú móvil */
+    /* Capa superpuesta semitransparente para cerrar el menú móvil */
     .nav-overlay {
       display: none;
       position: fixed;
@@ -1528,15 +1565,205 @@
       display: block;
     }
 
-    /* Fix Safari iOS: background-attachment fixed no funciona en iOS */
+    /* Corrección Safari iOS: background-attachment fixed no funciona en iOS */
     @supports (-webkit-touch-callout: none) {
 
-      body,
-      .hero,
-      .stories,
-      .builder,
-      .download {
-        background-attachment: scroll;
+      .platforms .plat-badge {
+        font-size: 1.0625rem;
+      }
+
+      .scroll-anim-container {
+        margin: 1.8rem auto 2.2rem;
+      }
+    }
+
+    /* ============================================
+       ANIMACIÓN DEL PERGAMINO DECORATIVO
+       ============================================ */
+    .scroll-anim-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1.25rem auto 1.5rem;
+      width: 100%;
+      max-width: 750px;
+      z-index: 10;
+      opacity: 0;
+      transform: translateX(-50px);
+      animation: scroll-appear 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      pointer-events: none;
+      /* Meramente decorativo */
+    }
+
+    .scroll-wrapper {
+      display: flex;
+      align-items: stretch;
+      height: 195px;
+      width: auto;
+      filter: drop-shadow(0 16px 32px rgba(12, 6, 2, 0.55)) drop-shadow(0 4px 8px rgba(12, 6, 2, 0.3));
+    }
+
+    /* Rodillo / Extremos del pergamino */
+    .scroll-roll {
+      width: 20px;
+      background: linear-gradient(to right, #3d2b1f, #8b5a2b 30%, #a06d3b 50%, #8b5a2b 70%, #3d2b1f);
+      border-radius: 4px;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.7), 2px 2px 5px rgba(0, 0, 0, 0.35);
+      position: relative;
+      z-index: 3;
+    }
+
+    /* Pomos de madera/oro decorativos en los extremos de los rodillos */
+    .scroll-roll::before,
+    .scroll-roll::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 26px;
+      height: 8px;
+      background: radial-gradient(circle, var(--gold-light), var(--gold) 60%, var(--sepia-dark));
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .scroll-roll::before {
+      top: -8px;
+    }
+
+    .scroll-roll::after {
+      bottom: -8px;
+    }
+
+    .roll-left {
+      border-right: 1px solid rgba(0, 0, 0, 0.4);
+    }
+
+    .roll-right {
+      border-left: 1px solid rgba(0, 0, 0, 0.4);
+    }
+
+    /* Cuerpo del pergamino (papel envejecido) */
+    .scroll-paper {
+      width: 0;
+      background-color: var(--parchment-dark);
+      background-image:
+        linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 8%, rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.3) 100%),
+        radial-gradient(circle, rgba(43, 29, 12, 0.22) 0%, rgba(43, 29, 12, 0.08) 80%),
+        url('images/parchment_bg_for_pergamino.png');
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+      box-shadow: inset 0 0 20px rgba(117, 85, 55, 0.4);
+      border-top: 2px solid rgba(117, 85, 55, 0.4);
+      border-bottom: 2px solid rgba(117, 85, 55, 0.4);
+      /* Animación de desenrollado: dura 3.8s y comienza después de que aparece el pergamino (1.2s) */
+      animation: scroll-unroll 3.8s cubic-bezier(0.25, 1, 0.5, 1) 1.2s forwards;
+    }
+
+    /* Contenido interno para asegurar que el texto no cambie de tamaño/posición mientras se desenrolla */
+    .scroll-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 650px;
+      height: 100%;
+      padding: 0 2.5rem;
+      box-sizing: border-box;
+    }
+
+    /* Texto con efecto fade-in gradual al terminar de desenrollar */
+    .scroll-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.4rem, 3.8vw, 1.95rem);
+      font-weight: 700;
+      color: var(--ink);
+      text-shadow: 0.5px 0.5px 1px rgba(28, 18, 12, 0.2), 1px 1px 2px rgba(255, 255, 255, 0.85);
+      text-align: center;
+      line-height: 1.5;
+      margin: 0;
+      opacity: 0;
+      /* Inicia a los 5s (1.2s de aparición + 3.8s de desenrollado) */
+      animation: text-fade-in 1.5s ease-out 5.0s forwards;
+    }
+
+    /* Clase activa cuando JavaScript divide el texto en letras */
+    .scroll-text.split-active {
+      opacity: 1 !important;
+      animation: none !important;
+    }
+
+    .scroll-text.split-active span {
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .scroll-text.split-active span.visible {
+      opacity: 1;
+    }
+
+    /* Adaptación responsiva para móviles */
+    @media (max-width: 600px) {
+      .scroll-anim-container {
+        margin: 1rem auto 1rem;
+        max-width: 390px;
+      }
+
+      .scroll-wrapper {
+        height: 165px;
+      }
+
+      .scroll-content {
+        width: 350px;
+        padding: 0 1.5rem;
+      }
+
+      @keyframes scroll-unroll {
+        0% {
+          width: 0;
+        }
+
+        100% {
+          width: 350px;
+        }
+      }
+    }
+
+    /* Keyframes de Animaciones */
+    @keyframes scroll-appear {
+      0% {
+        opacity: 0;
+        transform: translateX(-60px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes scroll-unroll {
+      0% {
+        width: 0;
+      }
+
+      100% {
+        width: 650px;
+      }
+    }
+
+    @keyframes text-fade-in {
+      0% {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
   </style>
@@ -1544,30 +1771,30 @@
 
 <body>
 
-  <!-- Dynamic SVG Clip Paths (100% vector, responsive, 0ms network request) -->
+  <!-- Rutas de recorte SVG dinámicas (100% vectoriales, responsivas, 0ms de solicitud de red) -->
   <svg width="0" height="0" style="position: absolute;">
     <defs>
-      <!-- Ripped border horizontal (top & bottom) -->
+      <!-- Borde rasgado horizontal (arriba y abajo) -->
       <clipPath id="torn-horizontal" clipPathUnits="objectBoundingBox">
         <path
           d="M0,0.08 L0.03,0.06 L0.07,0.1 L0.1,0.07 L0.13,0.09 L0.17,0.05 L0.2,0.08 L0.24,0.06 L0.28,0.11 L0.31,0.07 L0.35,0.09 L0.38,0.05 L0.42,0.08 L0.45,0.06 L0.49,0.1 L0.52,0.07 L0.56,0.09 L0.59,0.05 L0.63,0.08 L0.66,0.06 L0.7,0.1 L0.73,0.07 L0.77,0.09 L0.8,0.05 L0.84,0.08 L0.87,0.06 L0.91,0.1 L0.94,0.07 L0.98,0.09 L1,0.05 L1,0.92 L0.97,0.94 L0.93,0.9 L0.9,0.93 L0.87,0.91 L0.83,0.95 L0.8,0.92 L0.76,0.94 L0.72,0.89 L0.69,0.93 L0.65,0.91 L0.62,0.95 L0.58,0.92 L0.55,0.94 L0.51,0.9 L0.48,0.93 L0.44,0.91 L0.41,0.95 L0.37,0.92 L0.34,0.94 L0.3,0.9 L0.27,0.93 L0.23,0.91 L0.2,0.95 L0.16,0.92 L0.13,0.94 L0.09,0.9 L0.06,0.93 L0.02,0.91 L0,0.95 Z" />
       </clipPath>
-      <!-- Story Card all-around torn clip path -->
+      <!-- Ruta de de recorte rasgada alrededor de la tarjeta de historia -->
       <clipPath id="torn-card" clipPathUnits="objectBoundingBox">
         <path
           d="M0.05,0.03 L0.15,0.02 L0.25,0.04 L0.35,0.01 L0.45,0.03 L0.55,0.01 L0.65,0.04 L0.75,0.02 L0.85,0.03 L0.95,0.01 L0.97,0.05 L0.98,0.15 L0.96,0.25 L0.99,0.35 L0.97,0.45 L0.98,0.55 L0.96,0.65 L0.99,0.75 L0.97,0.85 L0.98,0.95 L0.95,0.97 L0.85,0.98 L0.75,0.96 L0.65,0.99 L0.55,0.97 L0.45,0.98 L0.35,0.96 L0.25,0.99 L0.15,0.97 L0.05,0.98 L0.02,0.95 L0.01,0.85 L0.03,0.75 L0.01,0.65 L0.02,0.55 L0.01,0.45 L0.03,0.35 L0.01,0.25 L0.03,0.15 L0.02,0.05 Z" />
       </clipPath>
-      <!-- Torn photos clipping variation 1 -->
+      <!-- Variación de recorte de fotos rasgadas 1 -->
       <clipPath id="torn-photo-1" clipPathUnits="objectBoundingBox">
         <path
           d="M0,0 L1,0 L1,0.91 L0.96,0.93 L0.91,0.89 L0.87,0.92 L0.83,0.9 L0.79,0.93 L0.75,0.9 L0.71,0.94 L0.66,0.91 L0.62,0.95 L0.57,0.91 L0.52,0.94 L0.48,0.9 L0.43,0.93 L0.38,0.91 L0.34,0.95 L0.29,0.91 L0.24,0.94 L0.19,0.9 L0.15,0.93 L0.11,0.91 L0.07,0.95 L0,0.9 Z" />
       </clipPath>
-      <!-- Torn photos clipping variation 2 -->
+      <!-- Variación de recorte de fotos rasgadas 2 -->
       <clipPath id="torn-photo-2" clipPathUnits="objectBoundingBox">
         <path
           d="M0,0 L1,0 L1,0.93 L0.97,0.91 L0.94,0.95 L0.9,0.92 L0.86,0.94 L0.82,0.9 L0.78,0.93 L0.74,0.91 L0.7,0.95 L0.65,0.92 L0.61,0.94 L0.57,0.9 L0.53,0.93 L0.49,0.91 L0.45,0.95 L0.41,0.92 L0.37,0.94 L0.33,0.9 L0.29,0.93 L0.25,0.91 L0.21,0.95 L0.17,0.92 L0.13,0.94 L0.09,0.9 L0.05,0.93 L0,0.91 Z" />
       </clipPath>
-      <!-- Torn photos clipping variation 3 -->
+      <!-- Variación de recorte de fotos rasgadas 3 -->
       <clipPath id="torn-photo-3" clipPathUnits="objectBoundingBox">
         <path
           d="M0,0 L1,0 L1,0.9 L0.95,0.93 L0.91,0.9 L0.87,0.93 L0.83,0.91 L0.79,0.95 L0.75,0.92 L0.71,0.94 L0.67,0.9 L0.63,0.93 L0.59,0.91 L0.55,0.95 L0.51,0.92 L0.47,0.94 L0.43,0.9 L0.39,0.93 L0.35,0.91 L0.31,0.95 L0.27,0.92 L0.23,0.94 L0.19,0.9 L0.15,0.93 L0.11,0.91 L0.07,0.95 L0,0.92 Z" />
@@ -1641,29 +1868,46 @@
     <div class="sidebar-ornament" aria-hidden="true">❦</div>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- Sección Hero -->
   <header id="inicio" class="hero">
-    <!-- Faded background scraps -->
+    <!-- Recortes de fondo atenuados -->
     <div class="scrap-paper scrap-newspaper" aria-hidden="true"></div>
     <div class="scrap-paper scrap-notebook" aria-hidden="true"></div>
 
     <div class="hero-content">
       <div class="shadow-wrapper title-shadow">
         <div class="hero-title-card">
-          <h1 class="hero-title" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">Relatos Ocultos</h1>
-          <p class="hero-gametitle" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">Historias no
+          <h1 class="hero-title" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">Relatos
+            Ocultos</h1>
+          <p class="hero-gametitle" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">Historias
+            no
             contadas</p>
         </div>
       </div>
     </div>
 
-    <!-- Dynamic Torn-Edge Collage of Paraguayan landmarks -->
-    <div class="hero-collage">
-      <!-- Scrap papers underlay -->
-      <div class="collage-scrap scrap-1" aria-hidden="true"></div>
-      <div class="collage-scrap scrap-2" aria-hidden="true"></div>
+    <!-- Animación decorativa del pergamino -->
+    <div class="scroll-anim-container">
+      <div class="scroll-wrapper">
+        <!-- Extremo izquierdo (fijo) -->
+        <div class="scroll-roll roll-left"></div>
 
-      <!-- Camino a la Fiesta (Left) -->
+        <!-- Cuerpo del pergamino (se desenrolla) -->
+        <div class="scroll-paper">
+          <div class="scroll-content">
+            <p class="scroll-text">“Cuando un pueblo conoce su historia, también comprende quién es.”</p>
+          </div>
+        </div>
+
+        <!-- Extremo derecho (se desplaza horizontalmente) -->
+        <div class="scroll-roll roll-right"></div>
+      </div>
+    </div>
+
+    <!-- Collage de hito con bordes rasgados dinámicos de monumentos paraguayos -->
+    <div class="hero-collage">
+
+      <!-- Camino a la Fiesta (Izquierda) -->
       <div class="shadow-wrapper collage-item-wrapper item-left" data-aos="fade-right" data-aos-duration="1000"
         data-aos-delay="700">
         <div class="photo-frame torn-photo-left">
@@ -1673,7 +1917,7 @@
         </div>
       </div>
 
-      <!-- Regreso al Hogar (Center) -->
+      <!-- Regreso al Hogar (Centro) -->
       <div class="shadow-wrapper collage-item-wrapper item-center" data-aos="fade-up" data-aos-duration="1000"
         data-aos-delay="500">
         <div class="photo-frame torn-photo-center">
@@ -1683,7 +1927,7 @@
         </div>
       </div>
 
-      <!-- El Karãu (Right) -->
+      <!-- El Karãu (Derecha) -->
       <div class="shadow-wrapper collage-item-wrapper item-right-photo" data-aos="fade-left" data-aos-duration="1000"
         data-aos-delay="800">
         <div class="photo-frame torn-photo-right">
@@ -1703,12 +1947,13 @@
         <div class="divider" aria-hidden="true"></div>
         <p class="about-text">
           "Relatos Ocultos" no es solo un videojuego; es un portal interactivo para descubrir los
-          misterios y héroes olvidados de nuestra patria. Sumérgete en recreaciones fieles de eventos que formaron
+          misterios y héroes olvidados de nuestra patria. Sumérgete en recreaciones fieles de eventos que
+          formaron
           nuestra identidad.
         </p>
 
         <div class="features-grid">
-          <!-- Feature 1 -->
+          <!-- Característica 1 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
             <svg class="feature-icon-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M32 54c-6-4-14-5-22-5H4V11h6c7 0 16 2 22 6c6-4 15-6 22-6h6v38H54c-8 0-16 1-22 5Z" fill="none"
@@ -1718,12 +1963,14 @@
               <path d="M50 48c-6 0-13 1-18 4V17c5-3 12-4 18-4h6v35h-6Z" fill="var(--parchment-dark)" opacity="0.3" />
             </svg>
             <h3 class="feature-title">Relatos</h3>
-            <p class="feature-desc">Conoce tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel
-              presenta una historia diferente que invita a descubrir parte de nuestro patrimonio histórico y cultural.
+            <p class="feature-desc">Conoce tres relatos inspirados en hechos y realidades del Paraguay. Cada
+              nivel
+              presenta una historia diferente que invita a descubrir parte de nuestro patrimonio histórico
+              y cultural.
             </p>
           </div>
 
-          <!-- Feature 2 -->
+          <!-- Característica 2 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
             <svg class="feature-icon-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <circle cx="32" cy="36" r="22" fill="none" stroke="currentColor" stroke-width="2" />
@@ -1741,7 +1988,7 @@
               descubre la historia a través del entorno, pequeños diálogos y la exploración.</p>
           </div>
 
-          <!-- Feature 3 -->
+          <!-- Característica 3 -->
           <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
             <svg class="feature-icon-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M12 10c0 0 8-4 20-4s20 4 20 4v40c0 0-8-4-20-4s-20 4-20 4V10Z" fill="none" stroke="currentColor"
@@ -1753,7 +2000,8 @@
                 stroke="currentColor" stroke-width="1" stroke-linecap="round" />
             </svg>
             <h3 class="feature-title">Cultura y Memoria</h3>
-            <p class="feature-desc">Al finalizar cada nivel podrás ampliar la información desde esta página web, donde
+            <p class="feature-desc">Al finalizar cada nivel podrás ampliar la información desde esta página
+              web, donde
               encontrarás el contexto y la historia detrás de cada relato presentado en el juego.</p>
           </div>
         </div>
@@ -1767,12 +2015,13 @@
           <div class="divider" aria-hidden="true"></div>
           <p class="stories-subtitle"
             style="max-width: 700px; color: #000000; margin: 1.5rem auto 0; font-weight: 600;">
-            Descubre tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel presenta una experiencia
+            Descubre tres relatos inspirados en hechos y realidades del Paraguay. Cada nivel presenta una
+            experiencia
             diferente que invita a conocer una parte de nuestra historia y cultura.
         </div>
         <div class="stories-container">
           <div class="stories-track">
-            <!-- Story 1 -->
+            <!-- Historia 1 -->
             <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
               <article class="story-card">
                 <span class="story-badge">Nivel 1</span>
@@ -1783,16 +2032,18 @@
                 </div>
                 <span class="story-location">CHACO PARAGUAYO</span>
                 <h3 class="story-title">Camino a la Fiesta</h3>
-                <p class="story-desc">Acompaña a Delfina Servín en su recorrido y descubre los secretos que rodean a
+                <p class="story-desc">Acompaña a Delfina Servín en su recorrido y descubre los secretos
+                  que rodean a
                   esta popular leyenda paraguaya.</p>
                 <div class="story-actions">
-                  <a href="Relatos.html?id=1" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                  <a href="Relatos.html?id=1" class="btn btn-primary btn-sm story-btn-read">Examinar
+                    Archivo</a>
                   <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
                 </div>
               </article>
             </div>
 
-            <!-- Story 2 -->
+            <!-- Historia 2 -->
             <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
               <article class="story-card">
                 <span class="story-badge">Nivel 2</span>
@@ -1803,16 +2054,18 @@
                 </div>
                 <span class="story-location">ALTO PARANÁ</span>
                 <h3 class="story-title">Regreso al Hogar</h3>
-                <p class="story-desc">Escapa de los yerbales del Alto Paraná y experimenta la dura realidad de la
+                <p class="story-desc">Escapa de los yerbales del Alto Paraná y experimenta la dura
+                  realidad de la
                   explotación laboral del siglo XIX.</p>
                 <div class="story-actions">
-                  <a href="Relatos.html?id=2" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                  <a href="Relatos.html?id=2" class="btn btn-primary btn-sm story-btn-read">Examinar
+                    Archivo</a>
                   <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
                 </div>
               </article>
             </div>
 
-            <!-- Story 3 -->
+            <!-- Historia 3 -->
             <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
               <article class="story-card">
                 <span class="story-badge">Nivel 3</span>
@@ -1823,10 +2076,13 @@
                 </div>
                 <span class="story-location">ESTEROS</span>
                 <h3 class="story-title">El Karãu</h3>
-                <p class="story-desc">Karãu era un joven apuesto, buen bailarín y cantor, que vivía cuidando a su madre
-                  enferma. Una noche salió a buscarle un remedio, pero se dejó llevar por el baile.</p>
+                <p class="story-desc">Karãu era un joven apuesto, buen bailarín y cantor, que vivía
+                  cuidando a su madre
+                  enferma. Una noche salió a buscarle un remedio, pero se dejó llevar por el baile.
+                </p>
                 <div class="story-actions">
-                  <a href="Relatos.html?id=3" class="btn btn-primary btn-sm story-btn-read">Examinar Archivo</a>
+                  <a href="Relatos.html?id=3" class="btn btn-primary btn-sm story-btn-read">Examinar
+                    Archivo</a>
                   <a href="#descarga" class="story-link-play">Jugar este Nivel</a>
                 </div>
               </article>
@@ -1835,14 +2091,15 @@
 
     </section>
 
-    <!-- Sección Crear un Juego / Story Builder Showcase -->
+    <!-- Sección Crear un Juego / Muestra del constructor de historias -->
     <section id="nuestroobjetivo" class="builder">
       <div class="about-inner" data-aos="fade-up" data-aos-duration="1000">
         <div class="about-paper-card">
           <h2 class="section-title">Nuestro Objetivo</h2>
           <div class="divider" aria-hidden="true"></div>
           <p class="about-text" style="max-width: 700px; margin: 1.5rem auto 0; font-weight: 600;">
-            Queremos que seas parte del desarrollo. Relatos Ocultos cuenta con un completo editor de escenarios que te
+            Queremos que seas parte del desarrollo. Relatos Ocultos cuenta con un completo editor de
+            escenarios que te
             permite redactar tramas, decisiones e investigaciones históricas.
           </p>
         </div>
@@ -1863,7 +2120,8 @@
                 style="font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 700; color: var(--sepia-dark); margin: 0 0 1rem;"
                 id="dynamic-level-title">Camino a la Fiesta</h4>
 
-              <p class="builder-desc" style="margin-bottom: 1rem; font-weight: 600;">Durante este nivel podrás:</p>
+              <p class="builder-desc" style="margin-bottom: 1rem; font-weight: 600;">Durante este nivel
+                podrás:</p>
               <ul class="builder-bullets" id="dynamic-level-bullets">
                 <li>Conocer el paisaje del Chaco paraguayo.</li>
                 <li>Descubrir cómo era la vida cotidiana de la época.</li>
@@ -1886,7 +2144,7 @@
               style="border: 2px solid var(--sepia-dark); background: #faf4e5; padding: 0.75rem 0.75rem 1.5rem; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transform: rotate(-0.5deg); transition: transform 0.3s ease;">
               <div id="level-image-container"
                 style="width: 100%; height: 170px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); background: #eee; clip-path: url(#torn-photo-1); transition: opacity 0.25s ease;">
-                <!-- SVG Level 1 -->
+                <!-- SVG Nivel 1 -->
                 <svg id="svg-level-1" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg"
                   style="width: 100%; height: 100%; object-fit: cover;">
                   <rect width="330" height="180" fill="#e0cfa5" />
@@ -1898,7 +2156,7 @@
                   <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107"
                     font-weight="700">Chaco Paraguayo</text>
                 </svg>
-                <!-- SVG Level 2 -->
+                <!-- SVG Nivel 2 -->
                 <svg id="svg-level-2" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg"
                   style="width: 100%; height: 100%; object-fit: cover; display: none;">
                   <rect width="330" height="180" fill="#ced9bc" />
@@ -1910,11 +2168,11 @@
                   <text x="20" y="40" font-family="'Cinzel', serif" font-size="16" fill="#1e1107"
                     font-weight="700">Yerbales de Alto Paraná</text>
                 </svg>
-                <!-- SVG Level 3 -->
+                <!-- SVG Nivel 3 -->
                 <svg id="svg-level-3" viewBox="0 0 330 180" xmlns="http://www.w3.org/2000/svg"
                   style="width: 100%; height: 100%; object-fit: cover; display: none;">
                   <rect width="330" height="180" fill="#c3cbb8" />
-                  <!-- Bird sketch representation in SVG lines -->
+                  <!-- Representación del esbozo del ave en líneas SVG -->
                   <path d="M120 120 C130 90, 160 80, 180 90 C200 100, 210 120, 200 140 C190 150, 150 160, 120 120 Z"
                     fill="none" stroke="#1c120c" stroke-width="2.5" />
                   <line x1="180" y1="90" x2="210" y2="85" stroke="#1c120c" stroke-width="2" />
@@ -1925,7 +2183,8 @@
                 </svg>
               </div>
               <p class="photo-caption" id="level-caption"
-                style="margin-top: 0.5rem; text-align: center; font-size: 0.85rem; font-style: italic;">Camino a la
+                style="margin-top: 0.5rem; text-align: center; font-size: 0.85rem; font-style: italic;">
+                Camino a la
                 Fiesta</p>
             </div>
 
@@ -1936,7 +2195,8 @@
                 style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-1">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                   <span class="option-bullet">1</span>
-                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">Camino a la
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">Camino
+                    a la
                     Fiesta</span>
                 </div>
                 <span class="status-indicator"
@@ -1948,7 +2208,8 @@
                 style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-2">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                   <span class="option-bullet">2</span>
-                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">Regreso al
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">Regreso
+                    al
                     Hogar</span>
                 </div>
                 <span class="status-indicator"
@@ -1960,7 +2221,8 @@
                 style="width: 100%; justify-content: space-between; border-left-width: 4px;" id="btn-level-3">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                   <span class="option-bullet">3</span>
-                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">El Karãu</span>
+                  <span style="font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;">El
+                    Karãu</span>
                 </div>
                 <span class="status-indicator"
                   style="font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 800; color: var(--red-old); text-transform: uppercase; transition: opacity 0.2s; opacity: 0;">Activo</span>
@@ -1985,7 +2247,8 @@
             <h3 class="team-name">Axel Rolón</h3>
             <h4 class="team-role">Programador del Juego</h4>
             <div class="team-desc">
-              Responsable de toda la lógica, mecánicas jugables e implementación funcional. Se asegura de que el motor
+              Responsable de toda la lógica, mecánicas jugables e implementación funcional. Se asegura de
+              que el motor
               de relatos interactivos responda perfectamente en todos los dispositivos y plataformas.
             </div>
           </div>
@@ -2001,8 +2264,10 @@
             <h3 class="team-name">Cayo Ávalos</h3>
             <h4 class="team-role">Diseñador de Gráficos</h4>
             <div class="team-desc">
-              Creador de la atmósfera visual del juego. Diseña los retratos de los personajes, las portadas
-              texturizadas de los relatos y todos los elementos estéticos que recrean el Paraguay de antaño.
+              Creador de la atmósfera visual del juego. Diseña los retratos de los personajes, las
+              portadas
+              texturizadas de los relatos y todos los elementos estéticos que recrean el Paraguay de
+              antaño.
             </div>
           </div>
         </div>
@@ -2017,7 +2282,8 @@
             <h3 class="team-name">Miguel Giménez</h3>
             <h4 class="team-role">Creador de la Página Web</h4>
             <div class="team-desc">
-              Diseña y desarrolla este sitio web para conectar a la comunidad. Implementa el sistema responsivo,
+              Diseña y desarrolla este sitio web para conectar a la comunidad. Implementa el sistema
+              responsivo,
               optimiza la carga de recursos y asegura una experiencia accesible y visualmente atractiva.
             </div>
           </div>
@@ -2033,7 +2299,8 @@
       </p>
 
       <div class="btn-download-container" data-aos="fade-up" data-aos-delay="300">
-        <a class="btn btn-primary" onclick="alert('Iniciando descarga para Windows PC...')">Descargar para PC</a>
+        <a class="btn btn-primary" onclick="alert('Iniciando descarga para Windows PC...')">Descargar para
+          PC</a>
     </section>
   </main>
 
@@ -2134,7 +2401,7 @@
     const sections = document.querySelectorAll('section[id], header[id]');
     const navItemMap = {
       'inicio': 'nav-inicio',
-      'descripcion': 'nav-inicio',   // La sección about no tiene nav propio → asigna a Inicio
+      'descripcion': 'nav-inicio',   // La sección de descripción no tiene nav propio → asigna a Inicio
       'historias': 'nav-historias',
       'nuestroobjetivo': 'nav-nuestroobjetivo',
       'equipo': 'nav-equipo',
@@ -2143,7 +2410,7 @@
 
     const observerOptions = {
       root: null,
-      rootMargin: '-20% 0px -60% 0px', // Activa cuando la sección está en el 20%-40% del viewport
+      rootMargin: '-20% 0px -60% 0px', // Activa cuando la sección está en el 20%-40% del área visible de la pantalla (viewport)
       threshold: 0
     };
 
@@ -2226,7 +2493,7 @@
       const containerRightImage = document.getElementById('level-image-container');
       const captionEl = document.getElementById('level-caption');
 
-      // Transición suave: fade out
+      // Transición suave: desvanecimiento (fade out)
       if (containerLeft) containerLeft.style.opacity = 0;
       if (containerRightImage) containerRightImage.style.opacity = 0;
 
@@ -2255,7 +2522,7 @@
         // Actualizar pie de foto
         if (captionEl) captionEl.innerText = data.caption;
 
-        // Fade in
+        // Aparición gradual (fade in)
         if (containerLeft) containerLeft.style.opacity = 1;
         if (containerRightImage) containerRightImage.style.opacity = 1;
       }, 200);
@@ -2278,7 +2545,7 @@
 
 
     // =============================================
-    // Scroll suave ajustado para sidebar (offset = 0 en desktop)
+    // Desplazamiento (scroll) suave ajustado para la barra lateral (offset = 0 en escritorio)
     // =============================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
@@ -2301,7 +2568,38 @@
     });
 
     // =============================================
-    // Fading indicador de carrusel al scroll
+    // Animación cinematográfica de escritura para el pergamino
+    // =============================================
+    const scrollTextEl = document.querySelector('.scroll-text');
+    if (scrollTextEl) {
+      const rawText = scrollTextEl.innerText;
+      scrollTextEl.innerHTML = '';
+
+      // Crear spans para cada carácter
+      const chars = Array.from(rawText).map((char, index) => {
+        const span = document.createElement('span');
+        span.textContent = char;
+        // La animación comienza tras 5.0s (1.2s de aparición + 3.8s de desenrollado)
+        span.style.transitionDelay = `${5.0 + index * 0.03}s`;
+        scrollTextEl.appendChild(span);
+        return span;
+      });
+
+      // Añadir clase activa para aplicar estilos de división de caracteres
+      scrollTextEl.classList.add('split-active');
+
+      // Forzar reflow y activar la visibilidad de los caracteres
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          chars.forEach(span => {
+            span.classList.add('visible');
+          });
+        });
+      });
+    }
+
+    // =============================================
+    // Desvanecimiento del indicador del carrusel al desplazarse (scroll)
     // =============================================
     const storiesTrack = document.querySelector('.stories-track');
     const storiesContainer = document.querySelector('.stories-container');

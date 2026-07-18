@@ -8,13 +8,13 @@
   <meta name="description"
     content="Amplía el contexto histórico de los relatos de Relatos Ocultos: leyendas, literatura y hechos reales del Paraguay.">
 
-  <!-- Preconnect to Google Fonts -->
+  <!-- Preconectar a Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Google Fonts: Cinzel (headers), Cormorant Garamond (body serif), Montserrat (interface sans-serif) -->
+  <!-- Google Fonts: Cinzel (encabezados), Lora (cuerpo de texto con serifa legible), Montserrat (interfaz sin serifa) -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
   <style>
@@ -28,7 +28,7 @@
 
     :root {
       --ink: #1c120c;
-      --parchment: #faf6eb;
+      --parchment: #fdfbf7;
       --parchment-dark: #ebdcb9;
       --parchment-darker: #755537;
       --sepia: #755537;
@@ -36,7 +36,7 @@
       --gold: #c59b27;
       --gold-light: #ebd09b;
       --red-old: #9e2a1b;
-      --white-torn: #faf6eb;
+      --white-torn: #fdfbf7;
       --shadow-color: rgba(28, 18, 12, 0.15);
     }
 
@@ -45,7 +45,7 @@
     }
 
     body {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Lora', serif;
       background-color: var(--parchment-dark);
       background-image: url('images/parchment_bg_for_relatos.png');
       background-size: cover;
@@ -62,7 +62,7 @@
       justify-content: flex-start;
     }
 
-    /* Scanline paper texture overlay */
+    /* Capa superpuesta de textura de papel con líneas de barrido */
     body::before {
       content: '';
       position: fixed;
@@ -75,18 +75,18 @@
       z-index: 999;
     }
 
-    /* Accessibility Focus Style */
+    /* Estilo de enfoque de accesibilidad */
     a:focus-visible,
     button:focus-visible {
       outline: 3px double var(--gold);
       outline-offset: 4px;
     }
 
-    /* HEADER / BACK NAVIGATION */
+    /* ENCABEZADO / NAVEGACIÓN HACIA ATRÁS */
     .top-nav {
       width: 100%;
       max-width: 1000px;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       display: flex;
       justify-content: flex-start;
     }
@@ -96,7 +96,7 @@
       align-items: center;
       gap: 0.5rem;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.75rem;
+      font-size: 1.0625rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.12em;
@@ -104,7 +104,7 @@
       text-decoration: none;
       border: 1px solid var(--parchment-darker);
       background: var(--white-torn);
-      padding: 0.6rem 1.2rem;
+      padding: 0.75rem 1.5rem;
       border-radius: 4px;
       box-shadow: 0 3px 0 var(--parchment-darker);
       transition: transform 0.1s ease, background 0.2s ease, box-shadow 0.1s ease;
@@ -121,12 +121,12 @@
       box-shadow: none;
     }
 
-    /* MAIN CONTAINER: OPEN FOLDER / JOURNAL LAYOUT */
+    /* CONTENEDOR PRINCIPAL: CARPETA ABIERTA / DISEÑO DE DIARIO */
     .folder-wrapper {
       width: 100%;
       max-width: 1000px;
       filter: drop-shadow(0 15px 30px rgba(28, 18, 12, 0.25));
-      margin-bottom: 3rem;
+      margin-bottom: 4rem;
       flex-grow: 1;
       display: flex;
     }
@@ -137,7 +137,7 @@
       outline: 4px double var(--gold);
       outline-offset: -6px;
       border-radius: 4px;
-      padding: 3rem;
+      padding: 3.5rem;
       width: 100%;
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
@@ -147,7 +147,7 @@
       transition: opacity 0.3s ease;
     }
 
-    /* Book spine shadow binding */
+    /* Sombra de encuadernación del lomo del libro */
     .folder::after {
       content: '';
       position: absolute;
@@ -162,7 +162,7 @@
       pointer-events: none;
     }
 
-    /* LEFT PAGE - THE WRITTEN ARCHIVE */
+    /* PÁGINA IZQUIERDA - EL ARCHIVO ESCRITO */
     .archive-left {
       display: flex;
       flex-direction: column;
@@ -187,7 +187,7 @@
 
     .expediente-title {
       font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-size: clamp(1.9rem, 5vw, 2.85rem);
       font-weight: 700;
       color: var(--sepia-dark);
       line-height: 1.2;
@@ -213,10 +213,10 @@
 
     .section-subtitle {
       font-family: 'Cinzel', serif;
-      font-size: 1.15rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--sepia-dark);
-      margin-bottom: 0.75rem;
+      margin-bottom: 1.25rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -231,13 +231,16 @@
     }
 
     .narrative-p {
-      margin-bottom: 1.5rem;
-      text-align: justify;
+      font-size: 1.125rem;
+      line-height: 1.75;
+      margin-bottom: 2.1rem;
+      text-align: left;
       color: var(--ink);
       text-indent: 1.5rem;
+      max-width: 75ch;
     }
 
-    /* Initial letter drop cap */
+    /* Letra capital inicial */
     .narrative-p:first-of-type::first-letter {
       font-family: 'Cinzel Decorative', serif;
       font-size: 3.2rem;
@@ -260,18 +263,20 @@
     .context-p {
       font-style: italic;
       color: #3b281b;
-      line-height: 1.65;
-      text-align: justify;
+      line-height: 1.75;
+      font-size: 1.0625rem;
+      text-align: left;
+      max-width: 75ch;
     }
 
-    /* RIGHT PAGE - ILLUSTRATION, GAMEPLAY & SOURCES */
+    /* PÁGINA DERECHA - ILUSTRACIÓN, JUGABILIDAD Y FUENTES */
     .archive-right {
       display: flex;
       flex-direction: column;
       gap: 2rem;
     }
 
-    /* Photo Frame Polaroid-style with Torn Edges */
+    /* Marco de fotos estilo Polaroid con bordes rasgados */
     .photo-frame {
       background: var(--white-torn);
       padding: 0.8rem 0.8rem 2.2rem 0.8rem;
@@ -301,7 +306,7 @@
       letter-spacing: 0.02em;
     }
 
-    /* GAMEPLAY LINK SECTION */
+    /* SECCIÓN DE ENLACE DE JUGABILIDAD */
     .gameplay-box {
       background: rgba(117, 85, 55, 0.05);
       border-left: 4px solid var(--gold);
@@ -311,7 +316,7 @@
 
     .gameplay-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.85rem;
       font-weight: 800;
       color: var(--sepia-dark);
       text-transform: uppercase;
@@ -334,8 +339,8 @@
     }
 
     .gameplay-list li {
-      font-size: 0.95rem;
-      margin-bottom: 0.4rem;
+      font-size: 1.0625rem;
+      margin-bottom: 0.75rem;
       position: relative;
       padding-left: 1.2rem;
       color: var(--ink);
@@ -350,7 +355,7 @@
       top: -1px;
     }
 
-    /* CATALOG CARD STYLED SOURCES */
+    /* FUENTES AL ESTILO DE TARJETA DE CATÁLOGO */
     .catalog-card {
       background: #fdfbf7;
       border: 2px solid var(--parchment-darker);
@@ -361,7 +366,7 @@
       transform: rotate(-0.5deg);
     }
 
-    /* Catalog Card Index Hole representing old card files */
+    /* Agujero de índice de tarjeta de catálogo que representa ficheros de tarjetas antiguos */
     .catalog-card::before {
       content: '';
       position: absolute;
@@ -393,16 +398,16 @@
       display: grid;
       grid-template-columns: 80px 1fr;
       gap: 0.4rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem;
-      line-height: 1.4;
+      font-family: 'Lora', serif;
+      font-size: 1.0625rem;
+      line-height: 1.55;
     }
 
     .catalog-label {
       font-weight: 700;
       color: var(--sepia-dark);
       text-transform: uppercase;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       letter-spacing: 0.02em;
     }
 
@@ -410,7 +415,7 @@
       color: var(--ink);
     }
 
-    /* BOTTOM NAV BAR */
+    /* BARRA DE NAVEGACIÓN INFERIOR */
     .bottom-nav {
       width: 100%;
       max-width: 1000px;
@@ -425,14 +430,14 @@
       align-items: center;
       gap: 0.5rem;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.72rem;
+      font-size: 1.0625rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: var(--parchment);
       background: var(--red-old);
       border: 1px solid var(--sepia-dark);
-      padding: 0.7rem 1.4rem;
+      padding: 0.75rem 1.6rem;
       border-radius: 4px;
       box-shadow: 0 4px 0 var(--sepia-dark);
       text-decoration: none;
@@ -459,7 +464,7 @@
       pointer-events: none;
     }
 
-    /* RESPONSIVE DESIGN */
+    /* DISEÑO RESPONSIVO */
     @media (max-width: 900px) {
       .folder {
         grid-template-columns: 1fr;
@@ -509,8 +514,8 @@
 
       .btn-back,
       .nav-arrow-btn {
-        font-size: 0.65rem;
-        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        padding: 0.65rem 1.25rem;
       }
     }
   </style>
@@ -518,10 +523,10 @@
 
 <body>
 
-  <!-- Dynamic SVG Clip Paths -->
+  <!-- Rutas de recorte SVG dinámicas -->
   <svg width="0" height="0" style="position: absolute;">
     <defs>
-      <!-- Torn photos clipping variation 1 -->
+      <!-- Variación de recorte de fotos rasgadas 1 -->
       <clipPath id="torn-photo-1" clipPathUnits="objectBoundingBox">
         <path
           d="M0,0 L1,0 L1,0.91 L0.96,0.93 L0.91,0.89 L0.87,0.92 L0.83,0.9 L0.79,0.93 L0.75,0.9 L0.71,0.94 L0.66,0.91 L0.62,0.95 L0.57,0.91 L0.52,0.94 L0.48,0.9 L0.43,0.93 L0.38,0.91 L0.34,0.95 L0.29,0.91 L0.24,0.94 L0.19,0.9 L0.15,0.93 L0.11,0.91 L0.07,0.95 L0,0.9 Z" />
@@ -529,7 +534,7 @@
     </defs>
   </svg>
 
-  <!-- Top Navigation (Back to main file) -->
+  <!-- Navegación superior (Volver al archivo principal) -->
   <header class="top-nav">
     <a href="index.html#historias" class="btn-back" aria-label="Volver a la biblioteca principal">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -541,10 +546,10 @@
     </a>
   </header>
 
-  <!-- Folder Wrapper -->
+  <!-- Envoltura de carpeta -->
   <main class="folder-wrapper">
     <article class="folder" id="folder-content">
-      <!-- Left Page: The Written Text -->
+      <!-- Página izquierda: El texto escrito -->
       <section class="archive-left">
         <div class="expediente-header">
           <p class="expediente-meta" id="story-meta-level">Nivel 1</p>
@@ -606,15 +611,15 @@
         </div>
       </section>
 
-      <!-- Right Page: Media and Catalog card -->
+      <!-- Página derecha: Medios y tarjeta de catálogo -->
       <section class="archive-right">
-        <!-- Photo Frame polaroid -->
+        <!-- Marco de fotos polaroid -->
         <div class="photo-frame">
           <img src="images/NL1.png" alt="Previsualización histórica" id="story-image" />
           <p class="photo-caption" id="story-caption">Captura de archivo</p>
         </div>
 
-        <!-- Gameplay connection -->
+        <!-- Conexión con el videojuego (Gameplay) -->
         <div class="gameplay-box">
           <h3 class="gameplay-title">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -632,7 +637,7 @@
           </ul>
         </div>
 
-        <!-- Catalog card sources -->
+        <!-- Fuentes de la tarjeta de catálogo -->
         <div class="catalog-card" aria-label="Ficha de catalogación de fuentes">
           <div class="catalog-header">
             <span>Registro de Archivo</span>
@@ -653,7 +658,7 @@
     </article>
   </main>
 
-  <!-- Bottom Navigation (Prev / Next Story) -->
+  <!-- Navegación inferior (Relato anterior / siguiente) -->
   <footer class="bottom-nav">
     <a href="#" class="nav-arrow-btn" id="btn-prev-story">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -674,7 +679,7 @@
   </footer>
 
   <script>
-    // Stories Database
+    // Base de datos de relatos
     const storiesDatabase = {
       1: {
         level: "Nivel 1",
@@ -753,32 +758,32 @@
       }
     };
 
-    // Get story id from URL query parameters
+    // Obtener el ID de la historia desde los parámetros de consulta de la URL
     function getStoryId() {
       const params = new URLSearchParams(window.location.search);
       const id = parseInt(params.get('id'));
       if (id && storiesDatabase[id]) {
         return id;
       }
-      return 1; // Default to level 1
+      return 1; // Por defecto al nivel 1
     }
 
-    // Render Story Data
+    // Renderizar datos del relato
     function renderStory(id) {
       const data = storiesDatabase[id];
       const folder = document.getElementById('folder-content');
 
-      // Transition effect: Fade Out
+      // Efecto de transición: Desvanecer (Fade Out)
       folder.style.opacity = 0.1;
 
       setTimeout(() => {
-        // Set metadata and title
+        // Establecer metadatos y título
         document.getElementById('story-meta-level').innerText = data.level;
         document.getElementById('story-title').innerText = data.title;
         document.getElementById('story-meta-location').innerText = data.location;
         document.getElementById('story-meta-date').innerText = data.date;
 
-        // Set narrative paragraphs
+        // Establecer párrafos narrativos
         const narrativeContainer = document.getElementById('story-narrative-container');
         narrativeContainer.innerHTML = '';
         data.narrative.forEach(para => {
@@ -788,15 +793,15 @@
           narrativeContainer.appendChild(p);
         });
 
-        // Set historical context text
+        // Establecer texto del contexto histórico
         document.getElementById('story-context').innerText = data.context;
 
-        // Set media image and caption
+        // Establecer imagen y pie de foto del medio
         document.getElementById('story-image').src = data.image;
         document.getElementById('story-image').alt = data.title;
         document.getElementById('story-caption').innerText = data.caption;
 
-        // Set media music
+        // Establecer música del medio
         const video = document.getElementById("story-music");
         const source = video.querySelector("source");
 
@@ -807,7 +812,7 @@
         video.load();
 
 
-        // Set gameplay list items
+        // Establecer elementos de la lista de jugabilidad
         const gameplayContainer = document.getElementById('story-gameplay-list');
         gameplayContainer.innerHTML = '';
         data.gameplay.forEach(item => {
@@ -816,13 +821,13 @@
           gameplayContainer.appendChild(li);
         });
 
-        // Set catalog card sources details
+        // Establecer detalles de las fuentes de la tarjeta de catálogo
         document.getElementById('story-catalog-code').innerText = data.catalogCode;
         document.getElementById('story-catalog-origin').innerText = data.catalogOrigin;
         document.getElementById('story-catalog-area').innerText = data.catalogArea;
         document.getElementById('story-catalog-sources').innerText = data.catalogSources;
 
-        // Setup bottom navigation buttons
+        // Configurar botones de navegación inferior
         const prevBtn = document.getElementById('btn-prev-story');
         const nextBtn = document.getElementById('btn-next-story');
 
@@ -845,15 +850,15 @@
           nextBtn.removeAttribute('href');
         }
 
-        // Update document title dynamically
+        // Actualizar el título del documento dinámicamente
         document.title = `${data.level}: ${data.title} - Relatos Ocultos`;
 
-        // Transition effect: Fade In
+        // Efecto de transición: Aparición gradual (Fade In)
         folder.style.opacity = 1;
       }, 200);
     }
 
-    // Page Initialization
+    // Inicialización de la página
     document.addEventListener('DOMContentLoaded', () => {
       const currentId = getStoryId();
       renderStory(currentId);
